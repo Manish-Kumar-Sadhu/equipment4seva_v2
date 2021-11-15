@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-        <title>Health4All Today<?php  if($title){ echo " | ".$title;} ?></title>
+        <title>Equipment4Seva<?php  if($title){ echo " | ".$title;} ?></title>
     <link href="<?php echo base_url();?>assets/css/bootstrap.min.css" rel="stylesheet" integrity="" crossorigin="anonymous">  
     <link href="<?php echo base_url();?>assets/css/sweetalert.min.css" rel="stylesheet" integrity="" crossorigin="anonymous">  
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/font-awesome.min.css" >
@@ -47,7 +47,7 @@
     <a class="navbar-brand" href="<?php echo $yousee_website[0]->value; ?>" target="_blank"><span style="position:absolute;font-size:2.7em;left:5%;top:-18px" class="logo logo-yousee"></a>
     
     <a class="navbar-brand" href="<?php echo base_url();?>" > 
-    <span style="position:absolute;left:10%;top:10px">Health4All.Today</span></a>
+    <span style="position:absolute;left:10%;top:10px">Equipment4Seva</span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
