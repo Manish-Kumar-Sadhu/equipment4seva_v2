@@ -84,6 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <th style="text-align:center">Asset Number</th>
                     <th style="text-align:center">Purchased Date</th>
                     <th style="text-align:center">Installation Date</th>
+                    <th style="text-align:center">Details</th>
                 </tr>
             </thead>
             <tbody>
@@ -98,6 +99,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td><?php echo $r->asset_number; ?></td>
                         <td><?php echo $r->purchase_order_date; ?></td>
                         <td><?php echo $r->installation_date; ?></td>
+                        <td>
+                            <a href=<?php echo base_url()."equipments/".$r->equipment_id; ?> target="_blank">
+                                <i class='fa fa-external-link fa-lg' aria-hidden='true'>
+                                </i>
+                            </a>
+                        </td>
                     </tr>
                 <?php }  ?>
             </tbody>

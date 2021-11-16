@@ -36,12 +36,13 @@ class Master_model extends CI_Model {
         else if($type=="equipment_category") {
             $this->db->select("*")->from("equipment_category");
 			$this->db->order_by("equipment_category");
+        } else if($type=="equipment") {
+            $this->db->select("*")->from("equipment");
+            $this->db->order_by("equipment_id");
         }
         $query=$this->db->get();
 		return $query->result();
     }
-
-
 
     function get_parties_by_party_type($party_type) {
         if($party_type =='donor_party'){
@@ -66,11 +67,26 @@ class Master_model extends CI_Model {
         return $query->result();
     }
 
-    function get_equipment_data() {
-        $this->db->select("*")
+    function get_equipment_by_id($equipment_id){
+        $this->db->select(
+                    "equipment_id, equipment_name, equipment_type, procurment_type, model, serial_number, mac_address, asset_number,purchase_order_date, 
+                    cost, invoice_number, invoice_date, supply_date, installation_date, warranty_start_date, warranty_end_date,
+                    equipment_category, working_status as functional_status, procurement_status, journal_type, journal_date,note")
             ->from("equipment")
+            ->join('equipment_type','equipment_type.equipment_type_id=equipment.equipment_type_id','left')
+            ->join('equipment_category','equipment_category.id=equipment_type.equipment_category_id','left')
+            ->join('equipment_functional_status','equipment_functional_status.functional_status_id=equipment.functional_status_id','left')
+            ->join('equipment_procurement_status','equipment_procurement_status.equipment_procurement_status_id=equipment.procurement_status_id','left')
+            ->join('equipment_procurement_type','equipment_procurement_type.equipment_procurement_type_id=equipment.equipment_procurement_type_id','left')
+            ->join('journal_type','journal_type.journal_type_id=equipment.journal_type_id','left')
+            ->where("equipment_id",$equipment_id)
             ->order_by("equipment_id");
         $query = $this->db->get();
-        return $query->result();
+        $result =  $query->row();
+        if($result){
+            return $result;       
+        }else{
+            return false;
+        }
     }
 }
