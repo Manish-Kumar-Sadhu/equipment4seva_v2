@@ -56,13 +56,10 @@
       <?php 
         $logged_in=$this->session->userdata('logged_in');
       if($logged_in) { ?>
-        <!-- <li class="nav-item active">
-          <a class="nav-link" href="<?php echo base_url();?>admin" >Home <span class="sr-only">(current)</span></a>
-        </li> -->
       </ul>
       <ul class="navbar-nav navbar-right ">  
         <li class="nav-item active">
-          <a class="nav-link" href="<?php echo base_url();?>admin" >Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="<?php echo base_url();?>home" >Home <span class="sr-only">(current)</span></a>
         </li>
           <li class="nav-item">
              <a class="nav-link" href="#" style="text-decoration:none; color:black;"> <?php echo $logged_in['username']." | " ; ?></a>
@@ -70,22 +67,18 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" style="text-decoration:none; color:black;" ><i class="fa fa-gear"></i> Settings <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <a class="dropdown-item" href="<?php echo base_url()."admin/change_password";?>"><i class="fa fa-edit"></i> Change Password</a>
-              <a class="dropdown-item" href="<?php echo base_url();?>admin/logout"><i class="fa fa-sign-out"></i> Logout</a>
+              <a class="dropdown-item" href="<?php echo base_url()."home/change_password";?>"><i class="fa fa-edit"></i> Change Password</a>
+              <a class="dropdown-item" href="<?php echo base_url();?>home/logout"><i class="fa fa-sign-out"></i> Logout</a>
             </ul>
           </li>
         <?php } else {?>
         </ul>
           <ul class="navbar-nav navbar-right">
-            <li class="nav-item   <?php if(preg_match("^".base_url()."admin/login^",current_url())){ echo " active";}?>">
-              <a class="nav-link" href="<?php echo base_url()."admin/login";?>" style="text-decoration:none; color:black;"><i class="fa fa-sign-in" style="color:black;"></i> Login</a>
+            <li class="nav-item   <?php if(preg_match("^".base_url()."home/login^",current_url())){ echo " active";}?>">
+              <a class="nav-link" href="<?php echo base_url()."home/login";?>" style="text-decoration:none; color:black;"><i class="fa fa-sign-in" style="color:black;"></i> Login</a>
             </li>
           </ul>
         <?php }?>
-      <form class="form-inline mt-2 mt-md-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
     </div>
   </nav>
 </header>
