@@ -65,4 +65,12 @@ class Master_model extends CI_Model {
         // var_dump($this->db->last_query());
         return $query->result();
     }
+
+    function get_equipment_data() {
+        $this->db->select("*")
+            ->from("equipment")
+            ->order_by("equipment_id");
+        $query = $this->db->get();
+        return $query->result();
+    }
 }
