@@ -31,7 +31,7 @@ class Master_model extends CI_Model {
         }
         else if($type=="party") {
             $this->db->select("party_id, party_type_id, party_name")->from("party");
-			$this->db->order_by("party");
+			$this->db->order_by("party_name");
         }
         else if($type=="equipment_category") {
             $this->db->select("*")->from("equipment_category");
@@ -39,6 +39,18 @@ class Master_model extends CI_Model {
         } else if($type=="equipment") {
             $this->db->select("*")->from("equipment");
             $this->db->order_by("equipment_id");
+        } else if($type=="equipment_procurement_type") {
+            $this->db->select("*")->from("equipment_procurement_type");
+            $this->db->order_by("procurement_type");
+        } else if($type=="equipment_functional_status") {
+            $this->db->select("*")->from("equipment_functional_status");
+            $this->db->order_by("working_status");
+        } else if($type=="equipment_procurement_status") {
+            $this->db->select("*")->from("equipment_procurement_status");
+            $this->db->order_by("procurement_status");
+        } else if($type=="journal_type") {
+            $this->db->select("*")->from("journal_type");
+            $this->db->order_by("journal_type");
         }
         $query=$this->db->get();
 		return $query->result();
@@ -69,7 +81,7 @@ class Master_model extends CI_Model {
 
     function get_equipment_by_id($equipment_id){
         $this->db->select(
-                    "equipment_id, equipment_name, equipment_type, procurment_type, model, serial_number, mac_address, asset_number,purchase_order_date, 
+                    "equipment_id, equipment_name, equipment_type, procurement_type, model, serial_number, mac_address, asset_number,purchase_order_date, 
                     cost, invoice_number, invoice_date, supply_date, installation_date, warranty_start_date, warranty_end_date,
                     equipment_category, working_status as functional_status, procurement_status, journal_type, journal_date,note")
             ->from("equipment")
