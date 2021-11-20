@@ -78,12 +78,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <thead>
                 <tr>
                     <th style="text-align:center">#</th>
-                    <th style="text-align:center">Equipment Name</th>
                     <th style="text-align:center">Equipment Type</th>
-                    <th style="text-align:center">Model</th>
-                    <th style="text-align:center">Asset Number</th>
-                    <th style="text-align:center">Purchased Date</th>
-                    <th style="text-align:center">Installation Date</th>
+                    <th style="text-align:center">Equipment Name</th>
+                    <th style="text-align:center">Serial Number</th>
+                    <th style="text-align:center">Current Location</th>
                     <th style="text-align:center">Details</th>
                 </tr>
             </thead>
@@ -93,12 +91,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     foreach($equipment_data as $r){ ?>
                     <tr>
                         <td><?php echo $i++; ?></td>
+                        <td><?php echo $r->equipment_type; ?></td>
                         <td><?php echo $r->equipment_name; ?></td>
-                        <td><?php echo $r->equipment_type_id; ?></td>
-                        <td><?php echo $r->model; ?></td>
-                        <td><?php echo $r->asset_number; ?></td>
-                        <td><?php echo $r->purchase_order_date; ?></td>
-                        <td><?php echo $r->installation_date; ?></td>
+                        <td><?php echo $r->serial_number; ?></td>
+                        <td><?php echo 'TBU' ?></td>
                         <td>
                             <a href=<?php echo base_url()."equipments/".$r->equipment_id; ?> target="_blank">
                                 <i class='fa fa-external-link fa-lg' aria-hidden='true'>

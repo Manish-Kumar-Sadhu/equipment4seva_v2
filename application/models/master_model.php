@@ -36,19 +36,20 @@ class Master_model extends CI_Model {
         else if($type=="equipment_category") {
             $this->db->select("*")->from("equipment_category");
 			$this->db->order_by("equipment_category");
-        } else if($type=="equipment") {
-            $this->db->select("*")->from("equipment");
-            $this->db->order_by("installation_date", 'desc');
-        } else if($type=="equipment_procurement_type") {
+        } 
+        else if($type=="equipment_procurement_type") {
             $this->db->select("*")->from("equipment_procurement_type");
             $this->db->order_by("procurement_type");
-        } else if($type=="equipment_functional_status") {
+        } 
+        else if($type=="equipment_functional_status") {
             $this->db->select("*")->from("equipment_functional_status");
             $this->db->order_by("working_status");
-        } else if($type=="equipment_procurement_status") {
+        } 
+        else if($type=="equipment_procurement_status") {
             $this->db->select("*")->from("equipment_procurement_status");
             $this->db->order_by("procurement_status");
-        } else if($type=="journal_type") {
+        } 
+        else if($type=="journal_type") {
             $this->db->select("*")->from("journal_type");
             $this->db->order_by("journal_type");
         }
@@ -56,6 +57,20 @@ class Master_model extends CI_Model {
 		return $query->result();
     }
 
+    function get_equipment_data(){
+        $this->db->select("*")
+            ->from("equipment")
+            ->join('equipment_type','equipment_type.equipment_type_id=equipment.equipment_type_id','left')
+            // ->join('equipment_location_log','equipment_location_log.equipment_id=equipment.equipment_id','inner')
+            // ->join('location','location.location_id=equipment_location_log.location_id','left')
+            // ->group_by('equipment_location_log.equipment_id')
+            // ->order_by("delivery_date", 'desc')
+            ->order_by("installation_date", 'desc');
+            // ->limit(1);
+        $query=$this->db->get();
+        return $query->result();
+    }
+    
     function get_parties_by_party_type($party_type) {
         if($party_type =='donor_party'){
             $this->db->join('equipment','equipment.donor_party_id=party.party_id','inner');
