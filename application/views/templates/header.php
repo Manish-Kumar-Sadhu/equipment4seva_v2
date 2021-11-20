@@ -60,13 +60,22 @@
       <ul class="navbar-nav navbar-right ">  
         <li class="dropdown">
             <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" style="text-decoration:none; color:black;" > Equipments <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <a class="dropdown-item" href="<?php echo base_url()."equipments/add";?>"><i class="fa fa-edit"></i> Add Equipment</a>
-            </ul>
+              <?php 
+                foreach($functions as $f){
+                  if($f->user_function=="equipment"){ 
+                    ?>
+                    <ul class="dropdown-menu"> <?php
+                      if($f->add){ ?>
+                        <a class="dropdown-item" href="<?php echo base_url()."equipments/add";?>"><i class="fa fa-edit"></i> Add Equipment</a>
+                      <?php }
+                  } ?> 
+                    </ul> <?php
+                }
+              ?>
         </li>
-        <li class="nav-item active">
+        <!-- <li class="nav-item active">
           <a class="nav-link" href="<?php echo base_url();?>home" >Home <span class="sr-only">(current)</span></a>
-        </li>
+        </li> -->
           <li class="nav-item">
              <a class="nav-link" href="#" style="text-decoration:none; color:black;"> <?php echo $logged_in['username']." | " ; ?></a>
           </li>
@@ -77,8 +86,8 @@
               <a class="dropdown-item" href="<?php echo base_url();?>home/logout"><i class="fa fa-sign-out"></i> Logout</a>
             </ul>
           </li>
-        </ul>
-        <?php } else {?>
+          <?php } else {?>
+          </ul>
           <ul class="navbar-nav navbar-right">
             <li class="nav-item   <?php if(preg_match("^".base_url()."home/login^",current_url())){ echo " active";}?>">
               <a class="nav-link" href="<?php echo base_url()."home/login";?>" style="text-decoration:none; color:black;"><i class="fa fa-sign-in" style="color:black;"></i> Login</a>

@@ -137,7 +137,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="journal_number">Journal Number</label>
-                        <input class="form-control" name="journal_number" type="number">
+                        <input class="form-control" name="journal_number" type="text">
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="journal_date">Journal date</label>

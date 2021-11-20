@@ -68,6 +68,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         border-color: #66afe9;
         outline: 0;	
     }
+    /* .equipment_actions{
+        padding:1.5rem;
+        text-decoration:none;
+    } */
+    .round-button{
+        border-radius:100%;
+        border: solid 1px;
+        margin-left:1.2rem
+    }
 </style>
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/theme.default.css" >
 <?php 
@@ -95,6 +104,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $next_page = $page_no + 1;
     $adjacents = "2";	
 ?>
+<?php
+    //  fetching default party_id of loggedIn user
+    if($this->session->userdata('logged_in')){
+        $default_party_id = $this->session->userdata('logged_in')['default_party_id'];
+    }
+?>
 <div class="container">
     <form id="equipment_data" action="<?= base_url('home'); ?>" method="POST">
         <div class="row">
@@ -121,6 +136,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         ><?php echo $r->equipment_type;?></option>    
                         <?php }  ?>
                 </select>
+            </div>
+            <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                <label for="from_invoice_date">From Invoice date</label>
+                <input class="form-control" type="date" name="from_date" id="from_date">
+            </div>
+            <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                <label for="to_invoice_date">To Invoice date</label>
+                <input class="form-control" type="date" name="to_date" id="to_date">
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="donor_party">Donor</label>
@@ -202,6 +225,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <th style="text-align:center">Equipment Name</th>
                     <th style="text-align:center">Serial Number</th>
                     <th style="text-align:center">Current Location</th>
+                    <th style="text-align:center">Invoice Date</th>
                     <th style="text-align:center">Details</th>
                 </tr>
             </thead>
@@ -215,14 +239,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td><?php echo $r->equipment_name; ?></td>
                         <td><?php echo $r->serial_number; ?></td>
                         <td><?php echo 'TBU' ?></td>
+                        <td style="text-align:center"><?php echo  date("d-M-Y", strtotime($r->invoice_date)); ?></td>
                         <td>
-                            <a href=<?php echo base_url()."equipments/".$r->equipment_id; ?> target="_blank">
-                                <i class='fa fa-external-link fa-lg' aria-hidden='true'>
-                                </i>
-                            </a>
-                            <a href=<?php echo base_url()."equipments/".$r->equipment_id; ?> target="_blank">
-                                <i class='fa fa-pencil fa-lg' aria-hidden='true'></i>
-                            </a>
+                            <button class="btn btn-info btn-sm round-button" onclick="show_equipment(<?=$r->equipment_id; ?>);"><i class='fa fa-external-link' aria-hidden='true'></i></button>
+                            <?php if($edit_equipment_access && $default_party_id==$r->procured_by_party_id){ ?>
+                                <button class="btn btn-info btn-sm round-button" onclick="update_equipment(<?=$r->equipment_id; ?>)"><i class='fa fa-pencil' aria-hidden='true'></i></button>
+                            <?php } ?>
                         </td>
                     </tr>
                 <?php }  ?>
@@ -415,8 +437,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   	    page_no_hidden.value=page_no;
         $('#equipment_data').submit();   
     }
+    
     function onchange_page_dropdown(dropdownobj){
        doPost(dropdownobj.value);    
+    }
+    
+    function show_equipment(id){
+        window.open("<?php echo base_url()."equipments/";?>"+id, '_blank');
+    }
+    function update_equipment(id){
+
     }
 
 </script>

@@ -101,7 +101,7 @@ class Master_model extends CI_Model {
             // ->join('location','location.location_id=equipment_location_log.location_id','left')
             // ->group_by('equipment_location_log.equipment_id')
             // ->order_by("delivery_date", 'desc')
-            ->order_by("installation_date", 'desc');
+            ->order_by("invoice_date", 'desc');
         $this->db->limit($rows_per_page,$start);	
         $query=$this->db->get();
         return $query->result();
@@ -217,4 +217,17 @@ class Master_model extends CI_Model {
         $this->db->trans_complete(); //Transaction Ends
 		if($this->db->trans_status()===TRUE) return true; else return false; //if transaction completed successfully return true, else false.
     }
+
+    //user_function() takes user ID as parameter and returns a list of all the functions the user has access to.
+	function user_function($user_id){
+		$this->db->select('user_function_id,user_function,add,edit,view,remove')
+            ->from('user')
+            ->join('user_function_link','user.user_id=user_function_link.user_id')
+            ->join('user_function','user_function_link.function_id=user_function.user_function_id')
+            ->where('user_function_link.user_id',$user_id)
+            ->where('user_function_link.active','1');
+		$query=$this->db->get();
+		
+		return $query->result();
+	}
 }

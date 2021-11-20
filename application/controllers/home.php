@@ -6,6 +6,11 @@ class Home extends CI_Controller {
 	function __construct() {
         parent::__construct();
 		$this->load->model('master_model');
+		if($this->session->userdata('logged_in')){
+			$userdata = $this->session->userdata('logged_in');
+			$user_id = $userdata['user_id'];
+			$this->data['functions']=$this->master_model->user_function($user_id);
+		}
 		$this->data['yousee_website'] = $this->master_model->get_defaults('yousee_website');
     }
 
@@ -23,6 +28,23 @@ class Home extends CI_Controller {
 		$this->data['manufactured_parties'] = $this->master_model->get_parties_by_party_type('manufactured_party');
 		$this->data['equipment_data'] = $this->master_model->get_equipment_data($this->data['pagination']->value);
 		$this->data['equipment_count'] = $this->master_model->get_equipment_count();
+		if($this->session->userdata('logged_in')){
+			foreach($this->data['functions'] as $f){
+				if($f->user_function=="equipment"){ 
+					if($f->edit)
+						$this->data['edit_equipment_access']=1;                
+					if($f->view)
+						$this->data['view_equipment_access']=1;                
+					if($f->remove){
+						$this->data['remove_equipment_access']=1;                
+					}
+				}
+			}
+		} else {
+			$this->data['edit_equipment_access']=0;
+			$this->data['view_equipment_access']=0;
+			$this->data['remove_equipment_access']=0;
+		}
 		$this->load->view('home', $this->data);
 		$this->load->view('templates/footer' ,$this->data);
 	}
@@ -73,7 +95,8 @@ class Home extends CI_Controller {
 			$sess_array = array(
 				'user_id' => $result->user_id,
 				'username' => $result->username,
-				'email'=>$result->email
+				'email'=>$result->email,
+				'default_party_id'=>$result->default_party_id
 				);
 			$this->session->set_userdata('logged_in', $sess_array);
 			return TRUE;
