@@ -58,6 +58,28 @@ class Master_model extends CI_Model {
     }
 
     function get_equipment_data(){
+        if($this->input->post('equipment_category')){
+            $this->db->where('equipment_category_id', $this->input->post('equipment_category'));
+        }
+        if($this->input->post('donor_party')){
+            $this->db->where('equipment.donor_party_id', $this->input->post('donor_party'));
+        }
+        if($this->input->post('procured_by_party')){
+            var_dump($this->input->post('procured_by_party'));
+            $this->db->where('equipment.procured_by_party_id', $this->input->post('procured_by_party'));
+        }
+        if($this->input->post('supplier_party')){
+            $this->db->where('equipment.supplier_party_id', $this->input->post('supplier_party'));
+        }
+        if($this->input->post('manufactured_party')){
+            $this->db->where('equipment.manufacturer_party_id', $this->input->post('manufactured_party'));
+        }
+        if($this->input->post('equipment_type')){
+            $this->db->where('equipment.equipment_type_id', $this->input->post('equipment_type'));
+        }
+        /* if($this->input->post('location')){
+            $this->db->where('location_id', $this->input->post('location'));
+        } */
         $this->db->select("*")
             ->from("equipment")
             ->join('equipment_type','equipment_type.equipment_type_id=equipment.equipment_type_id','left')
