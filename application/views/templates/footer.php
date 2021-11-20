@@ -1,6 +1,6 @@
 <footer class="footer mt-auto py-3">
   <div class="container">
-    <span class="text-muted">Website designed and developed by <a href='https://www.yousee.in/' target='_blank'>YouSee</a> volunteers.</span>
+    <span class="text-muted">Website designed and developed by <a href="<?php echo $yousee_website->value; ?>" target='_blank'>YouSee</a> volunteers.</span>
   </div>
 </footer>
     <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->

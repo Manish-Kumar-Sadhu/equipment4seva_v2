@@ -58,6 +58,12 @@
       if($logged_in) { ?>
       </ul>
       <ul class="navbar-nav navbar-right ">  
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" style="text-decoration:none; color:black;" > Equipments <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <a class="dropdown-item" href="<?php echo base_url()."equipments/add";?>"><i class="fa fa-edit"></i> Add Equipment</a>
+            </ul>
+        </li>
         <li class="nav-item active">
           <a class="nav-link" href="<?php echo base_url();?>home" >Home <span class="sr-only">(current)</span></a>
         </li>
@@ -71,8 +77,8 @@
               <a class="dropdown-item" href="<?php echo base_url();?>home/logout"><i class="fa fa-sign-out"></i> Logout</a>
             </ul>
           </li>
-        <?php } else {?>
         </ul>
+        <?php } else {?>
           <ul class="navbar-nav navbar-right">
             <li class="nav-item   <?php if(preg_match("^".base_url()."home/login^",current_url())){ echo " active";}?>">
               <a class="nav-link" href="<?php echo base_url()."home/login";?>" style="text-decoration:none; color:black;"><i class="fa fa-sign-in" style="color:black;"></i> Login</a>

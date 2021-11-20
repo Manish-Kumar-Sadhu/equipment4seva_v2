@@ -183,4 +183,38 @@ class Master_model extends CI_Model {
             return false;
         }
     }
+
+    function add_equipment(){
+        $data = array(
+            'donor_party_id'=>$this->input->post('donor_party'),
+            'procured_by_party_id'=>$this->input->post('procured_by_party'),
+            'supplier_party_id'=>$this->input->post('supplier_party'),
+            'manufacturer_party_id'=>$this->input->post('manufactured_party'),
+            'equipment_type_id'=>$this->input->post('equipment_type'),
+            'equipment_name'=>$this->input->post('equipment_name'),
+            'model'=>$this->input->post('model'),
+            'serial_number'=>$this->input->post('serial_number'),
+            'mac_address'=>$this->input->post('mac_address'),
+            'asset_number'=>$this->input->post('asset_number'),
+            'purchase_order_date'=>$this->input->post('purchase_order_date'),
+            'cost'=>$this->input->post('cost'),
+            'invoice_number'=>$this->input->post('invoice_number'),
+            'invoice_date'=>$this->input->post('invoice_date'),
+            'supply_date'=>$this->input->post('supply_date'),
+            'installation_date'=>$this->input->post('installation_date'),
+            'warranty_start_date'=>$this->input->post('warranty_start_date'),
+            'warranty_end_date'=>$this->input->post('warranty_end_date'),
+            'journal_type_id'=>$this->input->post('journal_type'),
+            'journal_number'=>$this->input->post('journal_number'),
+            'journal_date'=>$this->input->post('journal_date'),
+            'note'=>$this->input->post('note'),
+            'created_by'=>$this->session->userdata('logged_in')['user_id'],
+            'created_datetime'=>date("Y-m-d H:i:s")
+        );
+
+        $this->db->trans_start(); //Transaction begins
+        $this->db->insert('equipment',$data); //Insert 
+        $this->db->trans_complete(); //Transaction Ends
+		if($this->db->trans_status()===TRUE) return true; else return false; //if transaction completed successfully return true, else false.
+    }
 }
