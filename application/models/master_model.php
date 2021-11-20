@@ -58,7 +58,6 @@ class Master_model extends CI_Model {
     }
 
     function get_equipment_data($default_rowsperpage){
-        var_dump($this->input->post('page_no'));
         if ($this->input->post('page_no')) {
 			$page_no = (int) $this->input->post('page_no');
 		}
@@ -116,7 +115,6 @@ class Master_model extends CI_Model {
             $this->db->where('equipment.donor_party_id', $this->input->post('donor_party'));
         }
         if($this->input->post('procured_by_party')){
-            var_dump($this->input->post('procured_by_party'));
             $this->db->where('equipment.procured_by_party_id', $this->input->post('procured_by_party'));
         }
         if($this->input->post('supplier_party')){
@@ -160,7 +158,6 @@ class Master_model extends CI_Model {
             ->group_by('party_id')
             ->order_by("party_name");
         $query = $this->db->get();
-        // var_dump($this->db->last_query());
         return $query->result();
     }
 
