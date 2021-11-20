@@ -29,32 +29,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </style>
 <div class="container">
     <div class="card">
-        <div class="card-header bg-primary text-white">
-           <h4> Add Equipment Details </h4>
+        <div class="card-header bg-info text-white">
+           <h4> Add Equipment </h4>
         </div>
         <div class="card-body">
             <form id="add_equipment" action="<?= base_url('equipments/add'); ?>" method="POST">
                 <div class="row">
-                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                        <label for="donor_party">Donor</label>
-                        <select  name="donor_party" id="donor_party" placeholder="----------Select----------" >
-                        </select>
-                    </div>
-                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                        <label for="procured_by_party">Procured by</label>
-                        <select name="procured_by_party" id="procured_by_party" placeholder="----------Select----------">
-                        </select>
-                    </div>
-                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                        <label for="supplier_party">Supplier</label>
-                        <select name="supplier_party" id="supplier_party" placeholder="----------Select----------">
-                        </select>
-                    </div>
-                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                        <label for="manufactured_party">Manufacturer</label>
-                        <select name="manufactured_party" id="manufactured_party" placeholder="----------Select----------">
-                        </select>
-                    </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="equipment_category">Equipment Category</label>
                         <select class="form-control" name="equipment_category" id="equipment_category">
@@ -88,6 +68,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <input class="form-control" name="model" type="text">
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="manufactured_party">Manufacturer</label>
+                        <select name="manufactured_party" id="manufactured_party" placeholder="----------Select----------">
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="serial_number">Serial Number</label>
                         <input class="form-control" name="serial_number" type="text">
                     </div>
@@ -98,6 +83,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="asset_number">Asset Number</label>
                         <input class="form-control" name="asset_number" type="text">
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="supplier_party">Supplier</label>
+                        <select name="supplier_party" id="supplier_party" placeholder="----------Select----------">
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="procured_by_party">Procured by</label>
+                        <select name="procured_by_party" id="procured_by_party" placeholder="----------Select----------">
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="donor_party">Donor</label>
+                        <select  name="donor_party" id="donor_party" placeholder="----------Select----------" >
+                        </select>
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="purchase_order_date">Purchase order date</label>
@@ -124,14 +124,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <input class="form-control" name="installation_date" type="date">
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                        <label for="warranty_start_date">Warranty start date</label>
-                        <input class="form-control" name="warranty_start_date" type="date">
-                    </div>
-                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                        <label for="warranty_end_date">Warranty end date</label>
-                        <input class="form-control" name="warranty_end_date" type="date">
-                    </div>
-                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="journal_type">Journal Type</label>
                         <select class="form-control" name="journal_type" id="journal_type">
                             <option value="0" selected>----------Select----------</option>
@@ -151,12 +143,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <label for="journal_date">Journal date</label>
                         <input class="form-control" name="journal_date" type="date">
                     </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="warranty_start_date">Warranty start date</label>
+                        <input class="form-control" name="warranty_start_date" type="date">
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="warranty_end_date">Warranty end date</label>
+                        <input class="form-control" name="warranty_end_date" type="date">
+                    </div>
                     <div class="form-group col-md-6 col-lg-6 col-xs-12">
                         <label for="note">Note</label>
                         <textarea class="form-control" name="note" rows="1"></textarea>
                     </div>
                     <div class="form-group col-md-12 col-lg-12 col-xs-12">
-                        <button type="submit" class='btn btn-primary btn-block'>Submit</button>                        
+                        <button type="submit" class='btn btn-info btn-block'>Submit</button>                        
                     </div>
                 </div>
             </form>

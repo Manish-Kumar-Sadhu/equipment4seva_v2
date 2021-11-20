@@ -111,6 +111,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </select>
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                <label for="equipment_type">Equipment Type</label>
+                <select class="form-control" name="equipment_type" id="equipment_type">
+                    <option value="0" selected>Select</option>
+                    <?php
+                        foreach($equipment_type as $r){ ?>
+                        <option value="<?php echo $r->equipment_type_id;?>"    
+                        <?php if($this->input->post('equipment_type') == $r->equipment_type_id) echo " selected "; ?>
+                        ><?php echo $r->equipment_type;?></option>    
+                        <?php }  ?>
+                </select>
+            </div>
+            <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="donor_party">Donor</label>
                 <select class="form-control" name="donor_party" id="donor_party">
                     <option value="0" selected>Select</option>
@@ -159,18 +171,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </select>
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                <label for="equipment_type">Equipment Type</label>
-                <select class="form-control" name="equipment_type" id="equipment_type">
-                    <option value="0" selected>Select</option>
-                    <?php
-                        foreach($equipment_type as $r){ ?>
-                        <option value="<?php echo $r->equipment_type_id;?>"    
-                        <?php if($this->input->post('equipment_type') == $r->equipment_type_id) echo " selected "; ?>
-                        ><?php echo $r->equipment_type;?></option>    
-                        <?php }  ?>
-                </select>
-            </div>
-            <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="equipment_type">Location</label>
                 <select class="form-control" name="location" id="location">
                     <option value="0" selected>Location</option>
@@ -187,9 +187,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <label for="rows_per_page">Rows per page</label>
                 <input type="number" class="rows_per_page" name="rows_per_page" id="rows_per_page" min=<?php echo $pagination->lower_range; ?> max= <?php echo $pagination->upper_range;; ?> step="1" value= <?php if($this->input->post('rows_per_page')) { echo $this->input->post('rows_per_page'); }else{echo $pagination->value;}  ?> onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" /> 
             </div>
-            <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                <label for=""> </label>
-                <button type="submit" class='btn btn-primary btn-block'>Submit</button>                        
+            <div class="form-group col-md-2 col-lg-1 col-xs-12">
+                <button type="submit" class='btn btn-info' style="margin-top:1.75rem;">Submit</button>                        
             </div>
         </div>
     </form>
@@ -220,6 +219,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <a href=<?php echo base_url()."equipments/".$r->equipment_id; ?> target="_blank">
                                 <i class='fa fa-external-link fa-lg' aria-hidden='true'>
                                 </i>
+                            </a>
+                            <a href=<?php echo base_url()."equipments/".$r->equipment_id; ?> target="_blank">
+                                <i class='fa fa-pencil fa-lg' aria-hidden='true'></i>
                             </a>
                         </td>
                     </tr>
