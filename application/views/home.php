@@ -10,68 +10,98 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/theme.default.css" >
 
 <div class="container">
-    <div class="row">
-        <div class="form-group col-md-4 col-lg-3 col-xs-12">
-            <label for="equipment_category">Equipment Category</label>
-            <select class="form-control" name="equipment_category" id="equipment_category" required>
-                <option value="0" selected>Select</option>
-                <?php
-                    foreach($equipment_category as $r){ ?>
-                    <option value="<?php echo $r->id;?>"    
-                    <?php if($this->input->post('equipment_category') == $r->id) echo " selected "; ?>
-                    ><?php echo $r->equipment_category;?></option>    
-                    <?php }  ?>
-            </select>
+    <form id="get_equipment_data" action="<?= base_url('home'); ?>" method="POST">
+        <div class="row">
+            <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                <label for="equipment_category">Equipment Category</label>
+                <select class="form-control" name="equipment_category" id="equipment_category" required>
+                    <option value="0" selected>Select</option>
+                    <?php
+                        foreach($equipment_category as $r){ ?>
+                        <option value="<?php echo $r->id;?>"    
+                        <?php if($this->input->post('equipment_category') == $r->id) echo " selected "; ?>
+                        ><?php echo $r->equipment_category;?></option>    
+                        <?php }  ?>
+                </select>
+            </div>
+            <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                <label for="donor_party">Donor</label>
+                <select class="form-control" name="donor_party" id="donor_party">
+                    <option value="0" selected>Select</option>
+                    <?php
+                        foreach($donor_parties as $r){ ?>
+                        <option value="<?php echo $r->party_id;?>"    
+                        <?php if($this->input->post('donor_party') == $r->party_id) echo " selected "; ?>
+                        ><?php echo $r->party_name;?></option>    
+                        <?php }  ?>
+                </select>
+            </div>
+            <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                <label for="procured_by_party">Procured by</label>
+                <select class="form-control" name="procured_by_party" id="procured_by_party">
+                    <option value="0" selected>Select</option>
+                    <?php
+                        foreach($procured_by_parties as $r){ ?>
+                        <option value="<?php echo $r->party_id;?>"    
+                        <?php if($this->input->post('procured_by_party') == $r->party_id) echo " selected "; ?>
+                        ><?php echo $r->party_name;?></option>    
+                        <?php }  ?>
+                </select>
+            </div>
+            <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                <label for="supplier_party">Supplier</label>
+                <select class="form-control" name="supplier_party" id="supplier_party">
+                    <option value="0" selected>Select</option>
+                    <?php
+                        foreach($supplier_parties as $r){ ?>
+                        <option value="<?php echo $r->party_id;?>"    
+                        <?php if($this->input->post('supplier_party') == $r->party_id) echo " selected "; ?>
+                        ><?php echo $r->party_name;?></option>    
+                        <?php }  ?>
+                </select>
+            </div>
+            <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                <label for="manufactured_party">Manufacturer</label>
+                <select class="form-control" name="manufactured_party" id="manufactured_party">
+                    <option value="0" selected>Select</option>
+                    <?php
+                        foreach($manufactured_parties as $r){ ?>
+                        <option value="<?php echo $r->party_id;?>"    
+                        <?php if($this->input->post('manufactured_party') == $r->party_id) echo " selected "; ?>
+                        ><?php echo $r->party_name;?></option>    
+                        <?php }  ?>
+                </select>
+            </div>
+            <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                <label for="equipment_type">Equipment Type</label>
+                <select class="form-control" name="equipment_type" id="equipment_type">
+                    <option value="0" selected>Select</option>
+                    <?php
+                        foreach($equipment_type as $r){ ?>
+                        <option value="<?php echo $r->equipment_type_id;?>"    
+                        <?php if($this->input->post('equipment_type') == $r->equipment_type_id) echo " selected "; ?>
+                        ><?php echo $r->equipment_type;?></option>    
+                        <?php }  ?>
+                </select>
+            </div>
+            <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                <label for="equipment_type">Location</label>
+                <select class="form-control" name="location" id="location">
+                    <option value="0" selected>Location</option>
+                    <?php
+                        foreach($location as $r){ ?>
+                        <option value="<?php echo $r->location_id;?>"    
+                        <?php if($this->input->post('location') == $r->location_id) echo " selected "; ?>
+                        ><?php echo $r->location;?></option>    
+                        <?php }  ?>
+                </select>
+            </div>
+            <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                <label for=""> </label>
+                <button type="submit" class='btn btn-primary btn-block'>Submit</button>                        
+            </div>
         </div>
-        <div class="form-group col-md-4 col-lg-3 col-xs-12">
-            <label for="donor_party">Donor</label>
-            <select  name="donor_party" id="donor_party" >
-            </select>
-        </div>
-        <div class="form-group col-md-4 col-lg-3 col-xs-12">
-            <label for="procured_by_party">Procured by</label>
-            <select name="procured_by_party" id="procured_by_party">
-            </select>
-        </div>
-        <div class="form-group col-md-4 col-lg-3 col-xs-12">
-            <label for="supplier_party">Supplier</label>
-            <select name="supplier_party" id="supplier_party" required>
-            </select>
-        </div>
-        <div class="form-group col-md-4 col-lg-3 col-xs-12">
-            <label for="manufactured_party">Manufacturer</label>
-            <select name="manufactured_party" id="manufactured_party" required>
-            </select>
-        </div>
-        <div class="form-group col-md-4 col-lg-3 col-xs-12">
-            <label for="equipment_type">Equipment Type</label>
-            <select class="form-control" name="equipment_type" id="equipment_type" required>
-                <option value="0" selected>Select</option>
-                <?php
-                    foreach($equipment_type as $r){ ?>
-                    <option value="<?php echo $r->equipment_type_id;?>"    
-                    <?php if($this->input->post('equipment_type') == $r->equipment_type_id) echo " selected "; ?>
-                    ><?php echo $r->equipment_type;?></option>    
-                    <?php }  ?>
-            </select>
-        </div>
-        <div class="form-group col-md-4 col-lg-3 col-xs-12">
-            <label for="equipment_type">Location</label>
-            <select class="form-control" name="location" id="location" required>
-                <option value="0" selected>Location</option>
-                <?php
-                    foreach($location as $r){ ?>
-                    <option value="<?php echo $r->location_id;?>"    
-                    <?php if($this->input->post('location') == $r->location_id) echo " selected "; ?>
-                    ><?php echo $r->location;?></option>    
-                    <?php }  ?>
-            </select>
-        </div>
-        <div class="form-group col-md-4 col-lg-3 col-xs-12">
-            <label for=""> </label>
-            <button type="button" class='btn btn-primary btn-block' onclick='loadData()' >Submit</button>                        
-        </div>
-    </div>
+    </form>
 
     <div class="row">
         <table id="table-sort" class="table table-bordered table-striped">
@@ -111,10 +141,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
     
     $(function () {
-        initDropdown('donor_party', '<?php echo json_encode($donor_parties); ?>');
-        initDropdown('procured_by_party', '<?php echo json_encode($procured_by_parties); ?>');
-        initDropdown('supplier_party', '<?php echo json_encode($supplier_parties); ?>');
-        initDropdown('manufactured_party', '<?php echo json_encode($manufactured_parties); ?>');
+        // initDropdown('donor_party', '<?php echo json_encode($donor_parties); ?>');
+        // initDropdown('procured_by_party', '<?php echo json_encode($procured_by_parties); ?>');
+        // initDropdown('supplier_party', '<?php echo json_encode($supplier_parties); ?>');
+        // initDropdown('manufactured_party', '<?php echo json_encode($manufactured_parties); ?>');
         var options = {
 			widthFixed : false,
 			showProcessing: true,
@@ -188,7 +218,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
     	    },
             load: function(query, callback) {
-                if (!query.length) return callback();
+                // if (!query.length) return callback();
+                selectize[0].selectize.setValue(null);
             },
 
         });
