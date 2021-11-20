@@ -1,16 +1,74 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-
-<style>
+<style type="text/css">
     label{
-        font-weight:bold;
+            font-weight:bold;
+    }
+    .disabled {
+        cursor: not-allowed;
+    }
+    .page_dropdown{
+        position: relative;
+        float: left;
+        padding: 6px 12px;
+        width: auto;
+        height: 34px;
+        line-height: 1.428571429;
+        text-decoration: none;
+        background-color: #ffffff;
+        border: 1px solid #dddddd;
+        margin-left: -1px;
+        color: #428bca;
+        border-bottom-right-radius: 4px;
+        border-top-right-radius: 4px;
+        display: inline;
+    }
+    .page_dropdown:hover{
+        background-color: #eeeeee;
+        color: #2a6496;
+    }
+    .page_dropdown:focus{
+        color: #2a6496;
+        outline:0px;	
+    }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
+    .rows_per_page{
+        display: inline-block;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        vertical-align: middle;
+        background-color: #ffffff;
+        background-image: none;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+    .rows_per_page:focus{
+        border-color: #66afe9;
+        outline: 0;	
     }
 </style>
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/theme.default.css" >
-
+<?php $page_no = 1;	 ?>
 <div class="container">
-    <form id="get_equipment_data" action="<?= base_url('home'); ?>" method="POST">
+    <form id="equipment_data" action="<?= base_url('home'); ?>" method="POST">
         <div class="row">
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="equipment_category">Equipment Category</label>
@@ -136,6 +194,119 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </tbody>
         </table>
     </div>
+    <div class="row">
+    </div>
+        <?php 
+            if ($this->input->post('rows_per_page')){
+                $total_records_per_page = $this->input->post('rows_per_page');
+            }else{
+                $total_records_per_page = $pagination->value;
+            }
+
+            if ($this->input->post('page_no')) { 
+                $page_no = $this->input->post('page_no');
+            }
+            else{
+                $page_no = 1;
+            }
+
+            $total_records = count($equipment_data);		
+            $total_no_of_pages = ceil($total_records / $total_records_per_page);
+            if ($total_no_of_pages==0)
+                $total_no_of_pages = 1;
+            $second_last = $total_no_of_pages - 1; 
+            $offset = ($page_no-1) * $total_records_per_page;
+            $previous_page = $page_no - 1;
+            $next_page = $page_no + 1;
+            $adjacents = "2";	
+        ?>
+        <ul class="pagination" style="margin:0">
+            <?php if($page_no > 1){
+                echo "<li class='page-item'><span class='page-link' href=# onclick=doPost(1)>First Page</span></li>";
+            } ?>
+
+            <li class='page-item' <?php if($page_no <= 1){ echo "class='disabled'"; } ?>>
+            <a class='page-link' <?php if($page_no > 1){
+                echo "href=# onclick=doPost($previous_page)";
+            } ?>>Previous</a>
+            </li>
+            <?php
+                if ($total_no_of_pages <= 10){  	 
+                    for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
+                        if ($counter == $page_no) {
+                            echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";	
+                        } else{
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter)>$counter</a></li>";
+                        }
+                    }
+                }
+                else if ($total_no_of_pages > 10){
+                    if($page_no <= 4) {			
+                        for ($counter = 1; $counter < 8; $counter++){		 
+                            if ($counter == $page_no) {
+                                echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";	
+                            } else {
+                                echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter)>$counter</a></li>";
+                            }
+                        }
+                        echo "<li class='page-item'><a class='page-link'>...</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($second_last)>$second_last</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($total_no_of_pages)>$total_no_of_pages</a></li>";
+                    }
+                    elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost(1)>1</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost(2)>2</a></li>";
+                        echo "<li class='page-item'><a class='page-link'>...</a></li>";
+                        for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents;$counter++) {		
+                            if ($counter == $page_no) {
+                                echo "<li class='active'><a class='page-link'>$counter</a></li>";	
+                            }else{
+                                echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter)>$counter</a></li>";
+                            }                  
+                        }
+                        echo "<li class='page-item'><a class='page-link'>...</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter) >$counter</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($total_no_of_pages)>$total_no_of_pages</a></li>";
+                    }
+                    else {
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost(1)>1</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost(2)>2</a></li>";
+                        echo "<li class='page-item'><a class='page-link'>...</a></li>";
+                        for ($counter = $total_no_of_pages - 6;$counter <= $total_no_of_pages;$counter++) {
+                            if ($counter == $page_no) {
+                                echo "<li class='active'><a class='page-link'>$counter</a></li>";	
+                            }else{
+                                echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter)>$counter</a></li>";
+                            }                   
+                        }
+                    }
+                }     
+            ?>
+            <li class='page-item' <?php if($page_no >= $total_no_of_pages){
+                echo "class='disabled'";
+            } ?>>
+            <a class='page-link' <?php if($page_no < $total_no_of_pages) {
+                echo "href=# onclick=doPost($next_page)";
+            } ?>>Next</a>
+            </li>
+
+            <?php if($page_no < $total_no_of_pages){
+                echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($total_no_of_pages)>Last Page</a></li>";
+            } ?>
+            <?php if($total_no_of_pages > 0){
+                echo "<li class='page-item'><select class='page_dropdown' onchange='onchange_page_dropdown(this)'>";
+                for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
+                                echo "<option value=$counter ";
+                                if ($page_no == $counter){
+                                echo "selected";
+                                }         
+                                echo ">$counter</option>";
+                }
+                echo "</select></li>";
+            } ?>
+            </ul>
+            <h5>Page <?php echo $page_no." of ".$total_no_of_pages." (Total ".$total_records.")" ; ?></h5>
+    </div>
 </div>
 
 <script>
@@ -224,5 +395,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         });
     }
+
+    function doPost(){
+        var page_no_hidden = document.getElementById("page_no");
+  	    page_no_hidden.value=page_no;
+        $('#equipment_data').submit();   
+    }
+    function onchange_page_dropdown(dropdownobj){
+       doPost(dropdownobj.value);    
+    }
+
 </script>
 

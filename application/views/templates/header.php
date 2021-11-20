@@ -44,7 +44,7 @@
   <!-- Fixed navbar -->
 
   <nav class="navbar navbar-expand-md navbar-light   justify-content-between">
-    <a class="navbar-brand" href="<?php echo $yousee_website[0]->value; ?>" target="_blank"><span style="position:absolute;font-size:2.7em;left:5%;top:-18px" class="logo logo-yousee"></a>
+    <a class="navbar-brand" href="<?php echo $yousee_website->value; ?>" target="_blank"><span style="position:absolute;font-size:2.7em;left:5%;top:-18px" class="logo logo-yousee"></a>
     
     <a class="navbar-brand" href="<?php echo base_url();?>" > 
     <span style="position:absolute;left:10%;top:10px">Equipment4Seva</span></a>

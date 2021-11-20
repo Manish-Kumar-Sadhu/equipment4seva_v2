@@ -8,7 +8,7 @@ class Master_model extends CI_Model {
     function get_defaults($id) {
         $this->db->select('*')->from('defaults')->where('default_id',$id);
         $query = $this->db->get();
-        $result =  $query->result();
+        $result =  $query->row();
         if($result){
             return $result;       
         }else{
