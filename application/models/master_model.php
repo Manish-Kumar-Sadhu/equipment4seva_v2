@@ -38,7 +38,7 @@ class Master_model extends CI_Model {
 			$this->db->order_by("equipment_category");
         } else if($type=="equipment") {
             $this->db->select("*")->from("equipment");
-            $this->db->order_by("equipment_id");
+            $this->db->order_by("installation_date", 'desc');
         } else if($type=="equipment_procurement_type") {
             $this->db->select("*")->from("equipment_procurement_type");
             $this->db->order_by("procurement_type");
@@ -83,7 +83,7 @@ class Master_model extends CI_Model {
         $this->db->select(
                     "equipment_id, equipment_name, equipment_type, procurement_type, model, serial_number, mac_address, asset_number,purchase_order_date, 
                     cost, invoice_number, invoice_date, supply_date, installation_date, warranty_start_date, warranty_end_date,
-                    equipment_category, working_status as functional_status, procurement_status, journal_type, journal_date,note")
+                    created_by, created_datetime, updated_by, updated_datetime, equipment_category, working_status as functional_status, procurement_status, journal_type, journal_date,note")
             ->from("equipment")
             ->join('equipment_type','equipment_type.equipment_type_id=equipment.equipment_type_id','left')
             ->join('equipment_category','equipment_category.id=equipment_type.equipment_category_id','left')

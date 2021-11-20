@@ -12,12 +12,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="container">
     <div class="row">
         <div class="form-group col-md-4 col-lg-3 col-xs-12">
+            <label for="equipment_category">Equipment Category</label>
+            <select class="form-control" name="equipment_category" id="equipment_category" required>
+                <option value="0" selected>Select</option>
+                <?php
+                    foreach($equipment_category as $r){ ?>
+                    <option value="<?php echo $r->id;?>"    
+                    <?php if($this->input->post('equipment_category') == $r->id) echo " selected "; ?>
+                    ><?php echo $r->equipment_category;?></option>    
+                    <?php }  ?>
+            </select>
+        </div>
+        <div class="form-group col-md-4 col-lg-3 col-xs-12">
             <label for="donor_party">Donor</label>
             <select  name="donor_party" id="donor_party" >
             </select>
         </div>
         <div class="form-group col-md-4 col-lg-3 col-xs-12">
-            <label for="procured_by_party">Receiver</label>
+            <label for="procured_by_party">Procured by</label>
             <select name="procured_by_party" id="procured_by_party">
             </select>
         </div>
@@ -40,18 +52,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <option value="<?php echo $r->equipment_type_id;?>"    
                     <?php if($this->input->post('equipment_type') == $r->equipment_type_id) echo " selected "; ?>
                     ><?php echo $r->equipment_type;?></option>    
-                    <?php }  ?>
-            </select>
-        </div>
-        <div class="form-group col-md-4 col-lg-3 col-xs-12">
-            <label for="equipment_category">Equipment Category</label>
-            <select class="form-control" name="equipment_category" id="equipment_category" required>
-                <option value="0" selected>Select</option>
-                <?php
-                    foreach($equipment_category as $r){ ?>
-                    <option value="<?php echo $r->id;?>"    
-                    <?php if($this->input->post('equipment_category') == $r->id) echo " selected "; ?>
-                    ><?php echo $r->equipment_category;?></option>    
                     <?php }  ?>
             </select>
         </div>
