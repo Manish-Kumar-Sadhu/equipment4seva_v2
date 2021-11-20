@@ -11,13 +11,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     .page_dropdown{
         position: relative;
         float: left;
-        padding: 6px 12px;
+        padding: 0.5rem 0.75rem;
         width: auto;
-        height: 34px;
-        line-height: 1.428571429;
+        height: 38px;
+        line-height: 1.25;
         text-decoration: none;
         background-color: #ffffff;
-        border: 1px solid #dddddd;
+        border: 1px solid #dee2e6;
         margin-left: -1px;
         color: #428bca;
         border-bottom-right-radius: 4px;
