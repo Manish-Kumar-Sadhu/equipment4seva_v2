@@ -21,7 +21,8 @@ class Home extends CI_Controller {
 		$this->data['procured_by_parties'] = $this->master_model->get_parties_by_party_type('procured_by_party');
 		$this->data['supplier_parties'] = $this->master_model->get_parties_by_party_type('supplier_party');
 		$this->data['manufactured_parties'] = $this->master_model->get_parties_by_party_type('manufactured_party');
-		$this->data['equipment_data'] = $this->master_model->get_equipment_data();
+		$this->data['equipment_data'] = $this->master_model->get_equipment_data($this->data['pagination']->value);
+		$this->data['equipment_count'] = $this->master_model->get_equipment_count();
 		$this->load->view('home', $this->data);
 		$this->load->view('templates/footer' ,$this->data);
 	}
