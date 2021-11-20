@@ -446,7 +446,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         window.open("<?php echo base_url()."equipments/";?>"+id, '_blank');
     }
     function update_equipment(id){
-
+        window.open("<?php echo base_url()."equipments/edit/";?>"+id, '_blank');
     }
 
 </script>
