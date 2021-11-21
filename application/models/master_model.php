@@ -96,11 +96,11 @@ class Master_model extends CI_Model {
 			$to_date=date("Y-m-d",strtotime($this->input->post('to_date')));
             $this->db->where("(invoice_date BETWEEN '$from_date' AND '$to_date')");
 		}
-		else if(!$this->input->post('from_date') || !$this->input->post('to_date')){
-			$from_date= $this->input->post('from_date')?$this->input->post('from_date') : date("Y-m-d", strtotime("-1 month"));
-			$to_date= $this->input->post('to_date')?$this->input->post('to_date') : date("Y-m-d");
-            $this->db->where("(invoice_date BETWEEN '$from_date' AND '$to_date')");
-		}
+		// else if(!$this->input->post('from_date') || !$this->input->post('to_date')){
+		// 	$from_date= $this->input->post('from_date')?$this->input->post('from_date') : date("Y-m-d", strtotime("-1 month"));
+		// 	$to_date= $this->input->post('to_date')?$this->input->post('to_date') : date("Y-m-d");
+        //     $this->db->where("(invoice_date BETWEEN '$from_date' AND '$to_date')");
+		// }
         /* if($this->input->post('location')){
             $this->db->where('location_id', $this->input->post('location'));
         } */
@@ -141,11 +141,11 @@ class Master_model extends CI_Model {
 			$to_date=date("Y-m-d",strtotime($this->input->post('to_date')));
             $this->db->where("(invoice_date BETWEEN '$from_date' AND '$to_date')");
 		}
-		else if(!$this->input->post('from_date') || !$this->input->post('to_date')){
-			$from_date= $this->input->post('from_date')?$this->input->post('from_date') : date("Y-m-d", strtotime("-1 month"));
-			$to_date= $this->input->post('to_date')?$this->input->post('to_date') : date("Y-m-d");
-            $this->db->where("(invoice_date BETWEEN '$from_date' AND '$to_date')");
-		}
+		// else if(!$this->input->post('from_date') || !$this->input->post('to_date')){
+		// 	$from_date= $this->input->post('from_date')?$this->input->post('from_date') : date("Y-m-d", strtotime("-1 month"));
+		// 	$to_date= $this->input->post('to_date')?$this->input->post('to_date') : date("Y-m-d");
+        //     $this->db->where("(invoice_date BETWEEN '$from_date' AND '$to_date')");
+		// }
         /* if($this->input->post('location')){
             $this->db->where('location_id', $this->input->post('location'));
         } */

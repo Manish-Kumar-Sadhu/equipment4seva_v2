@@ -139,11 +139,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="from_invoice_date">From Invoice date</label>
-                <input class="form-control" type="date" name="from_date" id="from_date" value="<?php echo date("Y-m-d", strtotime("-1 month"));?>">
+                <input class="form-control" type="date" name="from_date" id="from_date">
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="to_invoice_date">To Invoice date</label>
-                <input class="form-control" type="date" name="to_date" id="to_date" value="<?php echo date("Y-m-d");?>" >
+                <input class="form-control" type="date" name="to_date" id="to_date">
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="donor_party">Donor</label>
@@ -215,7 +215,99 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
         </div>
     </form>
+    <div class="row">
+        <div class="col-md-12 col-lg-12" style='padding: 0px 0.1rem 0.5rem'>
+            <span>Report as on <?php echo date("j-M-Y h:i A"); ?></span>
+        </div>
+        <ul class="pagination" style="margin:0">
+            <?php if($page_no > 1){
+                echo "<li class='page-item'><span class='page-link' href=# onclick=doPost(1)>First Page</span></li>";
+            } ?>
 
+            <li class='page-item' <?php if($page_no <= 1){ echo "class='disabled'"; } ?>>
+            <a class='page-link' <?php if($page_no > 1){
+                echo "href=# onclick=doPost($previous_page)";
+            } ?>>Previous</a>
+            </li>
+            <?php
+                if ($total_no_of_pages <= 10){  	 
+                    for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
+                        if ($counter == $page_no) {
+                            echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";	
+                        } else{
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter)>$counter</a></li>";
+                        }
+                    }
+                }
+                else if ($total_no_of_pages > 10){
+                    if($page_no <= 4) {			
+                        for ($counter = 1; $counter < 8; $counter++){		 
+                            if ($counter == $page_no) {
+                                echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";	
+                            } else {
+                                echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter)>$counter</a></li>";
+                            }
+                        }
+                        echo "<li class='page-item'><a class='page-link'>...</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($second_last)>$second_last</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($total_no_of_pages)>$total_no_of_pages</a></li>";
+                    }
+                    elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost(1)>1</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost(2)>2</a></li>";
+                        echo "<li class='page-item'><a class='page-link'>...</a></li>";
+                        for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents;$counter++) {		
+                            if ($counter == $page_no) {
+                                echo "<li class='active'><a class='page-link'>$counter</a></li>";	
+                            }else{
+                                echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter)>$counter</a></li>";
+                            }                  
+                        }
+                        echo "<li class='page-item'><a class='page-link'>...</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter) >$counter</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($total_no_of_pages)>$total_no_of_pages</a></li>";
+                    }
+                    else {
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost(1)>1</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost(2)>2</a></li>";
+                        echo "<li class='page-item'><a class='page-link'>...</a></li>";
+                        for ($counter = $total_no_of_pages - 6;$counter <= $total_no_of_pages;$counter++) {
+                            if ($counter == $page_no) {
+                                echo "<li class='active'><a class='page-link'>$counter</a></li>";	
+                            }else{
+                                echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter)>$counter</a></li>";
+                            }                   
+                        }
+                    }
+                }     
+            ?>
+            <li class='page-item' <?php if($page_no >= $total_no_of_pages){
+                echo "class='disabled'";
+            } ?>>
+            <a class='page-link' <?php if($page_no < $total_no_of_pages) {
+                echo "href=# onclick=doPost($next_page)";
+            } ?>>Next</a>
+            </li>
+
+            <?php if($page_no < $total_no_of_pages){
+                echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($total_no_of_pages)>Last Page</a></li>";
+            } ?>
+            <?php if($total_no_of_pages > 0){
+                echo "<li class='page-item'><select class='page_dropdown' onchange='onchange_page_dropdown(this)'>";
+                for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
+                                echo "<option value=$counter ";
+                                if ($page_no == $counter){
+                                echo "selected";
+                                }         
+                                echo ">$counter</option>";
+                }
+                echo "</select></li>";
+            } ?>
+        </ul>
+        <div class="col-md-12 col-lg-12" style='padding: 0.5rem 0.1rem'>
+            <span>Page <?php echo $page_no." of ".$total_no_of_pages." (Total ".$total_records.")" ; ?></span>
+        </div>
+    </div>
     <div class="row">
         <table id="table-sort" class="table table-bordered table-striped">
             <thead>
@@ -252,96 +344,94 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </table>
     </div>
     <div class="row">
+        <div class="col-md-12 col-lg-12" style='padding: 0 0.1rem 0.5rem'>
+            <span>Page <?php echo $page_no." of ".$total_no_of_pages." (Total ".$total_records.")" ; ?></span>
         </div>
-            <ul class="pagination" style="margin:0">
-                <?php if($page_no > 1){
-                    echo "<li class='page-item'><span class='page-link' href=# onclick=doPost(1)>First Page</span></li>";
-                } ?>
+        <ul class="pagination" style="margin:0">
+            <?php if($page_no > 1){
+                echo "<li class='page-item'><span class='page-link' href=# onclick=doPost(1)>First Page</span></li>";
+            } ?>
 
-                <li class='page-item' <?php if($page_no <= 1){ echo "class='disabled'"; } ?>>
-                <a class='page-link' <?php if($page_no > 1){
-                    echo "href=# onclick=doPost($previous_page)";
-                } ?>>Previous</a>
-                </li>
-                <?php
-                    if ($total_no_of_pages <= 10){  	 
-                        for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
+            <li class='page-item' <?php if($page_no <= 1){ echo "class='disabled'"; } ?>>
+            <a class='page-link' <?php if($page_no > 1){
+                echo "href=# onclick=doPost($previous_page)";
+            } ?>>Previous</a>
+            </li>
+            <?php
+                if ($total_no_of_pages <= 10){  	 
+                    for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
+                        if ($counter == $page_no) {
+                            echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";	
+                        } else{
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter)>$counter</a></li>";
+                        }
+                    }
+                }
+                else if ($total_no_of_pages > 10){
+                    if($page_no <= 4) {			
+                        for ($counter = 1; $counter < 8; $counter++){		 
                             if ($counter == $page_no) {
                                 echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";	
-                            } else{
-                            echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter)>$counter</a></li>";
+                            } else {
+                                echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter)>$counter</a></li>";
                             }
+                        }
+                        echo "<li class='page-item'><a class='page-link'>...</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($second_last)>$second_last</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($total_no_of_pages)>$total_no_of_pages</a></li>";
+                    }
+                    elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost(1)>1</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost(2)>2</a></li>";
+                        echo "<li class='page-item'><a class='page-link'>...</a></li>";
+                        for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents;$counter++) {		
+                            if ($counter == $page_no) {
+                                echo "<li class='active'><a class='page-link'>$counter</a></li>";	
+                            }else{
+                                echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter)>$counter</a></li>";
+                            }                  
+                        }
+                        echo "<li class='page-item'><a class='page-link'>...</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter) >$counter</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($total_no_of_pages)>$total_no_of_pages</a></li>";
+                    }
+                    else {
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost(1)>1</a></li>";
+                        echo "<li class='page-item'><a class='page-link' href=# onclick=doPost(2)>2</a></li>";
+                        echo "<li class='page-item'><a class='page-link'>...</a></li>";
+                        for ($counter = $total_no_of_pages - 6;$counter <= $total_no_of_pages;$counter++) {
+                            if ($counter == $page_no) {
+                                echo "<li class='active'><a class='page-link'>$counter</a></li>";	
+                            }else{
+                                echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter)>$counter</a></li>";
+                            }                   
                         }
                     }
-                    else if ($total_no_of_pages > 10){
-                        if($page_no <= 4) {			
-                            for ($counter = 1; $counter < 8; $counter++){		 
-                                if ($counter == $page_no) {
-                                    echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";	
-                                } else {
-                                    echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter)>$counter</a></li>";
-                                }
-                            }
-                            echo "<li class='page-item'><a class='page-link'>...</a></li>";
-                            echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($second_last)>$second_last</a></li>";
-                            echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($total_no_of_pages)>$total_no_of_pages</a></li>";
-                        }
-                        elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
-                            echo "<li class='page-item'><a class='page-link' href=# onclick=doPost(1)>1</a></li>";
-                            echo "<li class='page-item'><a class='page-link' href=# onclick=doPost(2)>2</a></li>";
-                            echo "<li class='page-item'><a class='page-link'>...</a></li>";
-                            for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents;$counter++) {		
-                                if ($counter == $page_no) {
-                                    echo "<li class='active'><a class='page-link'>$counter</a></li>";	
-                                }else{
-                                    echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter)>$counter</a></li>";
-                                }                  
-                            }
-                            echo "<li class='page-item'><a class='page-link'>...</a></li>";
-                            echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter) >$counter</a></li>";
-                            echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($total_no_of_pages)>$total_no_of_pages</a></li>";
-                        }
-                        else {
-                            echo "<li class='page-item'><a class='page-link' href=# onclick=doPost(1)>1</a></li>";
-                            echo "<li class='page-item'><a class='page-link' href=# onclick=doPost(2)>2</a></li>";
-                            echo "<li class='page-item'><a class='page-link'>...</a></li>";
-                            for ($counter = $total_no_of_pages - 6;$counter <= $total_no_of_pages;$counter++) {
-                                if ($counter == $page_no) {
-                                    echo "<li class='active'><a class='page-link'>$counter</a></li>";	
-                                }else{
-                                    echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($counter)>$counter</a></li>";
-                                }                   
-                            }
-                        }
-                    }     
-                ?>
-                <li class='page-item' <?php if($page_no >= $total_no_of_pages){
-                    echo "class='disabled'";
-                } ?>>
-                <a class='page-link' <?php if($page_no < $total_no_of_pages) {
-                    echo "href=# onclick=doPost($next_page)";
-                } ?>>Next</a>
-                </li>
+                }     
+            ?>
+            <li class='page-item' <?php if($page_no >= $total_no_of_pages){
+                echo "class='disabled'";
+            } ?>>
+            <a class='page-link' <?php if($page_no < $total_no_of_pages) {
+                echo "href=# onclick=doPost($next_page)";
+            } ?>>Next</a>
+            </li>
 
-                <?php if($page_no < $total_no_of_pages){
-                    echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($total_no_of_pages)>Last Page</a></li>";
-                } ?>
-                <?php if($total_no_of_pages > 0){
-                    echo "<li class='page-item'><select class='page_dropdown' onchange='onchange_page_dropdown(this)'>";
-                    for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
-                                    echo "<option value=$counter ";
-                                    if ($page_no == $counter){
-                                    echo "selected";
-                                    }         
-                                    echo ">$counter</option>";
-                    }
-                    echo "</select></li>";
-                } ?>
-            </ul>
-            <div class="pages-info">
-                <span>Page <?php echo $page_no." of ".$total_no_of_pages." (Total ".$total_records.")" ; ?></span>
-            </div>
-        </div>
+            <?php if($page_no < $total_no_of_pages){
+                echo "<li class='page-item'><a class='page-link' href=# onclick=doPost($total_no_of_pages)>Last Page</a></li>";
+            } ?>
+            <?php if($total_no_of_pages > 0){
+                echo "<li class='page-item'><select class='page_dropdown' onchange='onchange_page_dropdown(this)'>";
+                for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
+                                echo "<option value=$counter ";
+                                if ($page_no == $counter){
+                                echo "selected";
+                                }         
+                                echo ">$counter</option>";
+                }
+                echo "</select></li>";
+            } ?>
+        </ul>
     </div>
 </div>
 
