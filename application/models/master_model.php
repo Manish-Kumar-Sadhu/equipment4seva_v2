@@ -139,6 +139,7 @@ class Master_model extends CI_Model {
         $query=$this->db->get();
         return $query->row();
     }
+    
     function get_parties_by_party_type($party_type) {
         if($party_type =='donor_party'){
             $this->db->join('equipment','equipment.donor_party_id=party.party_id','inner');
@@ -163,9 +164,9 @@ class Master_model extends CI_Model {
 
     function get_equipment_by_id($equipment_id){
         $this->db->select(
-                    "equipment_id, equipment_name, equipment_type, procurement_type, model, serial_number, mac_address, asset_number,purchase_order_date, 
-                    cost, invoice_number, invoice_date, supply_date, installation_date, warranty_start_date, warranty_end_date,
-                    created_by, created_datetime, updated_by, updated_datetime, equipment_category, working_status as functional_status, procurement_status, journal_type, journal_date,note")
+                    "equipment_name, equipment.equipment_type_id, equipment_type, procurement_type, model, serial_number, mac_address, asset_number,purchase_order_date, 
+                    donor_party_id, procured_by_party_id, supplier_party_id, manufacturer_party_id, cost, invoice_number, invoice_date, supply_date, installation_date, warranty_start_date, warranty_end_date,
+                    created_by, created_datetime, updated_by, updated_datetime, equipment_category, working_status as functional_status, procurement_status, equipment.journal_type_id,journal_type, journal_number, journal_date,note")
             ->from("equipment")
             ->join('equipment_type','equipment_type.equipment_type_id=equipment.equipment_type_id','left')
             ->join('equipment_category','equipment_category.id=equipment_type.equipment_category_id','left')
@@ -214,6 +215,40 @@ class Master_model extends CI_Model {
 
         $this->db->trans_start(); //Transaction begins
         $this->db->insert('equipment',$data); //Insert 
+        $this->db->trans_complete(); //Transaction Ends
+		if($this->db->trans_status()===TRUE) return true; else return false; //if transaction completed successfully return true, else false.
+    }
+
+    function update_equipment($equipment_id){
+        $data = array(
+            'donor_party_id'=>$this->input->post('donor_party'),
+            'procured_by_party_id'=>$this->input->post('procured_by_party'),
+            'supplier_party_id'=>$this->input->post('supplier_party'),
+            'manufacturer_party_id'=>$this->input->post('manufactured_party'),
+            'equipment_type_id'=>$this->input->post('equipment_type'),
+            'equipment_name'=>$this->input->post('equipment_name'),
+            'model'=>$this->input->post('model'),
+            'serial_number'=>$this->input->post('serial_number'),
+            'mac_address'=>$this->input->post('mac_address'),
+            'asset_number'=>$this->input->post('asset_number'),
+            'purchase_order_date'=>$this->input->post('purchase_order_date'),
+            'cost'=>$this->input->post('cost'),
+            'invoice_number'=>$this->input->post('invoice_number'),
+            'invoice_date'=>$this->input->post('invoice_date'),
+            'supply_date'=>$this->input->post('supply_date'),
+            'installation_date'=>$this->input->post('installation_date'),
+            'warranty_start_date'=>$this->input->post('warranty_start_date'),
+            'warranty_end_date'=>$this->input->post('warranty_end_date'),
+            'journal_type_id'=>$this->input->post('journal_type'),
+            'journal_number'=>$this->input->post('journal_number'),
+            'journal_date'=>$this->input->post('journal_date'),
+            'note'=>$this->input->post('note'),
+            'updated_by'=>$this->session->userdata('logged_in')['user_id'],
+            'updated_datetime'=>date("Y-m-d H:i:s")
+        );
+        $this->db->trans_start(); //Transaction begins
+        $this->db->where('equipment_id',$equipment_id);
+        $this->db->update('equipment',$data); //updating the question w.r.t equipment_id
         $this->db->trans_complete(); //Transaction Ends
 		if($this->db->trans_status()===TRUE) return true; else return false; //if transaction completed successfully return true, else false.
     }

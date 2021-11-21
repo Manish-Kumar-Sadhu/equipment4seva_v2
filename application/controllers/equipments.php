@@ -75,7 +75,9 @@ class Equipments extends CI_Controller {
 				}	
 			}
 			if($edit_equipment_access){
-				$this->data['title']='Equipment';
+				$this->load->helper('form');
+				$this->load->library('form_validation');
+				$this->data['title']='Edit Equipment';
 				$this->load->view('templates/header' , $this->data);
 				$this->data['equipment_id'] = $equipment_id;
 				$this->data['equipment_type'] = $this->master_model->get_data('equipment_type');
@@ -88,7 +90,21 @@ class Equipments extends CI_Controller {
 				$this->data['journal_type'] = $this->master_model->get_data('journal_type');
 				$this->data['party'] = $this->master_model->get_data('party');
 				$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
-				$this->load->view('edit_equipment', $this->data);
+				$this->form_validation->set_rules('equipment_name','equipment_name','required');
+				if ($this->form_validation->run() === FALSE) {
+					$this->load->view('edit_equipment',$this->data);
+				} else {
+					if($this->master_model->update_equipment($equipment_id)){
+						$this->data['msg']="Equipment updated successfully";
+						$this->data['status']=200;
+						$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
+						$this->load->view('edit_equipment',$this->data);
+					} else {
+						$this->data['msg']="Error updating equipment. Please retry.";
+						$this->data['status']=500;
+						$this->load->view('edit_equipment',$this->data);
+					}
+				}
 				$this->load->view('templates/footer' ,$this->data);
 			} else {
 				show_404();	

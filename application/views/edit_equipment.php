@@ -27,14 +27,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
 
 </style>
-<?php var_dump($equipment); ?>
 <div class="container">
 <div class="card">
         <div class="card-header bg-info text-white">
            <h4> Edit Equipment </h4>
         </div>
         <div class="card-body">
-            <form id="add_equipment" action="<?= base_url('equipments/edit/').$equipment_id; ?>" method="POST">
+            <form id="edit_equipment" action="<?= base_url('equipments/edit/').$equipment_id; ?>" method="POST">
                 <div class="row">
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="equipment_category">Equipment Category</label>
@@ -154,9 +153,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-6 col-lg-6 col-xs-12">
                         <label for="note">Note</label>
-                        <textarea class="form-control" name="note" rows="1">
-                            <?= $equipment->note; ?>
-                        </textarea>
+                        <textarea class="form-control" name="note" rows="1"><?= $equipment->note; ?></textarea>
                     </div>
                     <div class="form-group col-md-12 col-lg-12 col-xs-12">
                         <button type="submit" class='btn btn-info btn-block'>Submit</button>                        
@@ -168,6 +165,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <script>
+    <?php if(isset($status)) { ?>
+        const status = <?php echo $status; ?>;
+        const msg= '<?php echo $msg; ?>';
+    <?php } ?>
+    
+    if(status==200){
+        swal({
+            title: "Success",
+            text: msg,
+            type: "success",
+            timer: 2000
+        });
+    }
 
     $(function () {
         initDropdown('donor_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->donor_party_id;?>);
