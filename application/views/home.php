@@ -80,6 +80,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     select{
         cursor: pointer;
     }
+    input[type=date] {
+        cursor: pointer;
+    }
 </style>
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/theme.default.css" >
 <?php 
@@ -112,6 +115,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     if($this->session->userdata('logged_in')){
         $default_party_id = $this->session->userdata('logged_in')['default_party_id'];
     }
+    $to_date = $this->input->post('to_date');
+    $from_date = $this->input->post('from_date');
 ?>
 <div class="container">
     <form id="equipment_data" action="<?= base_url('home'); ?>" method="POST">
@@ -136,11 +141,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="from_invoice_date">From Invoice date</label>
-                <input class="form-control" type="date" name="from_date" id="from_date">
+                <input class="form-control" type="date" name="from_date" id="from_date" value=<?= $from_date?> >
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="to_invoice_date">To Invoice date</label>
-                <input class="form-control" type="date" name="to_date" id="to_date">
+                <input class="form-control" type="date" name="to_date" id="to_date" value=<?= $to_date?>>
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="donor_party">Donor</label>
