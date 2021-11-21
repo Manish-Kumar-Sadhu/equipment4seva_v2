@@ -37,12 +37,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="row">
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="equipment_category">Equipment Category</label>
-                        <select class="form-control" name="equipment_category" id="equipment_category">
+                        <select class="form-control" name="equipment_category" id="equipment_category" onchange="filter_equipment_type('equipment_category','equipment_type')" required>
                             <option value="0" selected>----------Select----------</option>
                             <?php
                                 foreach($equipment_category as $r){ ?>
                                 <option value="<?php echo $r->id;?>"    
-                                <?php if($this->input->post('equipment_category') == $r->id) echo " selected "; ?>
+                                <?php if($this->input->post('equipment_category') == $r->id || $equipment->equipment_category_id == $r->id ) echo " selected "; ?>
                                 ><?php echo $r->equipment_category;?></option>    
                                 <?php }  ?>
                         </select>
@@ -184,6 +184,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         initDropdown('procured_by_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->procured_by_party_id;?>);
         initDropdown('supplier_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->supplier_party_id;?>);
         initDropdown('manufactured_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->manufacturer_party_id;?>);
+
+        filter_equipment_type('equipment_category','equipment_type');
     });
 
     function escapeSpecialChars(str) {
@@ -218,5 +220,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         if(value){
 		    selectize[0].selectize.setValue(value);
 	    }
+    }
+
+    function filter_equipment_type(category, id, selected_equipment_type_id){
+        let equipment_types = <?php echo json_encode($equipment_type); ?>;
+        let selected_category = $(`#${category}`).val();
+        let filtered_equipment_types;
+        $(`#${id}`).empty();
+        filtered_equipment_types = $.grep(equipment_types , function(v){
+            return v.equipment_category_id == selected_category;
+        }) ;
+        console.log(filtered_equipment_types);  
+        // iterating the filtered equipment types
+        $.each(filtered_equipment_types, function (indexInArray, valueOfElement) { 
+            const {equipment_type_id ,equipment_type} = valueOfElement;
+            $(`#${id}`).append($('<option></option>').val(equipment_type_id).html(equipment_type));
+        });
     }
 </script>

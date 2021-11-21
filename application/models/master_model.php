@@ -184,7 +184,7 @@ class Master_model extends CI_Model {
 
     function get_equipment_by_id($equipment_id){
         $this->db->select(
-                    "equipment_name, equipment.equipment_type_id, equipment_type, procurement_type, model, serial_number, mac_address, asset_number,purchase_order_date, 
+                    "equipment_name, equipment.equipment_type_id, equipment_category_id, equipment_type, procurement_type, model, serial_number, mac_address, asset_number,purchase_order_date, 
                     donor_party_id, procured_by_party_id, supplier_party_id, manufacturer_party_id, cost, invoice_number, invoice_date, supply_date, installation_date, warranty_start_date, warranty_end_date,
                     created_by, created_datetime, updated_by, updated_datetime, equipment_category, working_status as functional_status, procurement_status, equipment.journal_type_id,journal_type, journal_number, journal_date,note")
             ->from("equipment")
