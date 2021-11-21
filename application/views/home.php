@@ -117,6 +117,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
     $to_date = $this->input->post('to_date');
     $from_date = $this->input->post('from_date');
+    $donor_party = $this->input->post('donor_party');
+    $selected_equipment_type_id = $this->input->post('equipment_type');
+    $procured_by_party = $this->input->post('procured_by_party');
+    $supplier_party = $this->input->post('supplier_party');
+    $manufactured_party = $this->input->post('manufactured_party');
 ?>
 <div class="container">
     <form id="equipment_data" action="<?= base_url('home'); ?>" method="POST">
@@ -137,6 +142,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <label for="equipment_type">Equipment Type</label>
                 <select class="form-control" name="equipment_type" id="equipment_type">
                     <option value="0" selected>----------Select----------</option>
+                    <?php
+                        foreach($equipment_type as $r){ ?>
+                        <option value="<?php echo $r->equipment_type_id;?>"    
+                        <?php if($this->input->post('equipment_type') == $r->equipment_type_id || $selected_equipment_type_id == $r->equipment_type_id) echo " selected "; ?>
+                        ><?php echo $r->equipment_type;?></option>    
+                        <?php }  ?>
                 </select>
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
@@ -149,50 +160,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="donor_party">Donor</label>
-                <select class="form-control" name="donor_party" id="donor_party">
-                    <option value="0" selected>Select</option>
-                    <?php
-                        foreach($donor_parties as $r){ ?>
-                        <option value="<?php echo $r->party_id;?>"    
-                        <?php if($this->input->post('donor_party') == $r->party_id) echo " selected "; ?>
-                        ><?php echo $r->party_name;?></option>    
-                        <?php }  ?>
+                <select name="donor_party" id="donor_party" placeholder="----------Select----------">
                 </select>
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="procured_by_party">Procured by</label>
-                <select class="form-control" name="procured_by_party" id="procured_by_party">
-                    <option value="0" selected>Select</option>
-                    <?php
-                        foreach($procured_by_parties as $r){ ?>
-                        <option value="<?php echo $r->party_id;?>"    
-                        <?php if($this->input->post('procured_by_party') == $r->party_id) echo " selected "; ?>
-                        ><?php echo $r->party_name;?></option>    
-                        <?php }  ?>
+                <select name="procured_by_party" id="procured_by_party" placeholder="----------Select----------">
                 </select>
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="supplier_party">Supplier</label>
-                <select class="form-control" name="supplier_party" id="supplier_party">
-                    <option value="0" selected>Select</option>
-                    <?php
-                        foreach($supplier_parties as $r){ ?>
-                        <option value="<?php echo $r->party_id;?>"    
-                        <?php if($this->input->post('supplier_party') == $r->party_id) echo " selected "; ?>
-                        ><?php echo $r->party_name;?></option>    
-                        <?php }  ?>
+                <select  name="supplier_party" id="supplier_party" placeholder="----------Select----------">
                 </select>
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="manufactured_party">Manufacturer</label>
-                <select class="form-control" name="manufactured_party" id="manufactured_party">
-                    <option value="0" selected>Select</option>
-                    <?php
-                        foreach($manufactured_parties as $r){ ?>
-                        <option value="<?php echo $r->party_id;?>"    
-                        <?php if($this->input->post('manufactured_party') == $r->party_id) echo " selected "; ?>
-                        ><?php echo $r->party_name;?></option>    
-                        <?php }  ?>
+                <select  name="manufactured_party" id="manufactured_party" placeholder="----------Select----------">
                 </select>
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
@@ -440,10 +423,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
     
     $(function () {
-        // initDropdown('donor_party', '<?php echo json_encode($donor_parties); ?>');
-        // initDropdown('procured_by_party', '<?php echo json_encode($procured_by_parties); ?>');
-        // initDropdown('supplier_party', '<?php echo json_encode($supplier_parties); ?>');
-        // initDropdown('manufactured_party', '<?php echo json_encode($manufactured_parties); ?>');
+        initDropdown('donor_party', '<?php echo json_encode($donor_parties); ?>', <?php echo $donor_party; ?>);
+        initDropdown('procured_by_party', '<?php echo json_encode($procured_by_parties); ?>', <?php echo $procured_by_party ?>);
+        initDropdown('supplier_party', '<?php echo json_encode($supplier_parties); ?>', <?php echo $supplier_party ?>);
+        initDropdown('manufactured_party', '<?php echo json_encode($manufactured_parties); ?>', <?php echo $manufactured_party ?>);
+
         var options = {
 			widthFixed : false,
 			showProcessing: true,
@@ -497,7 +481,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         return str.replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t");
     }
 
-    function initDropdown(id, list){
+    function initDropdown(id, list, val){
         let data = JSON.parse(escapeSpecialChars(list));
         // console.log(data);
         var selectize = $(`#${id}`).selectize({
@@ -522,6 +506,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
 
         });
+        if(val){
+            selectize[0].selectize.setValue(val);
+        }
     }
 
     function doPost(page_no){
