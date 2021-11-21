@@ -433,7 +433,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			showProcessing: true,
 			headerTemplate : '{content} {icon}', // Add icon for jui theme; new in v2.7!
             cssInfoBlock : "tablesorter-no-sort",
-			widgets: [ 'default', 'zebra', 'print', 'columns', 'stickyHeaders','filter'],
+			widgets: [ 'default', 'zebra', 'print', 'columns', 'stickyHeaders','filter','resizable'],
 			widgetOptions: {
                 print_title      : 'table',          // this option > caption > table id > "table"
                 print_dataAttrib : 'data-name', // header attrib containing modified header name
@@ -470,6 +470,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // zebra   : ["ui-widget-content even", "ui-state-default odd"],
                 // use uitheme widget to apply defauly jquery ui (jui) class names
                 // see the uitheme demo for more details on how to change the class names
+                resizable_widths: [ '5%', '10%', '20%','20%','20%','10%', '20%'],
                 uitheme : 'jui'
             }
         };
