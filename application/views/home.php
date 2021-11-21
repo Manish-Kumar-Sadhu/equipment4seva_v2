@@ -77,6 +77,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         border: solid 1px;
         margin-left:1.2rem
     }
+    select{
+        cursor: pointer;
+    }
 </style>
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/theme.default.css" >
 <?php 
@@ -115,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="row">
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="equipment_category">Equipment Category</label>
-                <select class="form-control" name="equipment_category" id="equipment_category" required>
+                <select class="form-control" name="equipment_category" id="equipment_category" onchange="filter_equipment_type('equipment_category','equipment_type')">
                     <option value="0" selected>Select</option>
                     <?php
                         foreach($equipment_category as $r){ ?>
@@ -128,13 +131,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="equipment_type">Equipment Type</label>
                 <select class="form-control" name="equipment_type" id="equipment_type">
-                    <option value="0" selected>Select</option>
-                    <?php
-                        foreach($equipment_type as $r){ ?>
-                        <option value="<?php echo $r->equipment_type_id;?>"    
-                        <?php if($this->input->post('equipment_type') == $r->equipment_type_id) echo " selected "; ?>
-                        ><?php echo $r->equipment_type;?></option>    
-                        <?php }  ?>
+                    <option value="0" selected>----------Select----------</option>
                 </select>
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
@@ -535,8 +532,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     function show_equipment(id){
         window.open("<?php echo base_url()."equipments/";?>"+id, '_blank');
     }
+
     function update_equipment(id){
         window.open("<?php echo base_url()."equipments/edit/";?>"+id, '_blank');
+    }
+
+    function filter_equipment_type(category, id){
+        let equipment_types = <?php echo json_encode($equipment_type); ?>;
+        let selected_category = $(`#${category}`).val();
+        let filtered_equipment_types;
+        $(`#${id}`).empty().append(`<option value="0" selected>----------Select----------</option>`);
+        filtered_equipment_types = $.grep(equipment_types , function(v){
+            return v.equipment_category_id == selected_category;
+        }) ;
+        console.log(filtered_equipment_types);  
+        // iterating the filtered equipment types
+        $.each(filtered_equipment_types, function (indexInArray, valueOfElement) { 
+            const {equipment_type_id ,equipment_type} = valueOfElement;
+            $(`#${id}`).append($('<option></option>').val(equipment_type_id).html(equipment_type));
+        });
     }
 
 </script>

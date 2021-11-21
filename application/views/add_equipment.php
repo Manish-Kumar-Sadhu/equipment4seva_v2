@@ -200,15 +200,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     function filter_equipment_type(category, id){
         let equipment_types = <?php echo json_encode($equipment_type); ?>;
-        console.log(equipment_types);
         let selected_category = $(`#${category}`).val();
-        console.log(selected_category);
         let filtered_equipment_types;
-        // $(`#${id}`).empty().append(`<option value='0' selected>Equipment type</option>`);
-            filtered_equipment_types = $.grep(equipment_types , function(v){
-                return v.equipment_category_id == selected_category;
-            }) ;
-            // iterating the selected sub groups
+        $(`#${id}`).empty().append(`<option value="0" selected>----------Select----------</option>`);
+        filtered_equipment_types = $.grep(equipment_types , function(v){
+            return v.equipment_category_id == selected_category;
+        }) ;
+        console.log(filtered_equipment_types);  
+        // iterating the filtered equipment types
         $.each(filtered_equipment_types, function (indexInArray, valueOfElement) { 
             const {equipment_type_id ,equipment_type} = valueOfElement;
             $(`#${id}`).append($('<option></option>').val(equipment_type_id).html(equipment_type));
