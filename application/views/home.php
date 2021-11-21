@@ -139,11 +139,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="from_invoice_date">From Invoice date</label>
-                <input class="form-control" type="date" name="from_date" id="from_date">
+                <input class="form-control" type="date" name="from_date" id="from_date" value="<?php echo date("Y-m-d", strtotime("-1 month"));?>">
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="to_invoice_date">To Invoice date</label>
-                <input class="form-control" type="date" name="to_date" id="to_date">
+                <input class="form-control" type="date" name="to_date" id="to_date" value="<?php echo date("Y-m-d");?>" >
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="donor_party">Donor</label>
