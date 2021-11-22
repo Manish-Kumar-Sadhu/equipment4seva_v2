@@ -26,7 +26,12 @@ class Home extends CI_Controller {
 		$this->data['procured_by_parties'] = $this->master_model->get_parties_by_party_type('procured_by_party');
 		$this->data['supplier_parties'] = $this->master_model->get_parties_by_party_type('supplier_party');
 		$this->data['manufactured_parties'] = $this->master_model->get_parties_by_party_type('manufactured_party');
-		$this->data['equipment_data'] = $this->master_model->get_equipment_data($this->data['pagination']->value);
+		$equipment_data = $this->master_model->get_equipment_data($this->data['pagination']->value);
+		foreach ($equipment_data as $key => $value) {
+			$location = $this->master_model->get_equipment_current_location($value->equipment_id);
+			$value->location = $location ? $location->location : '------';
+		}
+		$this->data['equipment_data']=$equipment_data;
 		$this->data['equipment_count'] = $this->master_model->get_equipment_count();
 		if($this->session->userdata('logged_in')){
 			foreach($this->data['functions'] as $f){

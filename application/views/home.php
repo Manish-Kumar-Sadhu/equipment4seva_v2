@@ -315,7 +315,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td><?php echo $r->equipment_type; ?></td>
                         <td><?php echo $r->equipment_name; ?></td>
                         <td><?php echo $r->serial_number; ?></td>
-                        <td><?php echo 'TBU' ?></td>
+                        <td><?php echo $r->location; ?></td>
                         <td style="text-align:center"><?php echo  date("d-M-Y", strtotime($r->invoice_date)); ?></td>
                         <td>
                             <button class="btn btn-info btn-sm round-button" onclick="show_equipment(<?=$r->equipment_id; ?>);"><i class='fa fa-external-link' aria-hidden='true'></i></button>
@@ -470,6 +470,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // zebra   : ["ui-widget-content even", "ui-state-default odd"],
                 // use uitheme widget to apply defauly jquery ui (jui) class names
                 // see the uitheme demo for more details on how to change the class names
+                resizable:false,
                 resizable_widths: [ '5%', '10%', '20%','20%','20%','10%', '20%'],
                 uitheme : 'jui'
             }
