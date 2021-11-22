@@ -205,6 +205,23 @@ class Master_model extends CI_Model {
         }
     }
 
+    function get_equipment_current_location($equipment_id){
+        $this->db->select("*")
+                ->from("equipment_location_log")
+                ->join('location','equipment_location_log.location_id=location.location_id','left')
+                ->where('equipment_id', $equipment_id)
+                ->order_by('delivery_date', 'desc')
+                ->limit(1);
+                $query = $this->db->get();
+        // var_dump($this->db->last_query());
+        $result =  $query->row();
+        if($result){
+            return $result;       
+        }else{
+            return false;
+        }
+    }
+
     function add_equipment(){
         $data = array(
             'donor_party_id'=>$this->input->post('donor_party'),
