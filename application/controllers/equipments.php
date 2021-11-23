@@ -24,7 +24,14 @@ class Equipments extends CI_Controller {
     }
 
 	function view($equipment_id){
+		$this->data['title']='Equipment';
 		$this->load->view('templates/header', $this->data);
+		$this->data['equipment_type'] = $this->master_model->get_data('equipment_type');
+		$this->data['equipment_category'] = $this->master_model->get_data('equipment_category');
+		$this->data['location'] = $this->master_model->get_data('location');
+		$this->data['district'] = $this->master_model->get_data('district');
+		$this->data['journal_type'] = $this->master_model->get_data('journal_type');
+		$this->data['party'] = $this->master_model->get_data('party');
         $this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
         $this->data['equipment_location_data'] = $this->master_model->get_equipment_current_location($equipment_id);
         $this->load->view('equipment', $this->data);
