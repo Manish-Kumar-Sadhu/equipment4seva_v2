@@ -14,8 +14,7 @@ class Home extends CI_Controller {
 		$this->data['yousee_website'] = $this->master_model->get_defaults('yousee_website');
     }
 
-	public function index()
-	{
+	public function index(){
 		$this->data['title']='Home';
 		$this->load->view('templates/header' , $this->data);
 		$this->data['pagination'] = $this->master_model->get_defaults('pagination');
@@ -108,6 +107,36 @@ class Home extends CI_Controller {
 		} else {
 			$this->form_validation->set_message('check_database','Invalid Username or Password');
 	     return false;
+		}
+	}
+
+	public function change_password() {
+		if($this->session->userdata('logged_in')){
+			$this->load->helper('form');
+			$this->load->model('user_model');
+			$this->load->library('form_validation');
+			$this->data['title']="Change password";
+			$this->data['userdata']=$this->session->userdata('logged_in');
+			$user_id=$this->data['userdata']['user_id'];
+			$this->load->view('templates/header',$this->data);
+			$this->form_validation->set_rules('password','Password','required|trim|xss_clean');
+			if ($this->form_validation->run() === FALSE)
+			{
+				$this->load->view('pages/change_password',$this->data);
+			}
+			else {
+				if($this->user_model->change_password($user_id)){
+					$this->data['msg']="Password has been changed successfully";
+				}
+				else{
+					$this->data['msg']="Password could not be changed";
+				}
+				$this->load->view('pages/change_password',$this->data);
+				$this->load->view('templates/footer' , $this->data);
+			}
+
+		} else{
+			show_404();
 		}
 	}
 

@@ -129,4 +129,21 @@ class User_model extends CI_Model {
           return false;
         }
     }
+
+    function change_password($user_id) {
+        //select the old password from the database
+       $this->db->select('password')->from('user')->where('user_id',$user_id);
+       $query=$this->db->get();
+       $password=$query->row();
+       $form_password=$this->input->post('old_password'); //get the old password from the form
+       if($password->password==md5($form_password)){ //match both the old passwords
+           $this->db->where('user_id',$user_id); //search for the user in db
+           if($this->db->update('user',array('password'=>md5($this->input->post('password'))))){ 
+               //if the user table has been updated successfully, return true else false.
+               return true;
+               }
+           else return false;
+       }
+       else return false; //if the old password entered doesn't match the database password, return false.
+    }
 }
