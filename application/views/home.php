@@ -524,7 +524,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
     
     function show_equipment(id){
-        window.open("<?php echo base_url()."equipments/";?>"+id, '_blank');
+        window.open("<?php echo base_url()."equipments/view/";?>"+id, '_blank');
     }
 
     function update_equipment(id){

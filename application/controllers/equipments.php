@@ -15,12 +15,21 @@ class Equipments extends CI_Controller {
     }
 
     function index($equipment_id){
-        $this->data['title']='Equipment';
-		$this->load->view('templates/header' , $this->data);
+        // $this->data['title']='Equipment';
+		// $this->load->view('templates/header', $this->data);
+        // $this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
+		// $this->data['equipment_location_data'] = $this->master_model->get_equipment_current_location($equipment_id);
+        // $this->load->view('equipment', $this->data);
+		// $this->load->view('templates/footer' ,$this->data);
+    }
+
+	function view($equipment_id){
+		$this->load->view('templates/header', $this->data);
         $this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
+        $this->data['equipment_location_data'] = $this->master_model->get_equipment_current_location($equipment_id);
         $this->load->view('equipment', $this->data);
 		$this->load->view('templates/footer' ,$this->data);
-    }
+	}
 
     function add(){
 		if($this->session->userdata('logged_in')){
@@ -112,5 +121,9 @@ class Equipments extends CI_Controller {
 		}  else{
 			show_404();
 		}
+	}
+
+	function location($id){
+		var_dump( $this->master_model->get_equipment_current_location($id));
 	}
 }
