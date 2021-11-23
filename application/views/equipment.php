@@ -156,42 +156,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <label for="warranty_end_date">Warranty end date</label>
                     <input class="form-control" name="warranty_end_date" type="date" value="<?= $equipment->warranty_end_date; ?>" >
                 </div>
-                <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                <!-- <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="last_procured_by">Last procured by</label>
                     <select name="last_procured_by" id="last_procured_by" placeholder="----------Select----------">
                     </select>
-                </div>
-                <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                    <label for="delivered_date">Delivered date</label>
-                    <input class="form-control" name="delivered_date" type="date" value="<?= $equipment_location_data->delivery_date; ?>" >
-                </div>
-                <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                    <label for="current_location">Current Location</label>
-                    <select class="form-control" name="current_location" id="current_location">
-                        <?php
-                            foreach($location as $r){ ?>
-                            <option value="<?php echo $r->location_id;?>"    
-                            <?php if($this->input->post('current_location') == $r->location_id || $equipment_location_data->location_id == $r->location_id) echo " selected "; ?>
-                            ><?php echo $r->location;?></option>    
-                            <?php }  ?>
-                    </select>
-                </div>
-                <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                    <label for="district">District</label>
-                    <select class="form-control" name="district" id="district">
-                        <option value="0" selected>----------Select----------</option>
-                        <?php
-                            foreach($district as $r){ ?>
-                            <option value="<?php echo $r->district_id;?>"    
-                            <?php if($this->input->post('district') == $r->district_id || $equipment_location_data->district_id == $r->district_id) echo " selected "; ?>
-                            ><?php echo $r->district;?></option>    
-                            <?php }  ?>
-                    </select>
-                </div>
-                <div class="form-group col-md-6 col-lg-6 col-xs-12">
-                    <label for="current_address">Current address</label>
-                    <textarea class="form-control" name="current_address" rows="1"><?= $equipment_location_data->address; ?></textarea>
-                </div>
+                </div> -->
+                <?php if($equipment_location_data) { ?>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="delivered_date">Delivered date</label>
+                        <input class="form-control" name="delivered_date" type="date" value="<?= $equipment_location_data->delivery_date; ?>" >
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="current_location">Current Location</label>
+                        <select class="form-control" name="current_location" id="current_location">
+                            <?php
+                                foreach($location as $r){ ?>
+                                <option value="<?php echo $r->location_id;?>"    
+                                <?php if($this->input->post('current_location') == $r->location_id || $equipment_location_data->location_id == $r->location_id) echo " selected "; ?>
+                                ><?php echo $r->location;?></option>    
+                                <?php }  ?>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="district">District</label>
+                        <select class="form-control" name="district" id="district">
+                            <option value="0" selected>----------Select----------</option>
+                            <?php
+                                foreach($district as $r){ ?>
+                                <option value="<?php echo $r->district_id;?>"    
+                                <?php if($this->input->post('district') == $r->district_id || $equipment_location_data->district_id == $r->district_id) echo " selected "; ?>
+                                ><?php echo $r->district;?></option>    
+                                <?php }  ?>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6 col-lg-6 col-xs-12">
+                        <label for="current_address">Current address</label>
+                        <textarea class="form-control" name="current_address" rows="1"><?= $equipment_location_data->address; ?></textarea>
+                    </div>
+                <?php } ?>
                 <div class="form-group col-md-6 col-lg-6 col-xs-12">
                     <label for="note">Note</label>
                     <textarea class="form-control" name="note" rows="1"><?= $equipment->note; ?></textarea>
@@ -209,7 +211,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         initDropdown('procured_by_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->procured_by_party_id;?>);
         initDropdown('supplier_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->supplier_party_id;?>);
         initDropdown('manufactured_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->manufacturer_party_id;?>);
-        initDropdown('last_procured_by', '<?php echo json_encode($party); ?>', <?php echo $equipment_location_data->receiver_party_id;?>);
+        /* // initDropdown('last_procured_by', '<?php echo json_encode($party); ?>', <?php echo $equipment_location_data->receiver_party_id;?>); */
         filter_equipment_type('equipment_category','equipment_type');
     });
 
