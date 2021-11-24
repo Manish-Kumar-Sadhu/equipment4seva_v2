@@ -80,11 +80,11 @@
               <?php 
                 foreach($functions as $f){
                   if($f->user_function=="equipment") { ?>
-                      <ul class="dropdown-menu"> <?php
+                      <div class="dropdown-menu"> <?php
                         if($f->add){ ?>
                           <a class="dropdown-item" href="<?php echo base_url()."equipments/add";?>"><i class="fa fa-edit"></i> Add Equipment</a>
                         <?php } ?>
-                      </ul>   
+                        </div>   
                   <?php }
                 }
               ?>
