@@ -89,8 +89,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             type: status == 200 ? "success" : "error",
             timer: 2000
         });
+        // resetting the dropdowns
+        $('select').val(0);
     }
 
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
     function filter_districts(state, id){
         let districts = <?php echo json_encode($districts); ?>;
         let selected_state = $(`#${state}`).val();
