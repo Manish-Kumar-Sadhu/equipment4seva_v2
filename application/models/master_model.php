@@ -314,7 +314,7 @@ class Master_model extends CI_Model {
     function add_location() {
         $data = array(
             'location'=>$this->input->post('location'),
-            'district_id'=>$this->input->post('district_id'),
+            'district_id'=>$this->input->post('district'),
         );
         $this->db->trans_start(); //Transaction begins
         $this->db->insert('location',$data); //Insert 
