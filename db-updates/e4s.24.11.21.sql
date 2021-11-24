@@ -23,3 +23,10 @@ ADD `created_by` INT(11) NULL DEFAULT NULL AFTER `party_pan`,
 ADD `created_datetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_by`, 
 ADD `updated_by` INT(11) NULL DEFAULT NULL AFTER `created_datetime`,
 ADD `updated_datetime` DATETIME NULL DEFAULT NULL AFTER `updated_by`;
+
+--
+-- new user function for location
+--
+INSERT INTO `user_function` (`user_function_id`, `user_function`, `user_function_display`, `description`) 
+VALUES (NULL, 'location', 'Location', '');
+
