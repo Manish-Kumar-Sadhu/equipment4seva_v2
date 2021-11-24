@@ -30,3 +30,17 @@ ADD `updated_datetime` DATETIME NULL DEFAULT NULL AFTER `updated_by`;
 INSERT INTO `user_function` (`user_function_id`, `user_function`, `user_function_display`, `description`) 
 VALUES (NULL, 'location', 'Location', '');
 
+--
+-- Removed default_party_id from user table
+--
+ALTER TABLE `user` DROP `default_party_id`;
+
+--
+-- Added is_default_party column to user_party_link table
+--
+ALTER TABLE `user_party_link` ADD `is_default_party` TINYINT NULL DEFAULT NULL AFTER `party_id`;
+
+--
+-- Updating created_datetime  default value
+--
+ALTER TABLE `user_party_link` CHANGE `created_datetime` `created_datetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
