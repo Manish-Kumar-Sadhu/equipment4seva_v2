@@ -57,6 +57,10 @@ class Master_model extends CI_Model {
             $this->db->select("*")->from("district");
             $this->db->order_by("district");
         }
+        else if($type=="state") {
+            $this->db->select("*")->from("state");
+            $this->db->order_by("state");
+        }
         $query=$this->db->get();
 		return $query->result();
     }
@@ -306,4 +310,15 @@ class Master_model extends CI_Model {
 		
 		return $query->result();
 	}
+
+    function add_location() {
+        $data = array(
+            'location'=>$this->input->post('location'),
+            'district_id'=>$this->input->post('district_id'),
+        );
+        $this->db->trans_start(); //Transaction begins
+        $this->db->insert('location',$data); //Insert 
+        $this->db->trans_complete(); //Transaction Ends
+		if($this->db->trans_status()===TRUE) return true; else return false; //if transaction completed successfully return true, else false.
+    }
 }
