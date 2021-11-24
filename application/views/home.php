@@ -75,7 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     .round-button{
         border-radius:100%;
         border: solid 1px;
-        margin-left:1.2rem
+        margin-left:15px;
     }
     select{
         cursor: pointer;

@@ -35,6 +35,9 @@
           font-size: 3.5rem;
         }
       }
+      li {
+        list-style-type: none;
+      }
     </style>
     <!-- Custom styles for this template -->
     <!-- <link href="sticky-footer-navbar.css" rel="stylesheet"> -->
@@ -59,23 +62,33 @@
       </ul>
       <ul class="navbar-nav navbar-right ">  
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" style="text-decoration:none; color:black;" > Equipments <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" style="text-decoration:none; color:black;" > Locations <b class="caret"></b></a>
               <?php 
                 foreach($functions as $f){
-                  if($f->user_function=="equipment"){ 
-                    ?>
-                    <ul class="dropdown-menu"> <?php
-                      if($f->add){ ?>
-                        <a class="dropdown-item" href="<?php echo base_url()."equipments/add";?>"><i class="fa fa-edit"></i> Add Equipment</a>
-                      <?php }
-                  } ?> 
-                    </ul> <?php
+                  if($f->user_function=="location") { ?>
+                      <ul class="dropdown-menu"> <?php
+                        if($f->add){ ?>
+                          <a class="dropdown-item" href="<?php echo base_url()."location/add";?>"><i class="fa fa-edit"></i> Add Location</a>
+                        <?php } ?>
+                      </ul>   
+                  <?php }
                 }
               ?>
         </li>
-        <!-- <li class="nav-item active">
-          <a class="nav-link" href="<?php echo base_url();?>home" >Home <span class="sr-only">(current)</span></a>
-        </li> -->
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" style="text-decoration:none; color:black;" > Equipments <b class="caret"></b></a>
+              <?php 
+                foreach($functions as $f){
+                  if($f->user_function=="equipment") { ?>
+                      <ul class="dropdown-menu"> <?php
+                        if($f->add){ ?>
+                          <a class="dropdown-item" href="<?php echo base_url()."equipments/add";?>"><i class="fa fa-edit"></i> Add Equipment</a>
+                        <?php } ?>
+                      </ul>   
+                  <?php }
+                }
+              ?>
+        </li>
           <li class="nav-item">
              <a class="nav-link" href="#" style="text-decoration:none; color:black;"> <?php echo $logged_in['username']." | " ; ?></a>
           </li>
