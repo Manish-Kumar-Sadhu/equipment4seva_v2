@@ -42,10 +42,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="state">State<span class="star" style="color:red"> *</span></label>
-                        <select class="form-control" name="state" id="state" onchange="filter_district('state','district')" required>
+                        <select class="form-control" name="state" id="state" onchange="filter_districts('state','district')" required>
                             <option value="0" selected>----------Select----------</option>
                             <?php
-                                foreach($state as $r){ ?>
+                                foreach($states as $r){ ?>
                                 <option value="<?php echo $r->state_id;?>"    
                                 <?php if($this->input->post('state') == $r->state_id) echo " selected "; ?>
                                 ><?php echo $r->state;?></option>    
@@ -57,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <select class="form-control" name="district" id="district" required>
                             <option value="0" selected>----------Select----------</option>
                             <?php
-                                foreach($district as $r){ ?>
+                                foreach($districts as $r){ ?>
                                 <option value="<?php echo $r->district_id;?>"    
                                 <?php if($this->input->post('district') == $r->district_id) echo " selected "; ?>
                                 ><?php echo $r->district;?></option>    
@@ -88,6 +88,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             text: msg,
             type: status == 200 ? "success" : "error",
             timer: 2000
+        });
+    }
+
+    function filter_districts(state, id){
+        let districts = <?php echo json_encode($districts); ?>;
+        let selected_state = $(`#${state}`).val();
+        let filtered_ditricts;
+        $(`#${id}`).empty().append(`<option value="0" selected>----------Select----------</option>`);
+        filtered_ditricts = $.grep(districts , function(v){
+            return v.state_id == selected_state;
+        }) ;
+        console.log(filtered_ditricts);  
+        // iterating the filtered equipment types
+        $.each(filtered_ditricts, function (indexInArray, valueOfElement) { 
+            const {district_id ,district} = valueOfElement;
+            $(`#${id}`).append($('<option></option>').val(district_id).html(district));
         });
     }
 </script>

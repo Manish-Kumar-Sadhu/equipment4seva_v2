@@ -28,8 +28,8 @@ class Location extends CI_Controller {
 				$this->load->library('form_validation');
 				$this->data['title']='Add location';
 				$this->load->view('templates/header' , $this->data);
-				$this->data['district'] = $this->master_model->get_data('district');
-				$this->data['state'] = $this->master_model->get_data('state');
+				$this->data['districts'] = $this->master_model->get_data('district');
+				$this->data['states'] = $this->master_model->get_data('state');
 				$this->form_validation->set_rules('location','location','required');
 				if ($this->form_validation->run() === FALSE) {
 					$this->load->view('pages/add_location',$this->data);
