@@ -245,6 +245,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <textarea class="form-control" name="note" rows="1"><?= $equipment->note; ?></textarea>
                 </div>
             </div>
+            <?php if($logged_in) { ?>
+                <div class="row">
+                    <div class="col-md-6">
+                        <b> Created By :</b> <?php echo $equipment->created_user_first_name.' '.$equipment->created_user_last_name; echo ', '.date("d-M-Y h:i A", strtotime($equipment->equipment_created_datetime)); ?>
+                    </div>
+                    <div class="col-md-6">
+                        <b> Last Updated By :</b> <?php echo $equipment->last_updated_user_first_name.' '.$equipment->last_updated_user_last_name; echo ', '.date("d-M-Y h:i A", strtotime($equipment->equipment_last_updated_datetime)); ?>
+                    </div>
+                </div>
+            <?php } ?>
         </div>
     </div>
     <div class="card">

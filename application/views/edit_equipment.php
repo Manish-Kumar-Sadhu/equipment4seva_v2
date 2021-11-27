@@ -27,6 +27,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
 
 </style>
+<?php 
+    $logged_in=$this->session->userdata('logged_in');
+?>
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/theme.default.css" >
 <div class="container">
     <div class="card">
@@ -34,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
            <h4> Edit Equipment Details - ID : <?php echo $equipment->equipment_id; ?></h4>
         </div>
         <div class="card-body">
-            <form id="edit_equipment" action="<?= base_url('equipments/edit/').$equipment_id; ?>" method="POST">
+            <form id="edit_equipment" action="<?= base_url('equipments/edit/').$equipment_id; ?>" onsubmit="return validateForm()" method="POST">
                 <input type="hidden" name="form_for" value="update_equipment_details">
                 <div class="row">
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
@@ -92,7 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                        <label for="procured_by_party">Procured by</label>
+                        <label for="procured_by_party">Procured by <span class="star" style="color:red"> *</span></label>
                         <select name="procured_by_party" id="procured_by_party" placeholder="----------Select----------">
                         </select>
                     </div>
@@ -197,6 +200,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <button type="submit" class='btn btn-info btn-block'>Submit</button>                        
                     </div>
                 </div>
+                <?php if($logged_in) { ?>
+                <div class="row">
+                    <div class="col-md-6">
+                        <b> Created By :</b> <?php echo $equipment->created_user_first_name.' '.$equipment->created_user_last_name; echo ', '.date("d-M-Y h:i A", strtotime($equipment->equipment_created_datetime)); ?>
+                    </div>
+                    <div class="col-md-6">
+                        <b> Last Updated By :</b> <?php echo $equipment->last_updated_user_first_name.' '.$equipment->last_updated_user_last_name; echo ', '.date("d-M-Y h:i A", strtotime($equipment->equipment_last_updated_datetime)); ?>
+                    </div>
+                </div>
+            <?php } ?>
             </form>
         </div>
     </div>
@@ -398,5 +411,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             const {equipment_type_id ,equipment_type} = valueOfElement;
             $(`#${id}`).append($('<option></option>').val(equipment_type_id).html(equipment_type));
         });
+    }
+
+    function validateForm(){
+        if(!$("#procured_by_party").val()){
+            swal({
+                title: "Error",
+                text: "Please select procured by",
+                type: "error"
+            });
+            return false;
+        }
+        return true;
     }
 </script>
