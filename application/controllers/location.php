@@ -7,9 +7,10 @@ class Location extends CI_Controller {
         parent::__construct();
 		$this->load->model('master_model');
 		if($this->session->userdata('logged_in')){
+			$this->load->model('user_model');
 			$userdata = $this->session->userdata('logged_in');
 			$user_id = $userdata['user_id'];
-			$this->data['functions']=$this->master_model->user_function($user_id);
+			$this->data['functions']=$this->user_model->user_function($user_id);
 		}
 		$this->data['yousee_website'] = $this->master_model->get_defaults('yousee_website');
     }
