@@ -337,4 +337,24 @@ class Master_model extends CI_Model {
         $this->db->trans_complete(); //Transaction Ends
 		if($this->db->trans_status()===TRUE) return true; else return false; //if transaction completed successfully return true, else false.
     }
+
+    function get_equipment_location_history($equipment_id) {
+        $logged_in = $this->session->userdata('logged_in');
+        if(!$logged_in) {
+            $this->db->limit(1);
+        }
+        $this->db->select("equipment_location_log_id, equipment_location_log.equipment_id, party_name, location, address, state.state, district, delivery_date, equipment_location_log.note")
+            ->from("equipment_location_log")
+            ->join('equipment','equipment.equipment_id= equipment_location_log.equipment_id','left')
+            ->join('party','party.party_id= equipment_location_log.receiver_party_id','left')
+            ->join('location','location.location_id=equipment_location_log.location_id','left')
+            ->join('district','district.district_id=location.district_id','left')
+            ->join('state','state.state_id=district.state_id','left')
+            ->where('equipment_location_log.equipment_id',$equipment_id)
+            ->order_by('delivery_date', 'desc');
+            
+            $query = $this->db->get();
+            $result =  $query->result();
+            return $result;
+    }
 }
