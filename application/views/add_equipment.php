@@ -33,12 +33,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
            <h4> Add Equipment </h4>
         </div>
         <div class="card-body">
-            <form id="add_equipment" action="<?= base_url('equipments/add'); ?>" method="POST">
+            <form id="add_equipment" action="<?= base_url('equipments/add'); ?>" method="POST" onsubmit="return validateForm()">
                 <div class="row">
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="equipment_category">Equipment Category<span class="star" style="color:red"> *</span></label>
                         <select class="form-control" name="equipment_category" id="equipment_category" onchange="filter_equipment_type('equipment_category','equipment_type')" required>
-                            <option value="0" selected>----------Select----------</option>
+                            <option value="">Equipment Category</option>
                             <?php
                                 foreach($equipment_category as $r){ ?>
                                 <option value="<?php echo $r->id;?>"    
@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="equipment_type">Equipment Type<span class="star" style="color:red"> *</span></label>
                         <select class="form-control" name="equipment_type" id="equipment_type" required>
-                            <option value="0" selected>----------Select----------</option>
+                            <option value="">Equipment Type</option>
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
@@ -91,7 +91,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="procurement_status">Procurement status</label>
                         <select class="form-control" name="procurement_status" id="procurement_status">
-                            <option value="0" selected>Procurement status</option>
+                            <option value="" >Procurement status</option>
                             <?php
                                 foreach($equipment_procurement_status as $r){ ?>
                                 <option value="<?php echo $r->equipment_procurement_status_id;?>"    
@@ -263,5 +263,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             const {equipment_type_id ,equipment_type} = valueOfElement;
             $(`#${id}`).append($('<option></option>').val(equipment_type_id).html(equipment_type));
         });
+    }
+
+    function validateForm(){
+        if(!$("#procured_by_party").val()){
+            swal({
+                title: "Error",
+                text: "Please select procured by",
+                type: "error"
+            });
+            return false;
+        }
+        return true;
     }
 </script>
