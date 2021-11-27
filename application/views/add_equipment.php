@@ -84,7 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                        <label for="procured_by_party">Procured by</label>
+                        <label for="procured_by_party">Procured by <span class="star" style="color:red"> *</span></label>
                         <select name="procured_by_party" id="procured_by_party" placeholder="----------Select----------">
                         </select>
                     </div>
