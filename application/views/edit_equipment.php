@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         margin-top:2rem;
     }
     .card-header{
-        text-align:center;
+        text-align:left;
     }
     select{
         cursor: pointer;
@@ -27,20 +27,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
 
 </style>
+<?php 
+    $logged_in=$this->session->userdata('logged_in');
+?>
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/theme.default.css" >
 <div class="container">
     <div class="card">
         <div class="card-header bg-info text-white">
-           <h4> Edit Equipment Details</h4>
+           <h4> Edit Equipment Details - ID : <?php echo $equipment->equipment_id; ?></h4>
         </div>
         <div class="card-body">
-            <form id="edit_equipment" action="<?= base_url('equipments/edit/').$equipment_id; ?>" method="POST">
+            <form id="edit_equipment" action="<?= base_url('equipments/edit/').$equipment_id; ?>" onsubmit="return validateForm()" method="POST">
                 <input type="hidden" name="form_for" value="update_equipment_details">
                 <div class="row">
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="equipment_category">Equipment Category</label>
                         <select class="form-control" name="equipment_category" id="equipment_category" onchange="filter_equipment_type('equipment_category','equipment_type')" required>
-                            <option value="0" selected>----------Select----------</option>
+                            <option value="" selected>----------Select----------</option>
                             <?php
                                 foreach($equipment_category as $r){ ?>
                                 <option value="<?php echo $r->id;?>"    
@@ -52,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="equipment_type">Equipment Type</label>
                         <select class="form-control" name="equipment_type" id="equipment_type">
-                            <option value="0" selected>----------Select----------</option>
+                            <option value="" selected>----------Select----------</option>
                             <?php
                                 foreach($equipment_type as $r){ ?>
                                 <option value="<?php echo $r->equipment_type_id;?>"    
@@ -92,8 +95,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                        <label for="procured_by_party">Procured by</label>
+                        <label for="procured_by_party">Procured by <span class="star" style="color:red"> *</span></label>
                         <select name="procured_by_party" id="procured_by_party" placeholder="----------Select----------">
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="procurement_status">Procurement status</label>
+                        <select class="form-control" name="procurement_status" id="procurement_status">
+                            <option value="0" selected>Procurement status</option>
+                            <?php
+                                foreach($equipment_procurement_status as $r){ ?>
+                                <option value="<?php echo $r->equipment_procurement_status_id;?>"    
+                                <?php if($this->input->post('equipment_procurement_status') == $r->equipment_procurement_status_id || $equipment->procurement_status_id == $r->equipment_procurement_status_id ) echo " selected "; ?>
+                                ><?php echo $r->procurement_status;?></option>    
+                                <?php }  ?>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="procurement_type">Procurement type</label>
+                        <select class="form-control" name="procurement_type" id="procurement_type">
+                            <option value="0" selected>Procurement type</option>
+                            <?php
+                                foreach($equipment_procurement_type as $r){ ?>
+                                <option value="<?php echo $r->equipment_procurement_type_id;?>"    
+                                <?php if($this->input->post('equipment_procurement_type') == $r->equipment_procurement_type_id || $equipment->equipment_procurement_type_id == $r->equipment_procurement_type_id) echo " selected "; ?>
+                                ><?php echo $r->procurement_type;?></option>    
+                                <?php }  ?>
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
@@ -153,6 +180,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <label for="warranty_end_date">Warranty end date</label>
                         <input class="form-control" name="warranty_end_date" type="date" value="<?= $equipment->warranty_end_date; ?>" >
                     </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="functional_status">Functional Status</label>
+                        <select class="form-control" name="functional_status" id="functional_status">
+                            <option value="0" selected>Functional Status</option>
+                            <?php
+                                foreach($equipment_functional_status as $r){ ?>
+                                <option value="<?php echo $r->functional_status_id;?>"    
+                                <?php if($this->input->post('functional_status') == $r->functional_status_id || $equipment->functional_status_id == $r->functional_status_id ) echo " selected "; ?>
+                                ><?php echo $r->working_status;?></option>    
+                                <?php }  ?>
+                        </select>
+                    </div>
                     <div class="form-group col-md-6 col-lg-6 col-xs-12">
                         <label for="note">Note</label>
                         <textarea class="form-control" name="note" rows="1"><?= $equipment->note; ?></textarea>
@@ -161,6 +200,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <button type="submit" class='btn btn-info btn-block'>Submit</button>                        
                     </div>
                 </div>
+                <?php if($logged_in) { ?>
+                <div class="row">
+                    <div class="col-md-6">
+                        <b> Created By :</b> <?php echo $equipment->created_user_first_name.' '.$equipment->created_user_last_name; echo ', '.date("d-M-Y h:i A", strtotime($equipment->equipment_created_datetime)); ?>
+                    </div>
+                    <div class="col-md-6">
+                        <b> Last Updated By :</b> <?php echo $equipment->last_updated_user_first_name.' '.$equipment->last_updated_user_last_name; echo ', '.date("d-M-Y h:i A", strtotime($equipment->equipment_last_updated_datetime)); ?>
+                    </div>
+                </div>
+            <?php } ?>
             </form>
         </div>
     </div>
@@ -257,7 +306,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     $(function () {
         initDropdown('donor_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->donor_party_id;?>);
-        initDropdown('procured_by_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->procured_by_party_id;?>);
+        initDropdown('procured_by_party', '<?php echo json_encode($procured_by_parties); ?>', <?php echo $equipment->procured_by_party_id;?>);
         initDropdown('supplier_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->supplier_party_id;?>);
         initDropdown('manufactured_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->manufacturer_party_id;?>);
         initDropdown('receiver_party_id', '<?php echo json_encode($party); ?>');
@@ -362,5 +411,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             const {equipment_type_id ,equipment_type} = valueOfElement;
             $(`#${id}`).append($('<option></option>').val(equipment_type_id).html(equipment_type));
         });
+    }
+
+    function validateForm(){
+        if(!$("#procured_by_party").val()){
+            swal({
+                title: "Error",
+                text: "Please select procured by",
+                type: "error"
+            });
+            return false;
+        }
+        return true;
     }
 </script>

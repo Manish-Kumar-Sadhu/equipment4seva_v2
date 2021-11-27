@@ -31,6 +31,9 @@ class Equipments extends CI_Controller {
 		$this->data['equipment_type'] = $this->master_model->get_data('equipment_type');
 		$this->data['equipment_category'] = $this->master_model->get_data('equipment_category');
 		$this->data['location'] = $this->master_model->get_data('location');
+		$this->data['equipment_procurement_type'] = $this->master_model->get_data('equipment_procurement_type');
+		$this->data['equipment_procurement_status'] = $this->master_model->get_data('equipment_procurement_status');
+		$this->data['equipment_functional_status'] = $this->master_model->get_data('equipment_functional_status');
 		$this->data['equipment_location_history'] = $this->master_model->get_equipment_location_history($equipment_id);
 		$this->data['district'] = $this->master_model->get_data('district');
 		$this->data['journal_type'] = $this->master_model->get_data('journal_type');
@@ -59,6 +62,7 @@ class Equipments extends CI_Controller {
 				$this->data['equipment_category'] = $this->master_model->get_data('equipment_category');
 				$this->data['location'] = $this->master_model->get_data('location');
 				$this->data['party'] = $this->master_model->get_data('party');
+				$this->data['procured_by_parties'] = $this->master_model->get_procured_parties_of_user();
 				$this->data['equipment_procurement_type'] = $this->master_model->get_data('equipment_procurement_type');
 				$this->data['equipment_procurement_status'] = $this->master_model->get_data('equipment_procurement_status');
 				$this->data['equipment_functional_status'] = $this->master_model->get_data('equipment_functional_status');
@@ -68,9 +72,11 @@ class Equipments extends CI_Controller {
 					$this->load->view('add_equipment',$this->data);
 				} else {
 					if($this->master_model->add_equipment()){
+						$this->data['status']=200;
 						$this->data['msg']="Equipment added successfully";
 						$this->load->view('add_equipment',$this->data);
 					} else {
+						$this->data['status']=500;
 						$this->data['msg']="Error adding equipment. Please retry.";
 						$this->load->view('add_equipment',$this->data);
 					}
@@ -108,6 +114,7 @@ class Equipments extends CI_Controller {
 				$this->data['equipment_category'] = $this->master_model->get_data('equipment_category');
 				$this->data['locations'] = $this->master_model->get_data('location');
 				$this->data['party'] = $this->master_model->get_data('party');
+				$this->data['procured_by_parties'] = $this->master_model->get_procured_parties_of_user();
 				$this->data['equipment_procurement_type'] = $this->master_model->get_data('equipment_procurement_type');
 				$this->data['equipment_procurement_status'] = $this->master_model->get_data('equipment_procurement_status');
 				$this->data['equipment_functional_status'] = $this->master_model->get_data('equipment_functional_status');
@@ -156,6 +163,10 @@ class Equipments extends CI_Controller {
 		}  else{
 			show_404();
 		}
+	}
+
+	function list_parties(){
+		var_dump($this->master_model->get_procured_parties_by_user_id());
 	}
 
 }
