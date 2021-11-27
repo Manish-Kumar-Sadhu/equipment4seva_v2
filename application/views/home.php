@@ -75,7 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     .round-button{
         border-radius:100%;
         border: solid 1px;
-        margin-left:1.2rem
+        margin-left:15px;
     }
     select{
         cursor: pointer;
@@ -113,7 +113,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php
     //  fetching default party_id of loggedIn user
     if($this->session->userdata('logged_in')){
-        $default_party_id = $this->session->userdata('logged_in')['default_party_id'];
+        $user_party_ids =[];
+        foreach ($user_parties as $key => $value) {
+            array_push($user_party_ids, $value->party_id);
+        }
     }
     $to_date = $this->input->post('to_date');
     $from_date = $this->input->post('from_date');
@@ -302,6 +305,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <th style="text-align:center">Equipment Name</th>
                     <th style="text-align:center">Serial Number</th>
                     <th style="text-align:center">Current Location</th>
+                    <th style="text-align:center">District, State</th>
                     <th style="text-align:center">Invoice Date</th>
                     <th style="text-align:center">Details</th>
                 </tr>
@@ -316,10 +320,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td><?php echo $r->equipment_name; ?></td>
                         <td><?php echo $r->serial_number; ?></td>
                         <td><?php echo $r->location; ?></td>
+                        <td><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
                         <td style="text-align:center"><?php echo  date("d-M-Y", strtotime($r->invoice_date)); ?></td>
                         <td>
                             <button class="btn btn-info btn-sm round-button" onclick="show_equipment(<?=$r->equipment_id; ?>);"><i class='fa fa-external-link' aria-hidden='true'></i></button>
-                            <?php if($edit_equipment_access && $default_party_id==$r->procured_by_party_id){ ?>
+                            <?php if($edit_equipment_access && in_array($r->procured_by_party_id, $user_party_ids)){ ?>
                                 <button class="btn btn-info btn-sm round-button" onclick="update_equipment(<?=$r->equipment_id; ?>)"><i class='fa fa-pencil' aria-hidden='true'></i></button>
                             <?php } ?>
                         </td>
@@ -471,7 +476,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // use uitheme widget to apply defauly jquery ui (jui) class names
                 // see the uitheme demo for more details on how to change the class names
                 resizable:false,
-                resizable_widths: [ '5%', '10%', '20%','20%','20%','10%', '20%'],
+                resizable_widths: [ '5%', '10%', '15%','15%', '10%', '20%','10%', '20%'],
                 uitheme : 'jui'
             }
         };

@@ -57,6 +57,10 @@ class Master_model extends CI_Model {
             $this->db->select("*")->from("district");
             $this->db->order_by("district");
         }
+        else if($type=="state") {
+            $this->db->select("*")->from("state");
+            $this->db->order_by("state");
+        }
         $query=$this->db->get();
 		return $query->result();
     }
@@ -213,6 +217,8 @@ class Master_model extends CI_Model {
         $this->db->select("*")
                 ->from("equipment_location_log")
                 ->join('location','equipment_location_log.location_id=location.location_id','left')
+                ->join('district','district.district_id=location.district_id','left')
+                ->join('state','state.state_id=district.state_id','left')
                 ->where('equipment_id', $equipment_id)
                 ->order_by('delivery_date', 'desc')
                 ->limit(1);
@@ -294,16 +300,50 @@ class Master_model extends CI_Model {
 		if($this->db->trans_status()===TRUE) return true; else return false; //if transaction completed successfully return true, else false.
     }
 
-    //user_function() takes user ID as parameter and returns a list of all the functions the user has access to.
-	function user_function($user_id){
-		$this->db->select('user_function_id,user_function,add,edit,view,remove')
-            ->from('user')
-            ->join('user_function_link','user.user_id=user_function_link.user_id')
-            ->join('user_function','user_function_link.function_id=user_function.user_function_id')
-            ->where('user_function_link.user_id',$user_id)
-            ->where('user_function_link.active','1');
-		$query=$this->db->get();
-		
-		return $query->result();
-	}
+    function add_location() {
+        $data = array(
+            'location'=>$this->input->post('location'),
+            'district_id'=>$this->input->post('district'),
+        );
+        $this->db->trans_start(); //Transaction begins
+        $this->db->insert('location',$data); //Insert 
+        $this->db->trans_complete(); //Transaction Ends
+		if($this->db->trans_status()===TRUE) return true; else return false; //if transaction completed successfully return true, else false.
+    }
+
+    function add_equipment_location_log($equipment_id) {
+        $data = array(
+            'equipment_id'=>$equipment_id,
+            'receiver_party_id'=>$this->input->post('receiver_party_id'),
+            'location_id'=>$this->input->post('location'),
+            'address'=>$this->input->post('address'),
+            'delivery_date'=>$this->input->post('delivery_date'),
+            'note'=>$this->input->post('note'),
+            'created_by'=>$this->session->userdata('logged_in')['user_id'],
+        );
+        $this->db->trans_start(); //Transaction begins
+        $this->db->insert('equipment_location_log',$data); //Insert 
+        $this->db->trans_complete(); //Transaction Ends
+		if($this->db->trans_status()===TRUE) return true; else return false; //if transaction completed successfully return true, else false.
+    }
+
+    function get_equipment_location_history($equipment_id) {
+        $logged_in = $this->session->userdata('logged_in');
+        if(!$logged_in) {
+            $this->db->limit(1);
+        }
+        $this->db->select("equipment_location_log_id, equipment_location_log.equipment_id, party_name, location, address, state.state, district, delivery_date, equipment_location_log.note")
+            ->from("equipment_location_log")
+            ->join('equipment','equipment.equipment_id= equipment_location_log.equipment_id','left')
+            ->join('party','party.party_id= equipment_location_log.receiver_party_id','left')
+            ->join('location','location.location_id=equipment_location_log.location_id','left')
+            ->join('district','district.district_id=location.district_id','left')
+            ->join('state','state.state_id=district.state_id','left')
+            ->where('equipment_location_log.equipment_id',$equipment_id)
+            ->order_by('delivery_date', 'desc');
+            
+            $query = $this->db->get();
+            $result =  $query->result();
+            return $result;
+    }
 }
