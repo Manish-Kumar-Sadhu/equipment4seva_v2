@@ -217,6 +217,19 @@ class Master_model extends CI_Model {
         }
     }
 
+    function get_procured_parties_by_user_id(){
+        $user_id =$this->session->userdata('logged_in')['user_id'];
+        $this->db->select('party.party_id, party_name')
+            ->from('party')
+            ->join('user_party_link', 'user_party_link.party_id=party.party_id', 'left')
+            ->where('user_id',$user_id)
+            ->order_by('party_name', 'desc');
+
+        $query = $this->db->get();
+        $result =  $query->result();
+        return $result;
+    }
+
     function get_equipment_current_location($equipment_id){
         $this->db->select("*")
                 ->from("equipment_location_log")
