@@ -4,6 +4,11 @@
   </div>
 </footer>
     <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+    <script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+    </script>
     <script src="<?php echo base_url();?>assets/js/jquery.min.js"></script>
     <script src="<?php echo base_url();?>assets/js/jquery.selectize.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.tablesorter.js"></script>
