@@ -29,6 +29,8 @@ class Home extends CI_Controller {
 		foreach ($equipment_data as $key => $value) {
 			$location = $this->master_model->get_equipment_current_location($value->equipment_id);
 			$value->location = $location ? $location->location : '------';
+			$value->state = $location ? $location->state : '';
+			$value->district = $location ? $location->district : '';
 		}
 		$this->data['equipment_data']=$equipment_data;
 		$this->data['equipment_count'] = $this->master_model->get_equipment_count();
@@ -100,7 +102,6 @@ class Home extends CI_Controller {
 				'user_id' => $result->user_id,
 				'username' => $result->username,
 				'email'=>$result->email,
-				'default_party_id'=>$result->default_party_id
 				);
 			$this->session->set_userdata('logged_in', $sess_array);
 			return TRUE;

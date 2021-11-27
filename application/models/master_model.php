@@ -217,6 +217,8 @@ class Master_model extends CI_Model {
         $this->db->select("*")
                 ->from("equipment_location_log")
                 ->join('location','equipment_location_log.location_id=location.location_id','left')
+                ->join('district','district.district_id=location.district_id','left')
+                ->join('state','state.state_id=district.state_id','left')
                 ->where('equipment_id', $equipment_id)
                 ->order_by('delivery_date', 'desc')
                 ->limit(1);
