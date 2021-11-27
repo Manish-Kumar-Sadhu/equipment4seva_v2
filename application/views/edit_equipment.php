@@ -28,12 +28,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 </style>
 <div class="container">
-<div class="card">
+    <div class="card">
         <div class="card-header bg-info text-white">
-           <h4> Edit Equipment </h4>
+           <h4> Edit Equipment Details</h4>
         </div>
         <div class="card-body">
             <form id="edit_equipment" action="<?= base_url('equipments/edit/').$equipment_id; ?>" method="POST">
+                <input type="hidden" name="form_for" value="update_equipment_details">
                 <div class="row">
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="equipment_category">Equipment Category</label>
@@ -162,6 +163,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </form>
         </div>
     </div>
+    <div class="card">
+        <div class="card-header bg-info text-white">
+            <h4>Location Information</h4>
+        </div>
+        <div class="card-body">
+            <form id="add_location" action="<?=  base_url('equipments/edit/').$equipment_id; ?>" method="POST">
+                <input type="hidden" name="form_for" value="add_equipment_location_log">
+                <div class="row">
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="location">Locations<span class="star" style="color:red"> *</span></label>
+                        <select class="form-control" name="location" id="location" required>
+                            <option value="0" selected>----------Select----------</option>
+                            <?php
+                                foreach($locations as $r){ ?>
+                                <option value="<?php echo $r->location_id;?>"    
+                                <?php if($this->input->post('location') == $r->location_id) echo " selected "; ?>
+                                ><?php echo $r->location;?></option>    
+                                <?php }  ?>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="receiver_party_id">Receiver party<span class="star" style="color:red"> *</span></label>
+                        <select name="receiver_party_id" id="receiver_party_id" placeholder="Receiver party">
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="address">Address</label>
+                        <input class="form-control" name="address" type="text">
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="delivery_date">Delivery Date<span class="star" style="color:red"> *</span></label>
+                        <input class="form-control" name="delivery_date" type="date">
+                    </div>
+                    <div class="form-group col-md-6 col-lg-6 col-xs-12">
+                        <label for="note">Note</label>
+                        <textarea class="form-control" name="note" rows="1"></textarea>
+                    </div>
+                    <div class="form-group col-md-6 col-lg-6 col-xs-12" style="margin-top:2rem;">
+                        <button type="submit" class='btn btn-info '>Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -184,6 +229,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         initDropdown('procured_by_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->procured_by_party_id;?>);
         initDropdown('supplier_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->supplier_party_id;?>);
         initDropdown('manufactured_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->manufacturer_party_id;?>);
+        initDropdown('receiver_party_id', '<?php echo json_encode($party); ?>');
 
         filter_equipment_type('equipment_category','equipment_type');
     });

@@ -98,27 +98,43 @@ class Equipments extends CI_Controller {
 				$this->data['equipment_id'] = $equipment_id;
 				$this->data['equipment_type'] = $this->master_model->get_data('equipment_type');
 				$this->data['equipment_category'] = $this->master_model->get_data('equipment_category');
-				$this->data['location'] = $this->master_model->get_data('location');
+				$this->data['locations'] = $this->master_model->get_data('location');
 				$this->data['party'] = $this->master_model->get_data('party');
 				$this->data['equipment_procurement_type'] = $this->master_model->get_data('equipment_procurement_type');
 				$this->data['equipment_procurement_status'] = $this->master_model->get_data('equipment_procurement_status');
 				$this->data['equipment_functional_status'] = $this->master_model->get_data('equipment_functional_status');
 				$this->data['journal_type'] = $this->master_model->get_data('journal_type');
-				$this->data['party'] = $this->master_model->get_data('party');
 				$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
-				$this->form_validation->set_rules('equipment_name','equipment_name','required');
-				if ($this->form_validation->run() === FALSE) {
+				if($this->input->post('form_for')== 'update_equipment_details') {
+					$this->form_validation->set_rules('equipment_name','equipment_name','required');
+				} else if($this->input->post('form_for') == 'add_equipment_location_log'){
+					$this->form_validation->set_rules('location','location','required');
+				}
+				if ($this->form_validation->run() == FALSE) {
 					$this->load->view('edit_equipment',$this->data);
 				} else {
-					if($this->master_model->update_equipment($equipment_id)){
-						$this->data['msg']="Equipment updated successfully";
-						$this->data['status']=200;
-						$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
-						$this->load->view('edit_equipment',$this->data);
-					} else {
-						$this->data['msg']="Error updating equipment. Please retry.";
-						$this->data['status']=500;
-						$this->load->view('edit_equipment',$this->data);
+					if($this->input->post('form_for') == 'update_equipment_details'){
+						if($this->master_model->update_equipment($equipment_id)){
+							$this->data['msg']="Equipment updated successfully";
+							$this->data['status']=200;
+							$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
+							$this->load->view('edit_equipment',$this->data);
+						} else {
+							$this->data['msg']="Error updating equipment. Please retry.";
+							$this->data['status']=500;
+							$this->load->view('edit_equipment',$this->data);
+						}
+					} else if($this->input->post('form_for') == 'add_equipment_location_log'){
+						if($this->master_model->add_equipment_location_log($equipment_id)){
+							$this->data['msg']="Equipment location log added successfully";
+							$this->data['status']=200;
+							$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
+							$this->load->view('edit_equipment',$this->data);
+						} else {
+							$this->data['msg']="Error adding equipment's location log. Please retry.";
+							$this->data['status']=500;
+							$this->load->view('edit_equipment',$this->data);
+						}
 					}
 				}
 				$this->load->view('templates/footer' ,$this->data);
@@ -130,7 +146,4 @@ class Equipments extends CI_Controller {
 		}
 	}
 
-	function location($id){
-		var_dump( $this->master_model->get_equipment_current_location($id));
-	}
 }
