@@ -43,7 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="equipment_category">Equipment Category</label>
                         <select class="form-control" name="equipment_category" id="equipment_category" onchange="filter_equipment_type('equipment_category','equipment_type')" required>
-                            <option value="0" selected>----------Select----------</option>
+                            <option value="" selected>----------Select----------</option>
                             <?php
                                 foreach($equipment_category as $r){ ?>
                                 <option value="<?php echo $r->id;?>"    
@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="equipment_type">Equipment Type</label>
                         <select class="form-control" name="equipment_type" id="equipment_type">
-                            <option value="0" selected>----------Select----------</option>
+                            <option value="" selected>----------Select----------</option>
                             <?php
                                 foreach($equipment_type as $r){ ?>
                                 <option value="<?php echo $r->equipment_type_id;?>"    
