@@ -150,7 +150,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="installation_date">Installation date</label>
-                        <input class="form-control" name="installation_date" type="date">
+                        <input class="form-control" name="installation_date" type="date" value="<?= $equipment->installation_date; ?>">
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="journal_type">Journal Type</label>
