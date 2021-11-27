@@ -17,3 +17,9 @@ ALTER TABLE `equipment_location_log` CHANGE `created_datetime` `created_datetime
 ---
 
 ALTER TABLE `equipment` CHANGE `created_datetime` `created_datetime` DATETIME NULL DEFAULT CURRENT_TIMESTAMP;
+
+--
+-- new user function for equipment_location
+--
+INSERT INTO `user_function` (`user_function_id`, `user_function`, `user_function_display`, `description`) 
+VALUES (NULL, 'equipment_location', 'Equipment Location', '');
