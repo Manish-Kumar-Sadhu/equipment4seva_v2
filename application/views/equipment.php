@@ -21,15 +21,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/theme.default.css" >
 <?php
     $logged_in=$this->session->userdata('logged_in');
+    if($this->session->userdata('logged_in')){
+        $user_party_ids =[];
+        foreach ($user_parties as $key => $value) {
+            array_push($user_party_ids, $value->party_id);
+        }
+    }
 ?>
 <div class="container">
     <div class="card">
         <div class="card-header bg-info text-white">
             <div class="row">
-                <div class="col-md-<?php echo $logged_in ? '10' : '12'; ?>">
+                <div class="col-md-<?php echo ($logged_in && in_array($equipment->procured_by_party_id, $user_party_ids))  ? '10' : '12'; ?>">
                     <h4>  Equipment Details </h4>
                 </div> 
-                <?php if($logged_in) { ?>   
+                <?php if($logged_in && in_array($equipment->procured_by_party_id, $user_party_ids) ) { ?>   
                     <div class="col-md-2" style="padding:5px;">
                         <button class="btn btn-light round-button" onclick="update_equipment('<?= $equipment->equipment_id; ?>')" ><i class='fa fa-pencil' aria-hidden='true'></i></button> 
                         <button class="btn btn-light round-button"><i class='fa fa-trash' aria-hidden='true'></i></button> 
@@ -215,7 +221,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <thead>
                     <tr>
                         <th style="text-align:center">#</th>
-                        <th style="text-align:center">Received By</th>
+                        <th style="text-align:center">With</th>
                         <th style="text-align:center">Location</th>
                         <th style="text-align:center">District, State</th>
                         <th style="text-align:center">Delivery date</th>

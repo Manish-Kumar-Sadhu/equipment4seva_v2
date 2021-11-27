@@ -173,7 +173,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <thead>
                     <tr>
                         <th style="text-align:center">#</th>
-                        <th style="text-align:center">At</th>
+                        <th style="text-align:center">With</th>
                         <th style="text-align:center">Location</th>
                         <th style="text-align:center">District, State</th>
                         <th style="text-align:center">Delivery date</th>
@@ -223,7 +223,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="delivery_date">Delivery Date<span class="star" style="color:red"> *</span></label>
-                        <input class="form-control" name="delivery_date" type="date">
+                        <input class="form-control" name="delivery_date" type="date" max="<?php echo date("Y-m-d") ?>" >
                     </div>
                     <div class="form-group col-md-6 col-lg-6 col-xs-12">
                         <label for="note">Note</label>
