@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         margin-top:2rem;
     }
     .card-header{
-        text-align:center;
+        text-align:left;
     }
     select{
         cursor: pointer;
@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="container">
     <div class="card">
         <div class="card-header bg-info text-white">
-           <h4> Edit Equipment Details</h4>
+           <h4> Edit Equipment Details - ID : <?php echo $equipment->equipment_id; ?></h4>
         </div>
         <div class="card-body">
             <form id="edit_equipment" action="<?= base_url('equipments/edit/').$equipment_id; ?>" method="POST">
