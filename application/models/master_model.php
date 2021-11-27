@@ -194,6 +194,7 @@ class Master_model extends CI_Model {
         $this->db->select(
                     "equipment_id, equipment_name, equipment.equipment_type_id, equipment_category_id, equipment_type, procurement_type, model, serial_number, mac_address, asset_number,purchase_order_date, 
                     donor_party_id, procured_by_party_id, supplier_party_id, manufacturer_party_id, cost, invoice_number, invoice_date, supply_date, installation_date, warranty_start_date, warranty_end_date,
+                    procurement_status_id, equipment.equipment_procurement_type_id, equipment.functional_status_id,
                     created_by, created_datetime, updated_by, updated_datetime, equipment_category, working_status as functional_status, procurement_status, equipment.journal_type_id,journal_type, journal_number, journal_date,note")
             ->from("equipment")
             ->join('equipment_type','equipment_type.equipment_type_id=equipment.equipment_type_id','left')
@@ -290,7 +291,10 @@ class Master_model extends CI_Model {
             'warranty_end_date'=>$this->input->post('warranty_end_date'),
             'journal_type_id'=>$this->input->post('journal_type'),
             'journal_number'=>$this->input->post('journal_number'),
+            'procurement_status_id'=>$this->input->post('procurement_status'),
             'journal_date'=>$this->input->post('journal_date'),
+            'equipment_procurement_type_id'=>$this->input->post('procurement_type'),
+            'functional_status_id'=>$this->input->post('functional_status'),
             'note'=>$this->input->post('note'),
             'updated_by'=>$this->session->userdata('logged_in')['user_id'],
             'updated_datetime'=>date("Y-m-d H:i:s")
