@@ -159,4 +159,13 @@ class User_model extends CI_Model {
 		
 		return $query->result();
 	}
+
+    // get all parites user associated with
+    function user_parties($user_id) {
+        $this->db->select('party_id, is_default_party')
+            ->from('user_party_link');
+		$query=$this->db->get();
+		
+		return $query->result();
+    }
 }

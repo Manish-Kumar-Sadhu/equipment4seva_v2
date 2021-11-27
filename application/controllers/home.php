@@ -11,6 +11,7 @@ class Home extends CI_Controller {
 			$userdata = $this->session->userdata('logged_in');
 			$user_id = $userdata['user_id'];
 			$this->data['functions']=$this->user_model->user_function($user_id);
+			$this->data['user_parties']=$this->user_model->user_parties($user_id);
 		}
 		$this->data['yousee_website'] = $this->master_model->get_defaults('yousee_website');
     }
