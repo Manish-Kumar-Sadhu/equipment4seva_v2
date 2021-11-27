@@ -86,11 +86,16 @@ class Equipments extends CI_Controller {
 
 	function edit($equipment_id){
 		if($this->session->userdata('logged_in')){
-			$edit_equipment_access=0; 
+			$edit_equipment_access=0;
+			$add_equipment_location=0;
 			foreach($this->data['functions'] as $f){
 				if($f->user_function=="equipment"){ 
 					if($f->edit)
 						$edit_equipment_access=1;  	
+				}	
+				if($f->user_function=="equipment_location"){ 
+					if($f->add)
+						$add_equipment_location=1;  	
 				}	
 			}
 			if($edit_equipment_access){
@@ -109,6 +114,7 @@ class Equipments extends CI_Controller {
 				$this->data['equipment_location_history'] = $this->master_model->get_equipment_location_history($equipment_id);
 				$this->data['journal_type'] = $this->master_model->get_data('journal_type');
 				$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
+				$this->data['add_equipment_location'] = $add_equipment_location;
 				if($this->input->post('form_for')== 'update_equipment_details') {
 					$this->form_validation->set_rules('equipment_name','equipment_name','required');
 				} else if($this->input->post('form_for') == 'add_equipment_location_log'){

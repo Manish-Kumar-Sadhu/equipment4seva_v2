@@ -196,6 +196,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </tbody>
             </table>
         </div>
+        <?php if($add_equipment_location) { ?>
         <div class="card-body">
             <form id="add_location" action="<?=  base_url('equipments/edit/').$equipment_id; ?>" method="POST">
                 <input type="hidden" name="form_for" value="add_equipment_location_log">
@@ -235,6 +236,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </form>
         </div>
+        <?php } ?>
     </div>
 </div>
 
