@@ -321,4 +321,20 @@ class Master_model extends CI_Model {
         $this->db->trans_complete(); //Transaction Ends
 		if($this->db->trans_status()===TRUE) return true; else return false; //if transaction completed successfully return true, else false.
     }
+
+    function add_equipment_location_log($equipment_id) {
+        $data = array(
+            'equipment_id'=>$equipment_id,
+            'receiver_party_id'=>$this->input->post('receiver_party_id'),
+            'location_id'=>$this->input->post('location'),
+            'address'=>$this->input->post('address'),
+            'delivery_date'=>$this->input->post('delivery_date'),
+            'note'=>$this->input->post('note'),
+            'created_by'=>$this->session->userdata('logged_in')['user_id'],
+        );
+        $this->db->trans_start(); //Transaction begins
+        $this->db->insert('equipment_location_log',$data); //Insert 
+        $this->db->trans_complete(); //Transaction Ends
+		if($this->db->trans_status()===TRUE) return true; else return false; //if transaction completed successfully return true, else false.
+    }
 }
