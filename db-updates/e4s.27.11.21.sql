@@ -23,3 +23,8 @@ ALTER TABLE `equipment` CHANGE `created_datetime` `created_datetime` DATETIME NU
 --
 INSERT INTO `user_function` (`user_function_id`, `user_function`, `user_function_display`, `description`) 
 VALUES (NULL, 'equipment_location', 'Equipment Location', '');
+
+---
+--- Altering functional_status_id data type in equipment table
+---
+ALTER TABLE `equipment` CHANGE `functional_status_id` `functional_status_id` INT(11) NULL DEFAULT NULL;
