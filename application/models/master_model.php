@@ -254,10 +254,12 @@ class Master_model extends CI_Model {
             'warranty_end_date'=>$this->input->post('warranty_end_date'),
             'journal_type_id'=>$this->input->post('journal_type'),
             'journal_number'=>$this->input->post('journal_number'),
+            'procurement_status_id'=>$this->input->post('procurement_status'),
             'journal_date'=>$this->input->post('journal_date'),
+            'equipment_procurement_type_id'=>$this->input->post('procurement_type'),
+            'functional_status_id'=>$this->input->post('functional_status'),
             'note'=>$this->input->post('note'),
-            'created_by'=>$this->session->userdata('logged_in')['user_id'],
-            'created_datetime'=>date("Y-m-d H:i:s")
+            'created_by'=>$this->session->userdata('logged_in')['user_id']
         );
 
         $this->db->trans_start(); //Transaction begins

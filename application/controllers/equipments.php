@@ -68,9 +68,11 @@ class Equipments extends CI_Controller {
 					$this->load->view('add_equipment',$this->data);
 				} else {
 					if($this->master_model->add_equipment()){
+						$this->data['status']=200;
 						$this->data['msg']="Equipment added successfully";
 						$this->load->view('add_equipment',$this->data);
 					} else {
+						$this->data['status']=500;
 						$this->data['msg']="Error adding equipment. Please retry.";
 						$this->load->view('add_equipment',$this->data);
 					}

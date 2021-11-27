@@ -89,6 +89,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="procurement_status">Procurement status</label>
+                        <select class="form-control" name="procurement_status" id="procurement_status">
+                            <option value="0" selected>Procurement status</option>
+                            <?php
+                                foreach($equipment_procurement_status as $r){ ?>
+                                <option value="<?php echo $r->equipment_procurement_status_id;?>"    
+                                <?php if($this->input->post('equipment_procurement_status') == $r->equipment_procurement_status_id) echo " selected "; ?>
+                                ><?php echo $r->procurement_status;?></option>    
+                                <?php }  ?>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="procurement_type">Procurement type</label>
+                        <select class="form-control" name="procurement_type" id="procurement_type">
+                            <option value="0" selected>Procurement type</option>
+                            <?php
+                                foreach($equipment_procurement_type as $r){ ?>
+                                <option value="<?php echo $r->equipment_procurement_type_id;?>"    
+                                <?php if($this->input->post('equipment_procurement_type') == $r->equipment_procurement_type_id) echo " selected "; ?>
+                                ><?php echo $r->procurement_type;?></option>    
+                                <?php }  ?>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="donor_party">Donor</label>
                         <select  name="donor_party" id="donor_party" placeholder="----------Select----------" >
                         </select>
@@ -145,6 +169,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <label for="warranty_end_date">Warranty end date</label>
                         <input class="form-control" name="warranty_end_date" type="date">
                     </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="functional_status">Functional Status</label>
+                        <select class="form-control" name="functional_status" id="functional_status">
+                            <option value="0" selected>Functional Status</option>
+                            <?php
+                                foreach($equipment_functional_status as $r){ ?>
+                                <option value="<?php echo $r->functional_status_id;?>"    
+                                <?php if($this->input->post('functional_status') == $r->functional_status_id) echo " selected "; ?>
+                                ><?php echo $r->working_status;?></option>    
+                                <?php }  ?>
+                        </select>
+                    </div>
                     <div class="form-group col-md-6 col-lg-6 col-xs-12">
                         <label for="note">Note</label>
                         <textarea class="form-control" name="note" rows="1"></textarea>
@@ -159,6 +195,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <script>
+
+    <?php if(isset($status)) { ?>
+        const status = <?php echo $status; ?>;
+        const msg= '<?php echo $msg; ?>';
+    <?php } ?>
+    
+    if(status==200){
+        swal({
+            title: "Success",
+            text: msg,
+            type: "success",
+            timer: 2000
+        });
+    }
+
 
     $(function () {
         initDropdown('donor_party', '<?php echo json_encode($party); ?>');
