@@ -217,7 +217,7 @@ class Master_model extends CI_Model {
         }
     }
 
-    function get_procured_parties_by_user_id(){
+    function get_procured_parties_of_user(){
         $user_id =$this->session->userdata('logged_in')['user_id'];
         $this->db->select('party.party_id, party_name')
             ->from('party')

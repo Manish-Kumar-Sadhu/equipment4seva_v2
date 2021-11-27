@@ -306,7 +306,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     $(function () {
         initDropdown('donor_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->donor_party_id;?>);
-        initDropdown('procured_by_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->procured_by_party_id;?>);
+        initDropdown('procured_by_party', '<?php echo json_encode($procured_by_parties); ?>', <?php echo $equipment->procured_by_party_id;?>);
         initDropdown('supplier_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->supplier_party_id;?>);
         initDropdown('manufactured_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->manufacturer_party_id;?>);
         initDropdown('receiver_party_id', '<?php echo json_encode($party); ?>');
