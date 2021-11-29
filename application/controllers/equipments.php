@@ -197,8 +197,4 @@ class Equipments extends CI_Controller {
 		}
 	}
 
-	function list_parties(){
-		var_dump($this->master_model->get_procured_parties_by_user_id());
-	}
-
 }
