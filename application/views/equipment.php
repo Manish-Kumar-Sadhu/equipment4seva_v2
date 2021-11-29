@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="row">
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="equipment_category">Equipment Category</label>
-                    <select class="form-control" name="equipment_category" id="equipment_category" onchange="filter_equipment_type('equipment_category','equipment_type')" required>
+                    <select class="form-control" name="equipment_category" id="equipment_category" disabled>
                         <?php
                             foreach($equipment_category as $r){ ?>
                             <option value="<?php echo $r->id;?>"    
@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="equipment_type">Equipment Type</label>
-                    <select class="form-control" name="equipment_type" id="equipment_type">
+                    <select class="form-control" name="equipment_type" id="equipment_type" disabled>
                         <?php
                             foreach($equipment_type as $r){ ?>
                             <option value="<?php echo $r->equipment_type_id;?>"    
@@ -72,42 +72,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="equipment_name">Equipment Name<span class="star" style="color:red"> *</span></label>
-                    <input class="form-control" name="equipment_name" type="text" value="<?= $equipment->equipment_name; ?>" required >
+                    <input class="form-control" name="equipment_name" type="text" value="<?= $equipment->equipment_name; ?>" disabled >
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="model">Model</label>
-                    <input class="form-control" name="model" value="<?= $equipment->model; ?>" type="text" >
+                    <input class="form-control" name="model" value="<?= $equipment->model; ?>" type="text" disabled >
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="manufactured_party">Manufacturer</label>
-                    <select name="manufactured_party" id="manufactured_party" placeholder="----------Select----------">
+                    <select name="manufactured_party" id="manufactured_party" placeholder="----------Select----------" disabled>
                     </select>
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="serial_number">Serial Number</label>
-                    <input class="form-control" name="serial_number" type="text" value="<?= $equipment->serial_number; ?>" >
+                    <input class="form-control" name="serial_number" type="text" value="<?= $equipment->serial_number; ?>" disabled >
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="mac_address">Mac address</label>
-                    <input class="form-control" name="mac_address" type="text" value="<?= $equipment->mac_address; ?>" >
+                    <input class="form-control" name="mac_address" type="text" value="<?= $equipment->mac_address; ?>" disabled>
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="asset_number">Asset Number</label>
-                    <input class="form-control" name="asset_number" type="text" value="<?= $equipment->asset_number; ?>" >
+                    <input class="form-control" name="asset_number" type="text" value="<?= $equipment->asset_number; ?>" disabled>
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="supplier_party">Supplier</label>
-                    <select name="supplier_party" id="supplier_party" placeholder="----------Select----------">
+                    <select name="supplier_party" id="supplier_party" placeholder="----------Select----------" disabled>
                     </select>
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="procured_by_party">Procured by</label>
-                    <select name="procured_by_party" id="procured_by_party" placeholder="----------Select----------">
+                    <select name="procured_by_party" id="procured_by_party" placeholder="----------Select----------" disabled>
                     </select>
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="procurement_status">Procurement status</label>
-                    <select class="form-control" name="procurement_status" id="procurement_status">
+                    <select class="form-control" name="procurement_status" id="procurement_status" disabled>
                         <option value="0" selected>Procurement status</option>
                         <?php
                             foreach($equipment_procurement_status as $r){ ?>
@@ -119,7 +119,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="procurement_type">Procurement type</label>
-                    <select class="form-control" name="procurement_type" id="procurement_type">
+                    <select class="form-control" name="procurement_type" id="procurement_type" disabled>
                         <option value="0" selected>Procurement type</option>
                         <?php
                             foreach($equipment_procurement_type as $r){ ?>
@@ -131,39 +131,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="donor_party">Donor</label>
-                    <select  name="donor_party" id="donor_party" placeholder="----------Select----------" >
+                    <select  name="donor_party" id="donor_party" placeholder="----------Select----------" disabled >
                     </select>
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="purchase_order_date">Purchase order date</label>
-                    <input class="form-control" name="purchase_order_date" type="date" value="<?= $equipment->purchase_order_date; ?>" >
+                    <input class="form-control" name="purchase_order_date" type="date" value="<?= $equipment->purchase_order_date; ?>" disabled >
                 </div>
                 <?php if($logged_in) { ?>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="cost">Cost</label>
-                        <input class="form-control" name="cost" type="number" value="<?= $equipment->cost; ?>" >
+                        <input class="form-control" name="cost" type="number" value="<?= $equipment->cost; ?>" disabled >
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="invoice_number">Invoice Number</label>
-                        <input class="form-control" name="invoice_number" type="text" value="<?= $equipment->invoice_number; ?>" >
+                        <input class="form-control" name="invoice_number" type="text" value="<?= $equipment->invoice_number; ?>" disabled >
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="invoice_date">Invoice date</label>
-                        <input class="form-control" name="invoice_date" type="date" value="<?= $equipment->invoice_date; ?>" >
+                        <input class="form-control" name="invoice_date" type="date" value="<?= $equipment->invoice_date; ?>" disabled >
                     </div>
                 <?php } ?>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="supply_date">Supply date</label>
-                    <input class="form-control" name="supply_date" type="date" value="<?= $equipment->supply_date; ?>" >
+                    <input class="form-control" name="supply_date" type="date" value="<?= $equipment->supply_date; ?>" disabled >
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="installation_date">Installation date</label>
-                    <input class="form-control" name="installation_date" type="date" value="<?= $equipment->installation_date; ?>" >
+                    <input class="form-control" name="installation_date" type="date" value="<?= $equipment->installation_date; ?>" disabled >
                 </div>
                 <?php if($logged_in) { ?>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="journal_type">Journal Type</label>
-                        <select class="form-control" name="journal_type" id="journal_type">
+                        <select class="form-control" name="journal_type" id="journal_type" disabled >
                             <option value="0" selected>----------Select----------</option>
                             <?php
                                 foreach($journal_type as $r){ ?>
@@ -175,20 +175,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="journal_number">Journal Number</label>
-                        <input class="form-control" name="journal_number" type="text" value="<?= $equipment->journal_number; ?>" >
+                        <input class="form-control" name="journal_number" type="text" value="<?= $equipment->journal_number; ?>" disabled >
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="journal_date">Journal date</label>
-                        <input class="form-control" name="journal_date" type="date" value="<?= $equipment->journal_date; ?>" >
+                        <input class="form-control" name="journal_date" type="date" value="<?= $equipment->journal_date; ?>" disabled>
                     </div>
                 <?php } ?>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="warranty_start_date">Warranty start date</label>
-                    <input class="form-control" name="warranty_start_date" type="date" value="<?= $equipment->warranty_start_date; ?>" >
+                    <input class="form-control" name="warranty_start_date" type="date" value="<?= $equipment->warranty_start_date; ?>" disabled>
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="warranty_end_date">Warranty end date</label>
-                    <input class="form-control" name="warranty_end_date" type="date" value="<?= $equipment->warranty_end_date; ?>" >
+                    <input class="form-control" name="warranty_end_date" type="date" value="<?= $equipment->warranty_end_date; ?>" disabled>
                 </div>
                 <!-- <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="last_procured_by">Last procured by</label>
@@ -230,7 +230,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?php } ?> -->
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="functional_status">Functional Status</label>
-                    <select class="form-control" name="functional_status" id="functional_status">
+                    <select class="form-control" name="functional_status" id="functional_status" disabled>
                         <option value="0" selected>Functional Status</option>
                         <?php
                             foreach($equipment_functional_status as $r){ ?>
@@ -240,10 +240,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <?php }  ?>
                     </select>
                 </div>
-                <div class="form-group col-md-6 col-lg-6 col-xs-12">
-                    <label for="note">Note</label>
-                    <textarea class="form-control" name="note" rows="1"><?= $equipment->note; ?></textarea>
-                </div>
+                <?php if($logged_in) { ?>
+                    <div class="form-group col-md-6 col-lg-6 col-xs-12">
+                        <label for="note">Note</label>
+                        <textarea class="form-control" name="note" rows="1" disabled><?= $equipment->note; ?></textarea>
+                    </div>
+                <?php } ?>
             </div>
             <?php if($logged_in) { ?>
                 <div class="row">
@@ -257,53 +259,55 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <?php } ?>
         </div>
     </div>
-    <div class="card">
-        <div class="card-header bg-info text-white">
-            <div class="row">
-                <div class="col-md-12">
-                    <h4>  Equipmet Location </h4>
+    <?php if($logged_in) { ?>
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>  Equipmet Location </h4>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="card-body">
-            <table id="table-sort" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th style="text-align:center">#</th>
-                        <th style="text-align:center">With</th>
-                        <th style="text-align:center">Location</th>
-                        <th style="text-align:center">District, State</th>
-                        <th style="text-align:center">Delivery date</th>
-                        <?php if($logged_in) { ?>
-                            <th style="text-align:center">Note</th>
-                        <?php }  ?> 
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                        $i=1;
-                        foreach($equipment_location_history as $r){ ?>
+            <div class="card-body">
+                <table id="table-sort" class="table table-bordered table-striped">
+                    <thead>
                         <tr>
-                            <td><?php echo $i++; ?></td>
-                            <td><?php echo $r->party_name; ?></td>
-                            <td><?php echo $r->location;?> <?php echo $r->address ? '('.$r->address.')' : '' ?> </td>
-                            <td><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
-                            <td  style="text-align:center"><?php  echo date("d-M-Y", strtotime($r->delivery_date)); ?></td>
+                            <th style="text-align:center">#</th>
+                            <th style="text-align:center">With</th>
+                            <th style="text-align:center">Location</th>
+                            <th style="text-align:center">District, State</th>
+                            <th style="text-align:center">Delivery date</th>
                             <?php if($logged_in) { ?>
-                                <td><?php echo $r->note; ?></td>
+                                <th style="text-align:center">Note</th>
                             <?php }  ?> 
                         </tr>
-                    <?php }  ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $i=1;
+                            foreach($equipment_location_history as $r){ ?>
+                            <tr>
+                                <td><?php echo $i++; ?></td>
+                                <td><?php echo $r->party_name; ?></td>
+                                <td><?php echo $r->location;?> <?php echo $r->address ? '('.$r->address.')' : '' ?> </td>
+                                <td><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
+                                <td  style="text-align:center"><?php  echo date("d-M-Y", strtotime($r->delivery_date)); ?></td>
+                                <?php if($logged_in) { ?>
+                                    <td><?php echo $r->note; ?></td>
+                                <?php }  ?> 
+                            </tr>
+                        <?php }  ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
+    <?php } ?>
 </div>
 
 <script>
 
     $(function () {
-        $("input, select, textarea").attr('disabled',true);
+        // $("input, select, textarea").attr('disabled',true);
         initDropdown('donor_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->donor_party_id;?>);
         initDropdown('procured_by_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->procured_by_party_id;?>);
         initDropdown('supplier_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->supplier_party_id;?>);
@@ -399,18 +403,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         window.open("<?php echo base_url()."equipments/edit/";?>"+id);
     }
 
-    function filter_equipment_type(category, id, selected_equipment_type_id){
-        let equipment_types = <?php echo json_encode($equipment_type); ?>;
-        let selected_category = $(`#${category}`).val();
-        let filtered_equipment_types;
-        $(`#${id}`).empty();
-        filtered_equipment_types = $.grep(equipment_types , function(v){
-            return v.equipment_category_id == selected_category;
-        }) ;
-        // iterating the filtered equipment types
-        $.each(filtered_equipment_types, function (indexInArray, valueOfElement) { 
-            const {equipment_type_id ,equipment_type} = valueOfElement;
-            $(`#${id}`).append($('<option></option>').val(equipment_type_id).html(equipment_type));
-        });
-    }
 </script>

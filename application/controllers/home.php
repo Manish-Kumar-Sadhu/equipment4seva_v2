@@ -19,40 +19,6 @@ class Home extends CI_Controller {
 	public function index(){
 		$this->data['title']='Home';
 		$this->load->view('templates/header' , $this->data);
-		$this->data['pagination'] = $this->master_model->get_defaults('pagination');
-		$this->data['equipment_type'] = $this->master_model->get_data('equipment_type');
-		$this->data['equipment_category'] = $this->master_model->get_data('equipment_category');
-		$this->data['location'] = $this->master_model->get_data('location');
-		$this->data['donor_parties'] = $this->master_model->get_parties_by_party_type('donor_party');
-		$this->data['procured_by_parties'] = $this->master_model->get_parties_by_party_type('procured_by_party');
-		$this->data['supplier_parties'] = $this->master_model->get_parties_by_party_type('supplier_party');
-		$this->data['manufactured_parties'] = $this->master_model->get_parties_by_party_type('manufactured_party');
-		$equipment_data = $this->master_model->get_equipment_data($this->data['pagination']->value);
-		foreach ($equipment_data as $key => $value) {
-			$location = $this->master_model->get_equipment_current_location($value->equipment_id);
-			$value->location = $location ? $location->location : '------';
-			$value->state = $location ? $location->state : '';
-			$value->district = $location ? $location->district : '';
-		}
-		$this->data['equipment_data']=$equipment_data;
-		$this->data['equipment_count'] = $this->master_model->get_equipment_count();
-		if($this->session->userdata('logged_in')){
-			foreach($this->data['functions'] as $f){
-				if($f->user_function=="equipment"){ 
-					if($f->edit)
-						$this->data['edit_equipment_access']=1;                
-					if($f->view)
-						$this->data['view_equipment_access']=1;                
-					if($f->remove){
-						$this->data['remove_equipment_access']=1;                
-					}
-				}
-			}
-		} else {
-			$this->data['edit_equipment_access']=0;
-			$this->data['view_equipment_access']=0;
-			$this->data['remove_equipment_access']=0;
-		}
 		$this->load->view('home', $this->data);
 		$this->load->view('templates/footer' ,$this->data);
 	}
@@ -84,7 +50,7 @@ class Home extends CI_Controller {
 					$this->user_model->save_user_signin($this->input->post('username'), $login);
 				}
 				if($login==1){
-					redirect('home', 'refresh');	
+					redirect('equipments', 'refresh');	
 				}	
 			}
 			else {

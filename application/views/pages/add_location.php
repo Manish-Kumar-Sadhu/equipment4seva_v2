@@ -43,7 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="state">State<span class="star" style="color:red"> *</span></label>
                         <select class="form-control" name="state" id="state" onchange="filter_districts('state','district')" required>
-                            <option value="0" selected>----------Select----------</option>
+                            <option value="0" selected>State</option>
                             <?php
                                 foreach($states as $r){ ?>
                                 <option value="<?php echo $r->state_id;?>"    
@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="district">District<span class="star" style="color:red"> *</span></label>
                         <select class="form-control" name="district" id="district" required>
-                            <option value="0" selected>----------Select----------</option>
+                            <option value="0" selected>District</option>
                             <?php
                                 foreach($districts as $r){ ?>
                                 <option value="<?php echo $r->district_id;?>"    

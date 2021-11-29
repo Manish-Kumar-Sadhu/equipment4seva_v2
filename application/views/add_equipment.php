@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="manufactured_party">Manufacturer</label>
-                        <select name="manufactured_party" id="manufactured_party" placeholder="----------Select----------">
+                        <select name="manufactured_party" id="manufactured_party" placeholder="Manufacturer">
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
@@ -80,12 +80,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="supplier_party">Supplier</label>
-                        <select name="supplier_party" id="supplier_party" placeholder="----------Select----------">
+                        <select name="supplier_party" id="supplier_party" placeholder="Supplier">
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="procured_by_party">Procured by <span class="star" style="color:red"> *</span></label>
-                        <select name="procured_by_party" id="procured_by_party" placeholder="----------Select----------">
+                        <select name="procured_by_party" id="procured_by_party" placeholder="Procured by">
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
@@ -114,7 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="donor_party">Donor</label>
-                        <select  name="donor_party" id="donor_party" placeholder="----------Select----------" >
+                        <select  name="donor_party" id="donor_party" placeholder="Donor" >
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
@@ -144,7 +144,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="journal_type">Journal Type</label>
                         <select class="form-control" name="journal_type" id="journal_type">
-                            <option value="0" selected>----------Select----------</option>
+                            <option value="0" selected>Journal Type</option>
                             <?php
                                 foreach($journal_type as $r){ ?>
                                 <option value="<?php echo $r->journal_type_id;?>"    
@@ -253,7 +253,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         let equipment_types = <?php echo json_encode($equipment_type); ?>;
         let selected_category = $(`#${category}`).val();
         let filtered_equipment_types;
-        $(`#${id}`).empty().append(`<option value="0" selected>----------Select----------</option>`);
+        $(`#${id}`).empty().append(`<option value="0" selected>Equipment type</option>`);
         filtered_equipment_types = $.grep(equipment_types , function(v){
             return v.equipment_category_id == selected_category;
         }) ;
