@@ -240,10 +240,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <?php }  ?>
                     </select>
                 </div>
-                <div class="form-group col-md-6 col-lg-6 col-xs-12">
-                    <label for="note">Note</label>
-                    <textarea class="form-control" name="note" rows="1" disabled><?= $equipment->note; ?></textarea>
-                </div>
+                <?php if($logged_in) { ?>
+                    <div class="form-group col-md-6 col-lg-6 col-xs-12">
+                        <label for="note">Note</label>
+                        <textarea class="form-control" name="note" rows="1" disabled><?= $equipment->note; ?></textarea>
+                    </div>
+                <?php } ?>
             </div>
             <?php if($logged_in) { ?>
                 <div class="row">
