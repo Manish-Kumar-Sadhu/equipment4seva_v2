@@ -112,7 +112,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <?php
     //  fetching default party_id of loggedIn user
-    if($this->session->userdata('logged_in')){
+    $logged_in=$this->session->userdata('logged_in');
+    if($logged_in){
         $user_party_ids =[];
         foreach ($user_parties as $key => $value) {
             array_push($user_party_ids, $value->party_id);
@@ -181,18 +182,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <select  name="manufactured_party" id="manufactured_party" placeholder="----------Select----------">
                 </select>
             </div>
-            <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                <label for="equipment_type">Location</label>
-                <select class="form-control" name="location" id="location">
-                    <option value="0" selected>Location</option>
-                    <?php
-                        foreach($location as $r){ ?>
-                        <option value="<?php echo $r->location_id;?>"    
-                        <?php if($this->input->post('location') == $r->location_id) echo " selected "; ?>
-                        ><?php echo $r->location;?></option>    
-                        <?php }  ?>
-                </select>
-            </div>
+            <?php if($logged_in) { ?>
+                <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                    <label for="equipment_type">Location</label>
+                    <select class="form-control" name="location" id="location">
+                        <option value="0" selected>Location</option>
+                        <?php
+                            foreach($location as $r){ ?>
+                            <option value="<?php echo $r->location_id;?>"    
+                            <?php if($this->input->post('location') == $r->location_id) echo " selected "; ?>
+                            ><?php echo $r->location;?></option>    
+                            <?php }  ?>
+                    </select>
+                </div>
+            <?php } ?>
             <input type="hidden" name="page_no" id="page_no" value='<?php echo "$page_no"; ?>'/>	
             <div class="form-group col-md-2">
             <label for="rows_per_page">Rows per page</label>
@@ -304,7 +307,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <th style="text-align:center">Equipment Type</th>
                     <th style="text-align:center">Equipment Name</th>
                     <th style="text-align:center">Serial Number</th>
-                    <th style="text-align:center">Current Location</th>
+                    <?php if($logged_in) { ?>
+                        <th style="text-align:center">Current Location</th>
+                    <?php } ?>
                     <th style="text-align:center">District, State</th>
                     <th style="text-align:center">Invoice Date</th>
                     <th style="text-align:center">Details</th>
@@ -319,7 +324,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td><?php echo $r->equipment_type; ?></td>
                         <td><?php echo $r->equipment_name; ?></td>
                         <td><?php echo $r->serial_number; ?></td>
-                        <td><?php echo $r->location; ?></td>
+                        <?php if($logged_in) { ?>
+                            <td><?php echo $r->location; ?></td>
+                        <?php } ?>
                         <td><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
                         <td style="text-align:center"><?php echo  date("d-M-Y", strtotime($r->invoice_date)); ?></td>
                         <td>
@@ -432,7 +439,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         initDropdown('procured_by_party', '<?php echo json_encode($procured_by_parties); ?>', <?php echo $procured_by_party ?>);
         initDropdown('supplier_party', '<?php echo json_encode($supplier_parties); ?>', <?php echo $supplier_party ?>);
         initDropdown('manufactured_party', '<?php echo json_encode($manufactured_parties); ?>', <?php echo $manufactured_party ?>);
-
+        let logged_in = '<?php echo $logged_in ? true : false; ?>'
+        let reusableWidthValues = []
+        if(logged_in){
+            reusableWidthValues = [ '5%', '10%', '15%','15%', '10%', '20%','10%', '20%']
+        } else {
+            reusableWidthValues = [ '5%', '15%', '20%','15%', '20%', '10%', '10%']
+        }
         var options = {
 			widthFixed : false,
 			showProcessing: true,
@@ -476,7 +489,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // use uitheme widget to apply defauly jquery ui (jui) class names
                 // see the uitheme demo for more details on how to change the class names
                 resizable:false,
-                resizable_widths: [ '5%', '10%', '15%','15%', '10%', '20%','10%', '20%'],
+                resizable_widths: reusableWidthValues,
                 uitheme : 'jui'
             }
         };
