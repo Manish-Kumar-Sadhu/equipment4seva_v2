@@ -250,10 +250,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <?php if($logged_in) { ?>
                 <div class="row">
                     <div class="col-md-6">
-                        <b> Created By :</b> <?php echo $equipment->created_user_first_name.' '.$equipment->created_user_last_name; echo ', '.date("d-M-Y h:i A", strtotime($equipment->equipment_created_datetime)); ?>
+                    <b> Created By :</b> <?php echo $equipment->created_user_first_name ? $equipment->created_user_first_name :''; echo $equipment->created_user_last_name ? ' '.$equipment->created_user_last_name.', ' : ''; echo $equipment->equipment_created_datetime ? date("d-M-Y h:i A", strtotime($equipment->equipment_created_datetime)) : ''; ?>
                     </div>
                     <div class="col-md-6">
-                        <b> Last Updated By :</b> <?php echo $equipment->last_updated_user_first_name.' '.$equipment->last_updated_user_last_name; echo ', '.date("d-M-Y h:i A", strtotime($equipment->equipment_last_updated_datetime)); ?>
+                    <b> Last Updated By :</b> <?php echo $equipment->last_updated_user_first_name ? $equipment->last_updated_user_first_name : ''; echo  $equipment->last_updated_user_last_name ? ' '.$equipment->last_updated_user_last_name.', ' : ''; echo $equipment->equipment_last_updated_datetime ? date("d-M-Y h:i A", strtotime($equipment->equipment_last_updated_datetime)) : ''; ?>
                     </div>
                 </div>
             <?php } ?>
