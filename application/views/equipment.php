@@ -277,9 +277,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th style="text-align:center">Location</th>
                             <th style="text-align:center">District, State</th>
                             <th style="text-align:center">Delivery date</th>
-                            <?php if($logged_in) { ?>
-                                <th style="text-align:center">Note</th>
-                            <?php }  ?> 
+                            <th style="text-align:center">Created by</th>
+                            <th style="text-align:center">Updated by</th>
+                            <th style="text-align:center">Note</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -292,9 +292,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <td><?php echo $r->location;?> <?php echo $r->address ? '('.$r->address.')' : '' ?> </td>
                                 <td><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
                                 <td  style="text-align:center"><?php  echo date("d-M-Y", strtotime($r->delivery_date)); ?></td>
-                                <?php if($logged_in) { ?>
-                                    <td><?php echo $r->note; ?></td>
-                                <?php }  ?> 
+                                <td><?php echo $r->created_user_first_name.' '.$r->created_user_last_name; ?></td>
+                                <td><?php echo $r->last_updated_user_first_name.' '.$r->last_updated_user_last_name; ?></td>
+                                <td><?php echo $r->note; ?></td>
                             </tr>
                         <?php }  ?>
                     </tbody>
@@ -357,7 +357,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // use uitheme widget to apply defauly jquery ui (jui) class names
                 // see the uitheme demo for more details on how to change the class names
                 resizable:false,
-                resizable_widths: [ '5%', '25%', '20%','30%'],
+                resizable_widths: [ '1%', '15%', '15%', '18%','10%', '13%', '13%', '20%'],
                 uitheme : 'jui'
             }
         };
