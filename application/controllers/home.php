@@ -70,7 +70,8 @@ class Home extends CI_Controller {
 				'user_id' => $result->user_id,
 				'username' => $result->username,
 				'email'=>$result->email,
-				'display_name'=>$result->first_name.' '.$result->last_name
+				'first_name'=>$result->first_name,
+				'last_name'=>$result->last_name
 				);
 			$this->session->set_userdata('logged_in', $sess_array);
 			return TRUE;

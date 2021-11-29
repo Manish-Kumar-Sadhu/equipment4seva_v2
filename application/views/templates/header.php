@@ -90,11 +90,8 @@
               ?>
               </div>   
         </li>
-          <li class="nav-item">
-             <a class="nav-link" href="#" style="text-decoration:none; color:black;"> <?php echo $logged_in['display_name'].' | '.$logged_in['username']." | " ; ?></a>
-          </li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" style="text-decoration:none; color:black;" ><i class="fa fa-gear"></i> Settings <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" style="text-decoration:none; color:black;" ><?php echo $logged_in['first_name'].' '.$logged_in['last_name'].' | '.$logged_in['username'] ; ?><b class="caret"></b></a>
             <ul class="dropdown-menu">
               <a class="dropdown-item" href="<?php echo base_url()."home/change_password";?>"><i class="fa fa-edit"></i> Change Password</a>
               <a class="dropdown-item" href="<?php echo base_url();?>home/logout"><i class="fa fa-sign-out"></i> Logout</a>
