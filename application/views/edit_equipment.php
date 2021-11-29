@@ -42,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="row">
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="equipment_category">Equipment Category</label>
-                        <select class="form-control" name="equipment_category" id="equipment_category" onchange="filter_equipment_type('equipment_category','equipment_type')" required>
+                        <select class="form-control" name="equipment_category" id="equipment_category" onchange="filter_equipment_type('equipment_category','equipment_type', <?php echo $equipment->equipment_type_id;?>)" required>
                             <option value="" selected>----------Select----------</option>
                             <?php
                                 foreach($equipment_category as $r){ ?>
@@ -311,7 +311,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         initDropdown('manufactured_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->manufacturer_party_id;?>);
         initDropdown('receiver_party_id', '<?php echo json_encode($party); ?>');
 
-        filter_equipment_type('equipment_category','equipment_type');
+        filter_equipment_type('equipment_category','equipment_type', <?php echo $equipment->equipment_type_id;?>);
         var options = {
 			widthFixed : false,
 			showProcessing: true,
@@ -409,7 +409,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         // iterating the filtered equipment types
         $.each(filtered_equipment_types, function (indexInArray, valueOfElement) { 
             const {equipment_type_id ,equipment_type} = valueOfElement;
-            $(`#${id}`).append($('<option></option>').val(equipment_type_id).html(equipment_type));
+            let optionElement = $('<option></option>').val(equipment_type_id).html(equipment_type);
+            if(selected_equipment_type_id && selected_equipment_type_id == equipment_type_id){
+                $(optionElement).attr('selected', true);
+            }
+            $(`#${id}`).append(optionElement);
         });
     }
 
