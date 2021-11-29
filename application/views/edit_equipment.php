@@ -43,7 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="equipment_category">Equipment Category</label>
                         <select class="form-control" name="equipment_category" id="equipment_category" onchange="filter_equipment_type('equipment_category','equipment_type', <?php echo $equipment->equipment_type_id;?>)" required>
-                            <option value="" selected>----------Select----------</option>
+                            <option value="" selected>Equipment Category</option>
                             <?php
                                 foreach($equipment_category as $r){ ?>
                                 <option value="<?php echo $r->id;?>"    
@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="equipment_type">Equipment Type</label>
                         <select class="form-control" name="equipment_type" id="equipment_type">
-                            <option value="" selected>----------Select----------</option>
+                            <option value="" selected>Equipment Type</option>
                             <?php
                                 foreach($equipment_type as $r){ ?>
                                 <option value="<?php echo $r->equipment_type_id;?>"    
@@ -74,7 +74,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="manufactured_party">Manufacturer</label>
-                        <select name="manufactured_party" id="manufactured_party" placeholder="----------Select----------">
+                        <select name="manufactured_party" id="manufactured_party" placeholder="Manufacturer">
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
@@ -91,12 +91,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="supplier_party">Supplier</label>
-                        <select name="supplier_party" id="supplier_party" placeholder="----------Select----------">
+                        <select name="supplier_party" id="supplier_party" placeholder="Supplier">
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="procured_by_party">Procured by <span class="star" style="color:red"> *</span></label>
-                        <select name="procured_by_party" id="procured_by_party" placeholder="----------Select----------">
+                        <select name="procured_by_party" id="procured_by_party" placeholder="Procured by">
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
@@ -125,7 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="donor_party">Donor</label>
-                        <select  name="donor_party" id="donor_party" placeholder="----------Select----------" >
+                        <select  name="donor_party" id="donor_party" placeholder="Donor" >
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
@@ -155,7 +155,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="journal_type">Journal Type</label>
                         <select class="form-control" name="journal_type" id="journal_type">
-                            <option value="0" selected>----------Select----------</option>
+                            <option value="0" selected>Journal type</option>
                             <?php
                                 foreach($journal_type as $r){ ?>
                                 <option value="<?php echo $r->journal_type_id;?>"    
@@ -251,9 +251,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <input type="hidden" name="form_for" value="add_equipment_location_log">
                 <div class="row">
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                        <label for="location">Locations<span class="star" style="color:red"> *</span></label>
+                        <label for="location">Location<span class="star" style="color:red"> *</span></label>
                         <select class="form-control" name="location" id="location" required>
-                            <option value="0" selected>----------Select----------</option>
+                            <option value="" selected>Location</option>
                             <?php
                                 foreach($locations as $r){ ?>
                                 <option value="<?php echo $r->location_id;?>"    
@@ -264,7 +264,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="receiver_party_id">Receiver party<span class="star" style="color:red"> *</span></label>
-                        <select name="receiver_party_id" id="receiver_party_id" placeholder="Receiver party">
+                        <select name="receiver_party_id" id="receiver_party_id" placeholder="Receiver party" required>
                         </select>
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
@@ -273,7 +273,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="delivery_date">Delivery Date<span class="star" style="color:red"> *</span></label>
-                        <input class="form-control" name="delivery_date" type="date" max="<?php echo date("Y-m-d") ?>" >
+                        <input class="form-control" name="delivery_date" type="date" max="<?php echo date("Y-m-d") ?>" required >
                     </div>
                     <div class="form-group col-md-6 col-lg-6 col-xs-12">
                         <label for="note">Note</label>
