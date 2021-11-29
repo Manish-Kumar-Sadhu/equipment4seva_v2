@@ -313,7 +313,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         initDropdown('supplier_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->supplier_party_id;?>);
         initDropdown('manufactured_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->manufacturer_party_id;?>);
         /* // initDropdown('last_procured_by', '<?php echo json_encode($party); ?>', <?php echo $equipment_location_data->receiver_party_id;?>); */
-        filter_equipment_type('equipment_category','equipment_type');
+        // filter_equipment_type('equipment_category','equipment_type');
         var options = {
 			widthFixed : false,
 			showProcessing: true,
