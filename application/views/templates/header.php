@@ -77,17 +77,18 @@
         </li>
         <li class="dropdown">
             <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" style="text-decoration:none; color:black;" > Equipments <b class="caret"></b></a>
+            <div class="dropdown-menu"> 
+            <a class="dropdown-item" href="<?php echo base_url()."equipments/";?>">Equipments</a>
               <?php 
                 foreach($functions as $f){
-                  if($f->user_function=="equipment") { ?>
-                      <div class="dropdown-menu"> <?php
+                  if($f->user_function=="equipment") { 
                         if($f->add){ ?>
                           <a class="dropdown-item" href="<?php echo base_url()."equipments/add";?>"><i class="fa fa-edit"></i> Add Equipment</a>
                         <?php } ?>
-                        </div>   
                   <?php }
                 }
               ?>
+              </div>   
         </li>
           <li class="nav-item">
              <a class="nav-link" href="#" style="text-decoration:none; color:black;"> <?php echo $logged_in['username']." | " ; ?></a>
@@ -102,6 +103,9 @@
           <?php } else {?>
           </ul>
           <ul class="navbar-nav navbar-right">
+            <li class="nav-item   <?php if(preg_match("^".base_url()."home/about^",current_url())){ echo " active";}?>">
+              <a class="nav-link" href="<?php echo base_url()."equipments";?>" style="text-decoration:none; color:black;"> Equipment</a>
+            </li>
             <li class="nav-item   <?php if(preg_match("^".base_url()."home/login^",current_url())){ echo " active";}?>">
               <a class="nav-link" href="<?php echo base_url()."home/login";?>" style="text-decoration:none; color:black;"><i class="fa fa-sign-in" style="color:black;"></i> Login</a>
             </li>
