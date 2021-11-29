@@ -351,9 +351,6 @@ class Master_model extends CI_Model {
 
     function get_equipment_location_history($equipment_id) {
         $logged_in = $this->session->userdata('logged_in');
-        if(!$logged_in) {
-            $this->db->limit(1);
-        }
         $this->db->select("equipment_location_log_id, equipment_location_log.equipment_id, party_name, location, address, state.state, district, delivery_date, equipment_location_log.note")
             ->from("equipment_location_log")
             ->join('equipment','equipment.equipment_id= equipment_location_log.equipment_id','left')

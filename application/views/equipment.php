@@ -257,47 +257,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <?php } ?>
         </div>
     </div>
-    <div class="card">
-        <div class="card-header bg-info text-white">
-            <div class="row">
-                <div class="col-md-12">
-                    <h4>  Equipmet Location </h4>
+    <?php if($logged_in) { ?>
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>  Equipmet Location </h4>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="card-body">
-            <table id="table-sort" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th style="text-align:center">#</th>
-                        <th style="text-align:center">With</th>
-                        <th style="text-align:center">Location</th>
-                        <th style="text-align:center">District, State</th>
-                        <th style="text-align:center">Delivery date</th>
-                        <?php if($logged_in) { ?>
-                            <th style="text-align:center">Note</th>
-                        <?php }  ?> 
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                        $i=1;
-                        foreach($equipment_location_history as $r){ ?>
+            <div class="card-body">
+                <table id="table-sort" class="table table-bordered table-striped">
+                    <thead>
                         <tr>
-                            <td><?php echo $i++; ?></td>
-                            <td><?php echo $r->party_name; ?></td>
-                            <td><?php echo $r->location;?> <?php echo $r->address ? '('.$r->address.')' : '' ?> </td>
-                            <td><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
-                            <td  style="text-align:center"><?php  echo date("d-M-Y", strtotime($r->delivery_date)); ?></td>
+                            <th style="text-align:center">#</th>
+                            <th style="text-align:center">With</th>
+                            <th style="text-align:center">Location</th>
+                            <th style="text-align:center">District, State</th>
+                            <th style="text-align:center">Delivery date</th>
                             <?php if($logged_in) { ?>
-                                <td><?php echo $r->note; ?></td>
+                                <th style="text-align:center">Note</th>
                             <?php }  ?> 
                         </tr>
-                    <?php }  ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $i=1;
+                            foreach($equipment_location_history as $r){ ?>
+                            <tr>
+                                <td><?php echo $i++; ?></td>
+                                <td><?php echo $r->party_name; ?></td>
+                                <td><?php echo $r->location;?> <?php echo $r->address ? '('.$r->address.')' : '' ?> </td>
+                                <td><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
+                                <td  style="text-align:center"><?php  echo date("d-M-Y", strtotime($r->delivery_date)); ?></td>
+                                <?php if($logged_in) { ?>
+                                    <td><?php echo $r->note; ?></td>
+                                <?php }  ?> 
+                            </tr>
+                        <?php }  ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
+    <?php } ?>
 </div>
 
 <script>
