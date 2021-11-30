@@ -128,7 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $manufactured_party = $this->input->post('manufactured_party');
 ?>
 <div class="container">
-    <form id="equipment_data" action="<?= base_url('home'); ?>" method="POST">
+    <form id="equipment_data" action="<?= base_url('equipments'); ?>" method="POST">
         <div class="row">
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="equipment_category">Equipment Category</label>
