@@ -12,6 +12,8 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/youseelogo.css" media='screen,print'>
   
     <script src="<?php echo base_url();?>assets/js/jquery.min.js"></script>
+    <script src="<?php echo base_url();?>assets/js/popper.min.js"></script>
+    <script src="<?php echo base_url();?>assets/js/tippy-bundle.umd.min.js"></script>
     <script src="<?php echo base_url();?>assets/js/bootstrap.min.js"></script>
     <script src="<?php echo base_url();?>assets/js/sweetalert.min.js"></script>
 
@@ -101,7 +103,7 @@
           </ul>
           <ul class="navbar-nav navbar-right">
             <li class="nav-item   <?php if(preg_match("^".base_url()."home/about^",current_url())){ echo " active";}?>">
-              <a class="nav-link" href="<?php echo base_url()."equipments";?>" style="text-decoration:none; color:black;"> Equipment</a>
+              <a class="nav-link" id="equipments-data-tab" href="<?php echo base_url()."equipments";?>" style="text-decoration:none; color:black;"> Equipment</a>
             </li>
             <li class="nav-item   <?php if(preg_match("^".base_url()."home/login^",current_url())){ echo " active";}?>">
               <a class="nav-link" href="<?php echo base_url()."home/login";?>" style="text-decoration:none; color:black;"><i class="fa fa-sign-in" style="color:black;"></i> Login</a>
@@ -112,3 +114,8 @@
   </nav>
 </header>
 
+<script>
+  tippy("#equipments-data-tab", {
+    content: 'Equipments '
+  })
+</script>

@@ -40,8 +40,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div> 
                 <?php if($logged_in && in_array($equipment->procured_by_party_id, $user_party_ids) ) { ?>   
                     <div class="col-md-2 ">
-                        <button class="btn btn-light round-button" onclick="update_equipment('<?= $equipment->equipment_id; ?>')" ><i class='fa fa-pencil' aria-hidden='true'></i></button> 
-                        <button class="btn btn-light round-button"><i class='fa fa-trash' aria-hidden='true'></i></button> 
+                        <button id="edit-equipment" class="btn btn-light round-button" onclick="update_equipment('<?= $equipment->equipment_id; ?>')" ><i class='fa fa-pencil' aria-hidden='true'></i></button> 
+                        <button id="delete-equipment" class="btn btn-light round-button"><i class='fa fa-trash' aria-hidden='true'></i></button> 
                     </div>
                 <?php } ?>
             </div>
@@ -398,9 +398,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	    }
     }
 
-    
     function update_equipment(id){
         window.open("<?php echo base_url()."equipments/edit/";?>"+id);
     }
 
+    // tooltips
+    tippy("#edit-equipment",{
+        content: 'edit equipment'
+    });
+    tippy("#delete-equipment",{
+        content: 'delete equipment'
+    });
+    
 </script>
