@@ -40,6 +40,9 @@
       li {
         list-style-type: none;
       }
+      .dropdown:hover>.dropdown-menu {
+        display: block;
+      }
     </style>
     <!-- Custom styles for this template -->
     <!-- <link href="sticky-footer-navbar.css" rel="stylesheet"> -->
