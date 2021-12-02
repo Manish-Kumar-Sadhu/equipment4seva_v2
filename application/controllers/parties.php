@@ -30,18 +30,20 @@ class Parties extends CI_Controller {
 				$this->load->library('form_validation');
 				$this->data['title']='Add Party';
 				$this->load->view('templates/header' , $this->data);
+				$this->data['districts'] = $this->master_model->get_data('district');
+				$this->data['party_types'] = $this->master_model->get_data('party_type');
 				$this->form_validation->set_rules('party_name','party_name','required');
 				if ($this->form_validation->run() === FALSE) {
-					$this->load->view('add_party',$this->data);
+					$this->load->view('pages/add_party',$this->data);
 				} else {
 					if($this->master_model->add_party()){
 						$this->data['status']=200;
 						$this->data['msg']="Party created successfully";
-						$this->load->view('add_party',$this->data);
+						$this->load->view('pages/add_party',$this->data);
 					} else {
 						$this->data['status']=500;
 						$this->data['msg']="Error creating party. Please retry.";
-						$this->load->view('add_party',$this->data);
+						$this->load->view('pages/add_party',$this->data);
 					}
 				}
 				$this->load->view('templates/footer' ,$this->data);

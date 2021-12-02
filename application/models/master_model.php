@@ -33,6 +33,10 @@ class Master_model extends CI_Model {
             $this->db->select("party_id, party_type_id, party_name")->from("party");
 			$this->db->order_by("party_name");
         }
+        else if($type=="party_type") {
+            $this->db->select("party_type_id, party_type")->from("party_type");
+			$this->db->order_by("party_type");
+        }
         else if($type=="equipment_category") {
             $this->db->select("*")->from("equipment_category");
 			$this->db->order_by("equipment_category");
@@ -375,7 +379,7 @@ class Master_model extends CI_Model {
             'party_type_id'=>$this->input->post('party_type'),
             'party_name'=>$this->input->post('party_name'),
             'party_address'=>$this->input->post('party_address'),
-            'place'=>$this->input->post('place'),
+            'place'=>$this->input->post('party_place'),
             'district_id'=>$this->input->post('district'),
             'bank_account_no'=>$this->input->post('bank_account_no'),
             'bank_name'=>$this->input->post('bank_name'),
@@ -383,7 +387,7 @@ class Master_model extends CI_Model {
             'bank_branch_ifsc'=>$this->input->post('branch_ifsc'),
             'party_email'=>$this->input->post('party_email'),
             'party_phone'=>$this->input->post('party_phone'),
-            'contact_person_id'=>$this->input->post('contact_person'),
+            // 'contact_person_id'=>$this->input->post('contact_person'),
             'party_pan'=>$this->input->post('party_pan'),
             'created_by'=>$this->input->post('created_by'),
         );
