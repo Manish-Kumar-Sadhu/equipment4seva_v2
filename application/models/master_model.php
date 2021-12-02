@@ -365,4 +365,27 @@ class Master_model extends CI_Model {
             $result =  $query->result();
             return $result;
     }
+
+    function add_party() {
+        $data = array(
+            'party_type_id'=>$this->input->post('party_type'),
+            'party_name'=>$this->input->post('party_name'),
+            'party_address'=>$this->input->post('party_address'),
+            'place'=>$this->input->post('place'),
+            'district_id'=>$this->input->post('district'),
+            'bank_account_no'=>$this->input->post('bank_account_no'),
+            'bank_name'=>$this->input->post('bank_name'),
+            'bank_branch'=>$this->input->post('bank_branch'),
+            'bank_branch_ifsc'=>$this->input->post('branch_ifsc'),
+            'party_email'=>$this->input->post('party_email'),
+            'party_phone'=>$this->input->post('party_phone'),
+            'contact_person_id'=>$this->input->post('contact_person'),
+            'party_pan'=>$this->input->post('party_pan'),
+            'created_by'=>$this->input->post('created_by'),
+        );
+        $this->db->trans_start(); //Transaction begins
+        $this->db->insert('party',$data); //Insert 
+        $this->db->trans_complete(); //Transaction Ends
+        if($this->db->trans_status()===TRUE) return true; else return false; //if transaction completed successfully return true, else false.
+    }
 }
