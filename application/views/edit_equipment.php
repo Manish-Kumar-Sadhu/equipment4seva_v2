@@ -203,10 +203,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?php if($logged_in) { ?>
                 <div class="row">
                     <div class="col-md-6">
-                        <b> Created By :</b> <?php echo $equipment->created_user_first_name.' '.$equipment->created_user_last_name; echo ', '.date("d-M-Y h:i A", strtotime($equipment->equipment_created_datetime)); ?>
+                        <b> Created By :</b> <?php echo $equipment->created_user_first_name ? $equipment->created_user_first_name :''; echo $equipment->created_user_last_name ? ' '.$equipment->created_user_last_name.', ' : ''; echo $equipment->equipment_created_datetime ? date("d-M-Y h:i A", strtotime($equipment->equipment_created_datetime)) : ''; ?>
                     </div>
                     <div class="col-md-6">
-                        <b> Last Updated By :</b> <?php echo $equipment->last_updated_user_first_name.' '.$equipment->last_updated_user_last_name; echo ', '.date("d-M-Y h:i A", strtotime($equipment->equipment_last_updated_datetime)); ?>
+                        <b> Last Updated By :</b> <?php echo $equipment->last_updated_user_first_name ? $equipment->last_updated_user_first_name : ''; echo  $equipment->last_updated_user_last_name ? ' '.$equipment->last_updated_user_last_name.', ' : ''; echo $equipment->equipment_last_updated_datetime ? date("d-M-Y h:i A", strtotime($equipment->equipment_last_updated_datetime)) : ''; ?>
                     </div>
                 </div>
             <?php } ?>
@@ -226,6 +226,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <th style="text-align:center">Location</th>
                         <th style="text-align:center">District, State</th>
                         <th style="text-align:center">Delivery date</th>
+                        <th style="text-align:center">Created by</th>
+                        <th style="text-align:center">Updated by</th>
                         <th style="text-align:center">Note</th>
                     </tr>
                 </thead>
@@ -239,6 +241,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $r->location;?> <?php echo $r->address ? '('.$r->address.')' : '' ?> </td>
                             <td><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
                             <td  style="text-align:center"><?php  echo date("d-M-Y", strtotime($r->delivery_date)); ?></td>
+                            <td><?php echo $r->created_user_first_name.' '.$r->created_user_last_name; ?></td>
+                            <td><?php echo $r->last_updated_user_first_name.' '.$r->last_updated_user_last_name; ?></td>
                             <td><?php echo $r->note; ?></td>
                         </tr>
                     <?php }  ?>
@@ -355,7 +359,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // use uitheme widget to apply defauly jquery ui (jui) class names
                 // see the uitheme demo for more details on how to change the class names
                 resizable:false,
-                resizable_widths: [ '5%', '10%', '15%','15%', '10%', '20%','10%', '20%'],
+                resizable_widths: [ '1%', '15%', '15%', '18%','10%', '13%', '13%', '20%'],
                 uitheme : 'jui'
             }
         };
