@@ -40,8 +40,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div> 
                 <?php if($logged_in && in_array($equipment->procured_by_party_id, $user_party_ids) ) { ?>   
                     <div class="col-md-2 ">
-                        <button class="btn btn-light round-button" onclick="update_equipment('<?= $equipment->equipment_id; ?>')" ><i class='fa fa-pencil' aria-hidden='true'></i></button> 
-                        <button class="btn btn-light round-button"><i class='fa fa-trash' aria-hidden='true'></i></button> 
+                        <button id="edit-equipment" class="btn btn-light round-button" onclick="update_equipment('<?= $equipment->equipment_id; ?>')" ><i class='fa fa-pencil' aria-hidden='true'></i></button> 
+                        <button id="delete-equipment" class="btn btn-light round-button"><i class='fa fa-trash' aria-hidden='true'></i></button> 
                     </div>
                 <?php } ?>
             </div>
@@ -250,10 +250,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <?php if($logged_in) { ?>
                 <div class="row">
                     <div class="col-md-6">
-                        <b> Created By :</b> <?php echo $equipment->created_user_first_name.' '.$equipment->created_user_last_name; echo ', '.date("d-M-Y h:i A", strtotime($equipment->equipment_created_datetime)); ?>
+                    <b> Created By :</b> <?php echo $equipment->created_user_first_name ? $equipment->created_user_first_name :''; echo $equipment->created_user_last_name ? ' '.$equipment->created_user_last_name.', ' : ''; echo $equipment->equipment_created_datetime ? date("d-M-Y h:i A", strtotime($equipment->equipment_created_datetime)) : ''; ?>
                     </div>
                     <div class="col-md-6">
-                        <b> Last Updated By :</b> <?php echo $equipment->last_updated_user_first_name.' '.$equipment->last_updated_user_last_name; echo ', '.date("d-M-Y h:i A", strtotime($equipment->equipment_last_updated_datetime)); ?>
+                    <b> Last Updated By :</b> <?php echo $equipment->last_updated_user_first_name ? $equipment->last_updated_user_first_name : ''; echo  $equipment->last_updated_user_last_name ? ' '.$equipment->last_updated_user_last_name.', ' : ''; echo $equipment->equipment_last_updated_datetime ? date("d-M-Y h:i A", strtotime($equipment->equipment_last_updated_datetime)) : ''; ?>
                     </div>
                 </div>
             <?php } ?>
@@ -277,9 +277,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th style="text-align:center">Location</th>
                             <th style="text-align:center">District, State</th>
                             <th style="text-align:center">Delivery date</th>
-                            <?php if($logged_in) { ?>
-                                <th style="text-align:center">Note</th>
-                            <?php }  ?> 
+                            <th style="text-align:center">Created by</th>
+                            <th style="text-align:center">Updated by</th>
+                            <th style="text-align:center">Note</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -292,9 +292,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <td><?php echo $r->location;?> <?php echo $r->address ? '('.$r->address.')' : '' ?> </td>
                                 <td><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
                                 <td  style="text-align:center"><?php  echo date("d-M-Y", strtotime($r->delivery_date)); ?></td>
-                                <?php if($logged_in) { ?>
-                                    <td><?php echo $r->note; ?></td>
-                                <?php }  ?> 
+                                <td><?php echo $r->created_user_first_name.' '.$r->created_user_last_name; ?></td>
+                                <td><?php echo $r->last_updated_user_first_name.' '.$r->last_updated_user_last_name; ?></td>
+                                <td><?php echo $r->note; ?></td>
                             </tr>
                         <?php }  ?>
                     </tbody>
@@ -313,7 +313,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         initDropdown('supplier_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->supplier_party_id;?>);
         initDropdown('manufactured_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->manufacturer_party_id;?>);
         /* // initDropdown('last_procured_by', '<?php echo json_encode($party); ?>', <?php echo $equipment_location_data->receiver_party_id;?>); */
-        filter_equipment_type('equipment_category','equipment_type');
+        // filter_equipment_type('equipment_category','equipment_type');
         var options = {
 			widthFixed : false,
 			showProcessing: true,
@@ -357,7 +357,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // use uitheme widget to apply defauly jquery ui (jui) class names
                 // see the uitheme demo for more details on how to change the class names
                 resizable:false,
-                resizable_widths: [ '5%', '25%', '20%','30%'],
+                resizable_widths: [ '1%', '15%', '15%', '18%','10%', '13%', '13%', '20%'],
                 uitheme : 'jui'
             }
         };
@@ -398,9 +398,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	    }
     }
 
-    
     function update_equipment(id){
         window.open("<?php echo base_url()."equipments/edit/";?>"+id);
     }
 
+    // tooltips
+    tippy("#edit-equipment",{
+        content: 'edit equipment'
+    });
+    tippy("#delete-equipment",{
+        content: 'delete equipment'
+    });
+    
 </script>

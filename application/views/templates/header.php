@@ -12,6 +12,8 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/youseelogo.css" media='screen,print'>
   
     <script src="<?php echo base_url();?>assets/js/jquery.min.js"></script>
+    <script src="<?php echo base_url();?>assets/js/popper.min.js"></script>
+    <script src="<?php echo base_url();?>assets/js/tippy-bundle.umd.min.js"></script>
     <script src="<?php echo base_url();?>assets/js/bootstrap.min.js"></script>
     <script src="<?php echo base_url();?>assets/js/sweetalert.min.js"></script>
 
@@ -90,11 +92,8 @@
               ?>
               </div>   
         </li>
-          <li class="nav-item">
-             <a class="nav-link" href="#" style="text-decoration:none; color:black;"> <?php echo $logged_in['username']." | " ; ?></a>
-          </li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" style="text-decoration:none; color:black;" ><i class="fa fa-gear"></i> Settings <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" style="text-decoration:none; color:black;" ><?php echo $logged_in['first_name'].' '.$logged_in['last_name'].' | '.$logged_in['username'] ; ?><b class="caret"></b></a>
             <ul class="dropdown-menu">
               <a class="dropdown-item" href="<?php echo base_url()."home/change_password";?>"><i class="fa fa-edit"></i> Change Password</a>
               <a class="dropdown-item" href="<?php echo base_url();?>home/logout"><i class="fa fa-sign-out"></i> Logout</a>
@@ -104,7 +103,7 @@
           </ul>
           <ul class="navbar-nav navbar-right">
             <li class="nav-item   <?php if(preg_match("^".base_url()."home/about^",current_url())){ echo " active";}?>">
-              <a class="nav-link" href="<?php echo base_url()."equipments";?>" style="text-decoration:none; color:black;"> Equipment</a>
+              <a class="nav-link" id="equipments-data-tab" href="<?php echo base_url()."equipments";?>" style="text-decoration:none; color:black;"> Equipment</a>
             </li>
             <li class="nav-item   <?php if(preg_match("^".base_url()."home/login^",current_url())){ echo " active";}?>">
               <a class="nav-link" href="<?php echo base_url()."home/login";?>" style="text-decoration:none; color:black;"><i class="fa fa-sign-in" style="color:black;"></i> Login</a>
@@ -115,3 +114,8 @@
   </nav>
 </header>
 
+<script>
+  tippy("#equipments-data-tab", {
+    content: 'Equipments '
+  })
+</script>

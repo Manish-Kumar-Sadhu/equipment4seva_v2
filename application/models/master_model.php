@@ -351,13 +351,17 @@ class Master_model extends CI_Model {
 
     function get_equipment_location_history($equipment_id) {
         $logged_in = $this->session->userdata('logged_in');
-        $this->db->select("equipment_location_log_id, equipment_location_log.equipment_id, party_name, location, address, state.state, district, delivery_date, equipment_location_log.note")
+        $this->db->select("equipment_location_log_id, equipment_location_log.equipment_id, party_name, location, address, state.state, district,
+         delivery_date, equipment_location_log.note, created_user.first_name as created_user_first_name, created_user.last_name  as created_user_last_name,
+         updated_user.first_name as last_updated_user_first_name , updated_user.last_name as last_updated_user_last_name")
             ->from("equipment_location_log")
             ->join('equipment','equipment.equipment_id= equipment_location_log.equipment_id','left')
             ->join('party','party.party_id= equipment_location_log.receiver_party_id','left')
             ->join('location','location.location_id=equipment_location_log.location_id','left')
             ->join('district','district.district_id=location.district_id','left')
             ->join('state','state.state_id=district.state_id','left')
+            ->join('user as created_user','created_user.user_id=equipment_location_log.created_by','left')
+            ->join('user as updated_user','updated_user.user_id=equipment_location_log.updated_by','left')
             ->where('equipment_location_log.equipment_id',$equipment_id)
             ->order_by('delivery_date', 'desc');
             
