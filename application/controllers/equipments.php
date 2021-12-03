@@ -36,6 +36,9 @@ class Equipments extends CI_Controller {
 		}
 		$this->data['equipment_data']=$equipment_data;
 		$this->data['equipment_count'] = $this->master_model->get_equipment_count();
+		$this->data['edit_equipment_access']=0;
+		$this->data['view_equipment_access']=0;
+		$this->data['remove_equipment_access']=0;
 		if($this->session->userdata('logged_in')){
 			foreach($this->data['functions'] as $f){
 				if($f->user_function=="equipment"){ 
@@ -48,10 +51,6 @@ class Equipments extends CI_Controller {
 					}
 				}
 			}
-		} else {
-			$this->data['edit_equipment_access']=0;
-			$this->data['view_equipment_access']=0;
-			$this->data['remove_equipment_access']=0;
 		}
 		$this->load->view('equipments', $this->data);
 		$this->load->view('templates/footer' ,$this->data);
