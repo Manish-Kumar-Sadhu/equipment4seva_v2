@@ -16,6 +16,20 @@ class Parties extends CI_Controller {
 		$this->data['yousee_website'] = $this->master_model->get_defaults('yousee_website');
     }
 
+	function index(){
+		if($this->session->userdata('logged_in')){
+				$this->load->helper('form');
+				$this->load->library('form_validation');
+				$this->data['title']='My parties';
+				$this->load->view('templates/header' , $this->data);
+				$this->data['user_parties'] = $this->master_model->get_parties_of_user();
+				$this->load->view('pages/parties', $this->data);
+				$this->load->view('templates/footer' ,$this->data);
+		} else{
+			show_404();
+		}
+	}
+
     function add() {
         if($this->session->userdata('logged_in')){
 			$add_party_access=0; 

@@ -74,7 +74,9 @@
                       <ul class="dropdown-menu"> <?php
                         if($f->add){ ?>
                           <a class="dropdown-item" href="<?php echo base_url()."parties/add";?>"><i class="fa fa-edit"></i> Add Party</a>
-                        <?php } ?>
+                        <?php } if($f->view) { ?>
+                          <a class="dropdown-item" href="<?php echo base_url()."parties/";?>"> My Parties</a>
+                       <?php } ?>
                       </ul>   
                   <?php }
                 }
