@@ -94,7 +94,7 @@ class Equipments extends CI_Controller {
 				$this->data['equipment_category'] = $this->master_model->get_data('equipment_category');
 				$this->data['location'] = $this->master_model->get_data('location');
 				$this->data['party'] = $this->master_model->get_data('party');
-				$this->data['procured_by_parties'] = $this->master_model->get_procured_parties_of_user();
+				$this->data['procured_by_parties'] = $this->master_model->get_parties_of_user();
 				$this->data['equipment_procurement_type'] = $this->master_model->get_data('equipment_procurement_type');
 				$this->data['equipment_procurement_status'] = $this->master_model->get_data('equipment_procurement_status');
 				$this->data['equipment_functional_status'] = $this->master_model->get_data('equipment_functional_status');
@@ -146,7 +146,7 @@ class Equipments extends CI_Controller {
 				$this->data['equipment_category'] = $this->master_model->get_data('equipment_category');
 				$this->data['locations'] = $this->master_model->get_data('location');
 				$this->data['party'] = $this->master_model->get_data('party');
-				$this->data['procured_by_parties'] = $this->master_model->get_procured_parties_of_user();
+				$this->data['procured_by_parties'] = $this->master_model->get_parties_of_user();
 				$this->data['equipment_procurement_type'] = $this->master_model->get_data('equipment_procurement_type');
 				$this->data['equipment_procurement_status'] = $this->master_model->get_data('equipment_procurement_status');
 				$this->data['equipment_functional_status'] = $this->master_model->get_data('equipment_functional_status');
