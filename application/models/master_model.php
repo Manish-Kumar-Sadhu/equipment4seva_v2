@@ -376,6 +376,22 @@ class Master_model extends CI_Model {
             return $result;
     }
 
+    function get_party_by_id($party_id){
+        $this->db->select('party_name, party_type, party_address, place, district, bank_account_no, bank_branch, bank_branch_ifsc,party_email,
+                party_phone, party_pan')
+            ->from('party')
+            ->join('district','district.district_id=party.district_id')
+            ->join('party_type','party_type.party_type_id = party.party_type_id','left')
+            ->order_by('party_name');
+        $query = $this->db->get();
+        $result =  $query->row();
+        if($result){
+            return $result;       
+        }else{
+            return false;
+        }
+    }
+
     function add_party() {
         $data = array(
             'party_type_id'=>$this->input->post('party_type'),
