@@ -56,11 +56,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="party_address">Party address</label>
-                        <input class="form-control" name="party_address" type="text" required >
+                        <input class="form-control" name="party_address" type="text" >
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="party_place">Place</label>
-                        <input class="form-control" name="party_place" type="text" required >
+                        <input class="form-control" name="party_place" type="text" >
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="state">State</label>
@@ -76,7 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="district">District</label>
-                        <select class="form-control" name="district" id="district" required>
+                        <select class="form-control" name="district" id="district">
                             <option value="" selected>District</option>
                             <?php
                                 foreach($districts as $r){ ?>

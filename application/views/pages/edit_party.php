@@ -87,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="district">District</label>
-                        <select class="form-control" name="district" id="district" required>
+                        <select class="form-control" name="district" id="district">
                             <option value="" selected>District</option>
                             <?php
                                 foreach($districts as $r){ ?>
