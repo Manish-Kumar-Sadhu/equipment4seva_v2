@@ -30,6 +30,19 @@ class Parties extends CI_Controller {
 		}
 	}
 
+	function view($party_id) {
+		if($this->session->userdata('logged_in')){
+			$this->data['title']='Party';
+			$this->load->view('templates/header', $this->data);
+			$this->data['party_id']=$party_id;
+			$this->data['party'] = $this->master_model->get_party_by_id($party_id);
+			$this->load->view('pages/party', $this->data);
+			$this->load->view('templates/footer' ,$this->data);
+		} else{
+			show_404();
+		}
+	}
+
     function add() {
         if($this->session->userdata('logged_in')){
 			$add_party_access=0; 

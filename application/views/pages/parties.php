@@ -58,7 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <td><?php echo $r->party_name; ?></td>
                                 <td><?php echo $r->party_type; ?></td>
                                 <td>
-                                    <button id="edit-party" class="btn btn-info btn-sm round-button" onclick="view_party(<?=$r->party_id; ?>)"><i class='fa fa-external-link' aria-hidden='true'></i></button>
+                                    <button id="view-party" class="btn btn-info btn-sm round-button" onclick="view_party(<?=$r->party_id; ?>)"><i class='fa fa-external-link' aria-hidden='true'></i></button>
                                     <button id="edit-party" class="btn btn-info btn-sm round-button" onclick="update_party(<?=$r->party_id; ?>)"><i class='fa fa-pencil' aria-hidden='true'></i></button>
                                     <button id="delete-party" class="btn btn-info btn-sm round-button" onclick="delete_party(<?=$r->party_id; ?>)"><i class='fa fa-trash' aria-hidden='true'></i></button>
                                 </td>
@@ -124,11 +124,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("table").tablesorter(options);
     });
 
-    function update_party($party_id) {
-
+    function view_party(id){
+        window.open("<?php echo base_url()."parties/view/";?>"+id, '_blank');
     }
 
-    function delete_party($party_id){
+    function update_party(id){
+        window.open("<?php echo base_url()."parties/edit/";?>"+id, '_blank');
+    }
+
+    function delete_party($id){
         // TODO:
     }
 </script>
