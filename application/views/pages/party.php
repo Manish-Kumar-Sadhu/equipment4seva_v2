@@ -58,6 +58,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <input class="form-control" name="place" type="text" value="<?= $party->place; ?>" disabled >
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                    <label for="district">District</label>
+                    <input class="form-control" name="district" type="text" value="<?= $party->district; ?>" disabled >
+                </div>
+                <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="bank_account_no">Bank Account No.</label>
                     <input class="form-control" name="bank_account_no" type="text" value="<?= $party->bank_account_no; ?>" disabled >
                 </div>
@@ -83,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="party_pan">Party Pan No.</label>
-                    <input class="form-control" name="party_pan" type="number" value="<?= $party->party_pan; ?>" disabled >
+                    <input class="form-control" name="party_pan" type="text" value="<?= $party->party_pan; ?>" disabled >
                 </div>
             </div>
             <div class="row">
@@ -99,6 +103,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <script>
+
+    function update_party(id){
+        window.open("<?php echo base_url()."parties/edit/";?>"+id, '_blank');
+    }
     
     // tooltips
     tippy("#edit-party",{
