@@ -30,8 +30,14 @@ class Master_model extends CI_Model {
 			$this->db->order_by("location");
         }
         else if($type=="party") {
-            $this->db->select("party_id, party_type_id, party_name")->from("party");
+            $this->db->select("party_id, party.party_type_id, party_type, party_name")
+            ->join('party_type','party_type.party_type_id = party.party_type_id','left')
+            ->from("party");
 			$this->db->order_by("party_name");
+        }
+        else if($type=="party_type") {
+            $this->db->select("party_type_id, party_type")->from("party_type");
+			$this->db->order_by("party_type");
         }
         else if($type=="equipment_category") {
             $this->db->select("*")->from("equipment_category");
@@ -217,7 +223,7 @@ class Master_model extends CI_Model {
         }
     }
 
-    function get_procured_parties_of_user(){
+    function get_parties_of_user(){
         $user_id =$this->session->userdata('logged_in')['user_id'];
         $this->db->select('party.party_id, party_name')
             ->from('party')
@@ -368,5 +374,78 @@ class Master_model extends CI_Model {
             $query = $this->db->get();
             $result =  $query->result();
             return $result;
+    }
+
+    function get_party_by_id($party_id){
+        $this->db->select('party_name, party.party_type_id, party_type, party_address, place, party.district_id, district, district.state_id, state.state,
+                bank_account_no, bank_name, bank_branch, bank_branch_ifsc,party_email,
+                party_phone, party_pan, party.note, created_user.first_name as created_user_first_name, created_user.last_name  as created_user_last_name,
+                created_by, party.created_datetime as party_created_datetime, updated_user.first_name as last_updated_user_first_name, 
+                updated_user.last_name as last_updated_user_last_name, party.updated_datetime as party_last_updated_datetime')
+            ->from('party')
+            ->join('district','district.district_id=party.district_id', 'left')
+            ->join('state','state.state_id=district.state_id','left')
+            ->join('party_type','party_type.party_type_id = party.party_type_id','left')
+            ->join('user as created_user','created_user.user_id=party.created_by','left')
+            ->join('user as updated_user','updated_user.user_id=party.updated_by','left')
+            ->where("party_id",$party_id)
+            ->order_by('party_name');
+        $query = $this->db->get();
+        $result =  $query->row();
+        if($result){
+            return $result;       
+        }else{
+            return false;
+        }
+    }
+
+    function add_party() {
+        $data = array(
+            'party_type_id'=>$this->input->post('party_type'),
+            'party_name'=>$this->input->post('party_name'),
+            'party_address'=>$this->input->post('party_address'),
+            'place'=>$this->input->post('party_place'),
+            'district_id'=>$this->input->post('district'),
+            'bank_account_no'=>$this->input->post('bank_account_no'),
+            'bank_name'=>$this->input->post('bank_name'),
+            'bank_branch'=>$this->input->post('bank_branch'),
+            'bank_branch_ifsc'=>$this->input->post('branch_ifsc'),
+            'party_email'=>$this->input->post('party_email'),
+            'party_phone'=>$this->input->post('party_phone'),
+            // 'contact_person_id'=>$this->input->post('contact_person'),
+            'party_pan'=>$this->input->post('party_pan'),
+            'note'=>$this->input->post('note'),
+            'created_by'=>$this->session->userdata('logged_in')['user_id'],
+        );
+        $this->db->trans_start(); //Transaction begins
+        $this->db->insert('party',$data); //Insert 
+        $this->db->trans_complete(); //Transaction Ends
+        if($this->db->trans_status()===TRUE) return true; else return false; //if transaction completed successfully return true, else false.
+    }
+
+    function update_party($party_id){
+        $data = array(
+            'party_name'=>$this->input->post('party_name'),
+            'party_type_id'=>$this->input->post('party_type'),
+            'party_address'=>$this->input->post('party_address'),
+            'place'=>$this->input->post('party_place'),
+            'district_id'=>$this->input->post('district'),
+            'bank_account_no'=>$this->input->post('bank_account_no'),
+            'bank_name'=>$this->input->post('bank_name'),
+            'bank_branch'=>$this->input->post('bank_branch'),
+            'bank_branch_ifsc'=>$this->input->post('bank_branch_ifsc'),
+            'party_email'=>$this->input->post('party_email'),
+            'party_phone'=>$this->input->post('party_phone'),
+            // 'contact_person_id'=>$this->input->post('contact_person'),
+            'party_pan'=>$this->input->post('party_pan'),
+            'note'=>$this->input->post('note'),
+            'updated_by'=>$this->session->userdata('logged_in')['user_id'],
+            'updated_datetime'=>date("Y-m-d H:i:s")
+        );
+        $this->db->trans_start(); //Transaction begins
+        $this->db->where('party_id',$party_id);
+        $this->db->update('party',$data); //updating the question w.r.t equipment_id
+        $this->db->trans_complete(); //Transaction Ends
+		if($this->db->trans_status()===TRUE) return true; else return false; //if transaction completed successfully return true, else false.
     }
 }
