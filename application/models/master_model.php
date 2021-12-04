@@ -430,7 +430,7 @@ class Master_model extends CI_Model {
             'bank_account_no'=>$this->input->post('bank_account_no'),
             'bank_name'=>$this->input->post('bank_name'),
             'bank_branch'=>$this->input->post('bank_branch'),
-            'bank_branch_ifsc'=>$this->input->post('branch_ifsc'),
+            'bank_branch_ifsc'=>$this->input->post('bank_branch_ifsc'),
             'party_email'=>$this->input->post('party_email'),
             'party_phone'=>$this->input->post('party_phone'),
             // 'contact_person_id'=>$this->input->post('contact_person'),
