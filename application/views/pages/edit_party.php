@@ -1,0 +1,111 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?>
+
+<style type="text/css">
+    label{
+        font-weight:bold;
+    }
+    .card{
+        margin-top:2rem;
+    }
+    .card-header{
+        text-align:left;
+    }
+    .round-button{
+        border-radius:100%;
+        border: solid 1px;
+    }
+    .selectize-control .selectize-input.disabled{
+        opacity: 1;
+        background-color:#e9ecef;
+    }
+</style>
+<?php
+    $logged_in=$this->session->userdata('logged_in');
+?>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-info text-white">
+            <h4> Edit Party Details : <?php echo $party->party_name; ?> </h4>
+        </div>
+        <div class="card-body">
+            <form id="edit_party" action="<?= base_url('parties/edit/').$party_id; ?>" onsubmit="return validateForm()" method="POST">
+                <div class="row">
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="party_name">Party Name</label>
+                        <input class="form-control" name="party_name" type="text" value="<?= $party->party_name; ?>" >
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="party_type">Party type</label>
+                        <select class="form-control" name="party_type" id="party_type" required>
+                            <option value="" selected>Party type</option>
+                            <?php
+                                foreach($party_types as $r){ ?>
+                                <option value="<?php echo $r->party_type_id;?>"    
+                                <?php if($this->input->post('party_type') == $r->party_type_id || $party->party_type_id == $r->party_type_id) echo " selected "; ?>
+                                ><?php echo $r->party_type;?></option>    
+                                <?php }  ?>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="party_address">Party Address</label>
+                        <input class="form-control" name="party_address" type="text" value="<?= $party->party_address; ?>" >
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="party_place">Place</label>
+                        <input class="form-control" name="party_place" type="text" value="<?= $party->place; ?>" >
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="bank_account_no">Bank Account No.</label>
+                        <input class="form-control" name="bank_account_no" type="text" value="<?= $party->bank_account_no; ?>" >
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="bank_name">Bank Name</label>
+                        <input class="form-control" name="bank_name" type="text" value="<?= $party->bank_name; ?>" >
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="bank_branch">Bank Branch</label>
+                        <input class="form-control" name="bank_branch" type="text" value="<?= $party->bank_branch; ?>" >
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="bank_branch_ifsc">Branch IFSC Code</label>
+                        <input class="form-control" name="bank_branch_ifsc" type="text" value="<?= $party->bank_branch_ifsc; ?>" >
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="party_email">Party Email</label>
+                        <input class="form-control" name="party_email" type="email" value="<?= $party->party_email; ?>" >
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="party_phone">Party Phone</label>
+                        <input class="form-control" name="party_phone" type="number" value="<?= $party->party_phone; ?>" >
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="party_pan">Party Pan No.</label>
+                        <input class="form-control" name="party_pan" type="text" value="<?= $party->party_pan; ?>" >
+                    </div>
+                    <div class="form-group col-md-12 col-lg-12 col-xs-12">
+                        <button type="submit" class='btn btn-info btn-block'>Submit</button>                        
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    <?php if(isset($status)) { ?>
+        const status = <?php echo $status; ?>;
+        const msg= '<?php echo $msg; ?>';
+    <?php } ?>
+    
+    if(status==200){
+        swal({
+            title: "Success",
+            text: msg,
+            type: "success",
+            timer: 2000
+        });
+    }
+</script>
