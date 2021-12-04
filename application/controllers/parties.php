@@ -58,6 +58,7 @@ class Parties extends CI_Controller {
 				$this->data['title']='Add Party';
 				$this->load->view('templates/header' , $this->data);
 				$this->data['districts'] = $this->master_model->get_data('district');
+				$this->data['states'] = $this->master_model->get_data('state');
 				$this->data['party_types'] = $this->master_model->get_data('party_type');
 				$this->form_validation->set_rules('party_name','party_name','required');
 				if ($this->form_validation->run() === FALSE) {
