@@ -93,6 +93,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <label for="party_pan">Party Pan No.</label>
                     <input class="form-control" name="party_pan" type="text" value="<?= $party->party_pan; ?>" disabled >
                 </div>
+                <div class="form-group col-md-6 col-lg-6 col-xs-12">
+                    <label for="note">Note</label>
+                    <textarea class="form-control" name="note" rows="1" disabled><?= $party->note; ?></textarea>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-6">

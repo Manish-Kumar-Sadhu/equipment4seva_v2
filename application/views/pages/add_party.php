@@ -115,6 +115,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <label for="party_pan">Party Pan number</label>
                         <input class="form-control" name="party_pan" type="text" minlength="10" maxlength="10">
                     </div>
+                    <div class="form-group col-md-6 col-lg-6 col-xs-12">
+                        <label for="note">Note</label>
+                        <textarea class="form-control" name="note" id="note" rows="1"></textarea>
+                    </div>
                     <div class="form-group col-md-12 col-lg-12 col-xs-12">
                         <button type="submit" class='btn btn-info btn-block'>Submit</button>                        
                     </div>

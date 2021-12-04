@@ -23,6 +23,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     select {
         cursor: pointer;
     }
+
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
+
 </style>
 <?php
     $logged_in=$this->session->userdata('logged_in');
@@ -111,6 +124,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="party_pan">Party Pan No.</label>
                         <input class="form-control" name="party_pan" type="text" value="<?= $party->party_pan; ?>" >
+                    </div>
+                    <div class="form-group col-md-6 col-lg-6 col-xs-12">
+                        <label for="note">Note</label>
+                        <textarea class="form-control" name="note" rows="1"><?= $party->note; ?></textarea>
                     </div>
                     <div class="form-group col-md-12 col-lg-12 col-xs-12">
                         <button type="submit" class='btn btn-info btn-block'>Submit</button>                        

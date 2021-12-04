@@ -379,7 +379,7 @@ class Master_model extends CI_Model {
     function get_party_by_id($party_id){
         $this->db->select('party_name, party.party_type_id, party_type, party_address, place, party.district_id, district, district.state_id, state.state,
                 bank_account_no, bank_name, bank_branch, bank_branch_ifsc,party_email,
-                party_phone, party_pan, created_user.first_name as created_user_first_name, created_user.last_name  as created_user_last_name,
+                party_phone, party_pan, party.note, created_user.first_name as created_user_first_name, created_user.last_name  as created_user_last_name,
                 created_by, party.created_datetime as party_created_datetime, updated_user.first_name as last_updated_user_first_name, 
                 updated_user.last_name as last_updated_user_last_name, party.updated_datetime as party_last_updated_datetime')
             ->from('party')
@@ -414,6 +414,7 @@ class Master_model extends CI_Model {
             'party_phone'=>$this->input->post('party_phone'),
             // 'contact_person_id'=>$this->input->post('contact_person'),
             'party_pan'=>$this->input->post('party_pan'),
+            'note'=>$this->input->post('note'),
             'created_by'=>$this->session->userdata('logged_in')['user_id'],
         );
         $this->db->trans_start(); //Transaction begins
@@ -437,6 +438,7 @@ class Master_model extends CI_Model {
             'party_phone'=>$this->input->post('party_phone'),
             // 'contact_person_id'=>$this->input->post('contact_person'),
             'party_pan'=>$this->input->post('party_pan'),
+            'note'=>$this->input->post('note'),
             'updated_by'=>$this->session->userdata('logged_in')['user_id'],
             'updated_datetime'=>date("Y-m-d H:i:s")
         );
