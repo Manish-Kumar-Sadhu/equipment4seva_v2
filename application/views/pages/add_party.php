@@ -82,7 +82,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 foreach($districts as $r){ ?>
                                 <option value="<?php echo $r->district_id;?>"    
                                 <?php if($this->input->post('district') == $r->district_id) echo " selected "; ?>
-                                ><?php echo $r->district;?></option>    
+                                ><?php echo $r->district;?></option>
                                 <?php }  ?>
                         </select>
                     </div>
@@ -100,7 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="bank_branch_ifsc">Branch IFSC Code<span class="star" style="color:red"> *</span></label>
-                        <input class="form-control" name="bank_branch_ifsc" type="text" minlength="11" maxlength="1" required >
+                        <input class="form-control" name="bank_branch_ifsc" type="text"  required >
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="party_email">Party email<span class="star" style="color:red"> *</span></label>
@@ -108,7 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="party_phone">Party phone number<span class="star" style="color:red"> *</span></label>
-                        <input class="form-control" name="party_phone" type="text" required >
+                        <input class="form-control" name="party_phone" type="number" minlength="10" maxlength="10" required >
                     </div>
                     <!-- contact person id -->
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">

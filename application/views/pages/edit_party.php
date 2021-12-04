@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="state">State<span class="star" style="color:red"> *</span></label>
                         <select class="form-control" name="state" id="state" onchange="filter_districts('state','district')" required>
-                            <option value="0" selected>State</option>
+                            <option value="" selected>State</option>
                             <?php
                                 foreach($states as $r){ ?>
                                 <option value="<?php echo $r->state_id;?>"    
@@ -86,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="bank_account_no">Bank Account No.</label>
-                        <input class="form-control" name="bank_account_no" type="text" value="<?= $party->bank_account_no; ?>" >
+                        <input class="form-control" name="bank_account_no" type="number" value="<?= $party->bank_account_no; ?>" >
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="bank_name">Bank Name</label>
@@ -98,7 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="bank_branch_ifsc">Branch IFSC Code</label>
-                        <input class="form-control" name="bank_branch_ifsc" type="text" value="<?= $party->bank_branch_ifsc; ?>" >
+                        <input class="form-control" name="bank_branch_ifsc" type="text"  value="<?= $party->bank_branch_ifsc; ?>" >
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="party_email">Party Email</label>
@@ -106,7 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="party_phone">Party Phone</label>
-                        <input class="form-control" name="party_phone" type="number" value="<?= $party->party_phone; ?>" >
+                        <input class="form-control" name="party_phone" type="number" minlength="10" maxlength="10" value="<?= $party->party_phone; ?>" >
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="party_pan">Party Pan No.</label>
