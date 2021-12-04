@@ -34,14 +34,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <h4> Edit Party Details : <?php echo $party->party_name; ?> </h4>
         </div>
         <div class="card-body">
-            <form id="edit_party" action="<?= base_url('parties/edit/').$party_id; ?>" onsubmit="return validateForm()" method="POST">
+            <form id="edit_party" action="<?= base_url('parties/edit/').$party_id; ?>" method="POST">
                 <div class="row">
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                        <label for="party_name">Party Name</label>
-                        <input class="form-control" name="party_name" type="text" value="<?= $party->party_name; ?>" >
+                        <label for="party_name">Party Name<span class="star" style="color:red"> *</span></label>
+                        <input class="form-control" name="party_name" type="text" value="<?= $party->party_name; ?>" required >
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                        <label for="party_type">Party type</label>
+                        <label for="party_type">Party type<span class="star" style="color:red"> *</span></label>
                         <select class="form-control" name="party_type" id="party_type" required>
                             <option value="" selected>Party type</option>
                             <?php
@@ -62,7 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="state">State<span class="star" style="color:red"> *</span></label>
-                        <select class="form-control" name="state" id="state" onchange="filter_districts('state','district')" required>
+                        <select class="form-control" name="state" id="state" onchange="filter_districts('state','district')">
                             <option value="" selected>State</option>
                             <?php
                                 foreach($states as $r){ ?>
