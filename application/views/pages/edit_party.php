@@ -20,6 +20,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         opacity: 1;
         background-color:#e9ecef;
     }
+    select {
+        cursor: pointer;
+    }
 </style>
 <?php
     $logged_in=$this->session->userdata('logged_in');
@@ -56,6 +59,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="party_place">Place</label>
                         <input class="form-control" name="party_place" type="text" value="<?= $party->place; ?>" >
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="state">State<span class="star" style="color:red"> *</span></label>
+                        <select class="form-control" name="state" id="state" onchange="filter_districts('state','district')" required>
+                            <option value="0" selected>State</option>
+                            <?php
+                                foreach($states as $r){ ?>
+                                <option value="<?php echo $r->state_id;?>"    
+                                <?php if($this->input->post('state') == $r->state_id ||$r->state_id == $party->state_id ) echo " selected "; ?>
+                                ><?php echo $r->state;?></option>    
+                                <?php }  ?>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                        <label for="district">District</label>
+                        <select class="form-control" name="district" id="district" required>
+                            <option value="" selected>District</option>
+                            <?php
+                                foreach($districts as $r){ ?>
+                                <option value="<?php echo $r->district_id;?>"    
+                                <?php if($this->input->post('district') == $r->district_id || $r->district_id ==$party->district_id ) echo " selected "; ?>
+                                ><?php echo $r->district;?></option>    
+                                <?php }  ?>
+                        </select>
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="bank_account_no">Bank Account No.</label>
@@ -106,6 +133,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             text: msg,
             type: "success",
             timer: 2000
+        });
+    }
+
+    function filter_districts(state, id){
+        let districts = <?php echo json_encode($districts); ?>;
+        let selected_state = $(`#${state}`).val();
+        let filtered_ditricts;
+        $(`#${id}`).empty().append(`<option value="" selected>District</option>`);
+        filtered_ditricts = $.grep(districts , function(v){
+            return v.state_id == selected_state;
+        }) ;
+        console.log(filtered_ditricts);  
+        // iterating the filtered equipment types
+        $.each(filtered_ditricts, function (indexInArray, valueOfElement) { 
+            const {district_id ,district} = valueOfElement;
+            $(`#${id}`).append($('<option></option>').val(district_id).html(district));
         });
     }
 </script>

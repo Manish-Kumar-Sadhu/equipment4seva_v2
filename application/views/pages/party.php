@@ -62,6 +62,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <input class="form-control" name="district" type="text" value="<?= $party->district; ?>" disabled >
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                    <label for="state">State</label>
+                    <input class="form-control" name="state" type="text" value="<?= $party->state; ?>" disabled >
+                </div>
+                <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <label for="bank_account_no">Bank Account No.</label>
                     <input class="form-control" name="bank_account_no" type="text" value="<?= $party->bank_account_no; ?>" disabled >
                 </div>
