@@ -12,6 +12,11 @@ class Equipments extends CI_Controller {
 			$user_id = $userdata['user_id'];
 			$this->data['functions']=$this->user_model->user_function($user_id);
 			$this->data['user_parties']=$this->user_model->user_parties($user_id);
+			$user_party_ids =[];
+			foreach ($this->data['user_parties'] as $key => $value) {
+				array_push($user_party_ids, $value->party_id);
+			}
+			$this->data['user_party_ids'] = $user_party_ids;
 		}
 		$this->data['yousee_website'] = $this->master_model->get_defaults('yousee_website');
     }
@@ -36,6 +41,9 @@ class Equipments extends CI_Controller {
 		}
 		$this->data['equipment_data']=$equipment_data;
 		$this->data['equipment_count'] = $this->master_model->get_equipment_count();
+		$this->data['edit_equipment_access']=0;
+		$this->data['view_equipment_access']=0;
+		$this->data['remove_equipment_access']=0;
 		if($this->session->userdata('logged_in')){
 			foreach($this->data['functions'] as $f){
 				if($f->user_function=="equipment"){ 
@@ -48,10 +56,6 @@ class Equipments extends CI_Controller {
 					}
 				}
 			}
-		} else {
-			$this->data['edit_equipment_access']=0;
-			$this->data['view_equipment_access']=0;
-			$this->data['remove_equipment_access']=0;
 		}
 		$this->load->view('equipments', $this->data);
 		$this->load->view('templates/footer' ,$this->data);
@@ -124,11 +128,12 @@ class Equipments extends CI_Controller {
 
 	function edit($equipment_id){
 		if($this->session->userdata('logged_in')){
+			$equipment = $this->master_model->get_equipment_by_id($equipment_id);
 			$edit_equipment_access=0;
 			$add_equipment_location=0;
 			foreach($this->data['functions'] as $f){
 				if($f->user_function=="equipment"){ 
-					if($f->edit)
+					if($f->edit && in_array($equipment->procured_by_party_id, $this->data['user_party_ids']))
 						$edit_equipment_access=1;  	
 				}	
 				if($f->user_function=="equipment_location"){ 

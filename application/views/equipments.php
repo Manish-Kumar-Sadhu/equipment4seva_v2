@@ -113,12 +113,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php
     //  fetching default party_id of loggedIn user
     $logged_in=$this->session->userdata('logged_in');
-    if($logged_in){
-        $user_party_ids =[];
-        foreach ($user_parties as $key => $value) {
-            array_push($user_party_ids, $value->party_id);
-        }
-    }
     $to_date = $this->input->post('to_date');
     $from_date = $this->input->post('from_date');
     $donor_party = $this->input->post('donor_party');
