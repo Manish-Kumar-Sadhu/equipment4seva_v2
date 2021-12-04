@@ -330,7 +330,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
                         <td style="text-align:center"><?php echo  date("d-M-Y", strtotime($r->invoice_date)); ?></td>
                         <td>
-                            <button id="view-equipment" class="btn btn-info btn-sm round-button" onclick="show_equipment(<?=$r->equipment_id; ?>);"><i class='fa fa-external-link' aria-hidden='true'></i></button>
+                            <button id="view-equipment" class="btn btn-info btn-sm round-button" onclick="view_equipment(<?=$r->equipment_id; ?>);"><i class='fa fa-external-link' aria-hidden='true'></i></button>
                             <?php if($edit_equipment_access && in_array($r->procured_by_party_id, $user_party_ids)){ ?>
                                 <button id="edit-equipment" class="btn btn-info btn-sm round-button" onclick="update_equipment(<?=$r->equipment_id; ?>)"><i class='fa fa-pencil' aria-hidden='true'></i></button>
                             <?php } ?>
@@ -541,7 +541,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
        doPost(dropdownobj.value);    
     }
     
-    function show_equipment(id){
+    function view_equipment(id){
         window.open("<?php echo base_url()."equipments/view/";?>"+id, '_blank');
     }
 
