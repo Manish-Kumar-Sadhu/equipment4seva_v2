@@ -75,7 +75,7 @@
                         if($f->add){ ?>
                           <a class="dropdown-item" href="<?php echo base_url()."parties/add";?>"><i class="fa fa-edit"></i> Add Party</a>
                         <?php } if($f->view) { ?>
-                          <a class="dropdown-item" href="<?php echo base_url()."parties/";?>"> My Parties</a>
+                          <a class="dropdown-item" href="<?php echo base_url()."parties/";?>"><i class="fa fa-search" aria-hidden="true"></i> View Parties</a>
                        <?php } ?>
                       </ul>   
                   <?php }
@@ -99,7 +99,7 @@
         <li class="dropdown">
             <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" style="text-decoration:none; color:black;" > Equipments <b class="caret"></b></a>
             <div class="dropdown-menu"> 
-            <a class="dropdown-item" href="<?php echo base_url()."equipments/";?>">Equipments</a>
+            <a class="dropdown-item" href="<?php echo base_url()."equipments/";?>"><i class="fa fa-search" aria-hidden="true"></i> Equipments</a>
               <?php 
                 foreach($functions as $f){
                   if($f->user_function=="equipment") { 

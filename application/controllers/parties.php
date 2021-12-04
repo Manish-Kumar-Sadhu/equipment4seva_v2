@@ -20,9 +20,9 @@ class Parties extends CI_Controller {
 		if($this->session->userdata('logged_in')){
 				$this->load->helper('form');
 				$this->load->library('form_validation');
-				$this->data['title']='My parties';
+				$this->data['title']='Parties';
 				$this->load->view('templates/header' , $this->data);
-				$this->data['user_parties'] = $this->master_model->get_parties_of_user();
+				$this->data['parties'] = $this->master_model->get_data('party');
 				$this->load->view('pages/parties', $this->data);
 				$this->load->view('templates/footer' ,$this->data);
 		} else{

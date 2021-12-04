@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="container">
     <div class="card">
         <div class="card-header bg-info text-white">
-           <h4> My parties </h4>
+           <h4> Parties </h4>
         </div>
         <div class="card-body">
             <div class="row">
@@ -45,17 +45,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <tr>
                             <th style="text-align:center">#</th>
                             <th style="text-align:center">Party Name</th>
+                            <th style="text-align:center">Party Type</th>
                             <th style="text-align:center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                             $i=1;
-                            foreach($user_parties as $r){ ?>
+                            foreach($parties as $r){ ?>
                             <tr>
                                 <td><?php echo $i++; ?></td>
                                 <td><?php echo $r->party_name; ?></td>
+                                <td><?php echo $r->party_type; ?></td>
                                 <td>
+                                    <button id="edit-party" class="btn btn-info btn-sm round-button" onclick="view_party(<?=$r->party_id; ?>)"><i class='fa fa-external-link' aria-hidden='true'></i></button>
                                     <button id="edit-party" class="btn btn-info btn-sm round-button" onclick="update_party(<?=$r->party_id; ?>)"><i class='fa fa-pencil' aria-hidden='true'></i></button>
                                     <button id="delete-party" class="btn btn-info btn-sm round-button" onclick="delete_party(<?=$r->party_id; ?>)"><i class='fa fa-trash' aria-hidden='true'></i></button>
                                 </td>
@@ -113,7 +116,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // use uitheme widget to apply defauly jquery ui (jui) class names
                 // see the uitheme demo for more details on how to change the class names
                 resizable:false,
-                resizable_widths: ['10%', '60%', '40%'],
+                resizable_widths: ['5%', '40%', '30%', '25%'],
                 uitheme : 'jui'
             }
         };

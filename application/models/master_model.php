@@ -30,7 +30,9 @@ class Master_model extends CI_Model {
 			$this->db->order_by("location");
         }
         else if($type=="party") {
-            $this->db->select("party_id, party_type_id, party_name")->from("party");
+            $this->db->select("party_id, party.party_type_id, party_type, party_name")
+            ->join('party_type','party_type.party_type_id = party.party_type_id','left')
+            ->from("party");
 			$this->db->order_by("party_name");
         }
         else if($type=="party_type") {
