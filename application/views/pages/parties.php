@@ -59,8 +59,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <td><?php echo $r->party_type; ?></td>
                                 <td>
                                     <button id="view-party" class="btn btn-info btn-sm round-button" onclick="view_party(<?=$r->party_id; ?>)"><i class='fa fa-external-link' aria-hidden='true'></i></button>
-                                    <button id="edit-party" class="btn btn-info btn-sm round-button" onclick="update_party(<?=$r->party_id; ?>)"><i class='fa fa-pencil' aria-hidden='true'></i></button>
-                                    <button id="delete-party" class="btn btn-info btn-sm round-button" onclick="delete_party(<?=$r->party_id; ?>)"><i class='fa fa-trash' aria-hidden='true'></i></button>
+                                   <?php if($edit_party_access && in_array( $r->party_id,$user_party_ids)) { ?> 
+                                        <button id="edit-party" class="btn btn-info btn-sm round-button" onclick="update_party(<?=$r->party_id; ?>)"><i class='fa fa-pencil' aria-hidden='true'></i></button>
+                                    <?php } ?>
+                                    <!-- <button id="delete-party" class="btn btn-info btn-sm round-button" onclick="delete_party(<?=$r->party_id; ?>)"><i class='fa fa-trash' aria-hidden='true'></i></button> -->
                                 </td>
                             </tr>
                         <?php } ?>
