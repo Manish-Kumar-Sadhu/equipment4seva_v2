@@ -377,11 +377,15 @@ class Master_model extends CI_Model {
     }
 
     function get_party_by_id($party_id){
-        $this->db->select('party_name, party_type, party_address, place, district, bank_account_no, bank_branch, bank_branch_ifsc,party_email,
-                party_phone, party_pan')
+        $this->db->select('party_name, party_type, party_address, place, district, bank_account_no, bank_name, bank_branch, bank_branch_ifsc,party_email,
+                party_phone, party_pan, created_user.first_name as created_user_first_name, created_user.last_name  as created_user_last_name,
+                created_by, party.created_datetime as party_created_datetime, updated_user.first_name as last_updated_user_first_name, 
+                updated_user.last_name as last_updated_user_last_name, party.updated_datetime as party_last_updated_datetime')
             ->from('party')
             ->join('district','district.district_id=party.district_id')
             ->join('party_type','party_type.party_type_id = party.party_type_id','left')
+            ->join('user as created_user','created_user.user_id=party.created_by','left')
+            ->join('user as updated_user','updated_user.user_id=party.updated_by','left')
             ->order_by('party_name');
         $query = $this->db->get();
         $result =  $query->row();
