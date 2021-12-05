@@ -100,7 +100,7 @@ class Parties extends CI_Controller {
 			$edit_party_access=0;
 			foreach($this->data['functions'] as $f){
 				if($f->user_function=="party"){ 
-					if($f->edit)
+					if($f->edit && in_array($party_id, $this->data['user_party_ids']))
 						$edit_party_access=1;  	
 				}	
 			}

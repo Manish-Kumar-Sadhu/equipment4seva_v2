@@ -71,7 +71,8 @@ class Home extends CI_Controller {
 				'username' => $result->username,
 				'email'=>$result->email,
 				'first_name'=>$result->first_name,
-				'last_name'=>$result->last_name
+				'last_name'=>$result->last_name,
+				'default_party_id'=>$result->default_party_id
 				);
 			$this->session->set_userdata('logged_in', $sess_array);
 			return TRUE;

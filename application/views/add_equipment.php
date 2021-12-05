@@ -27,6 +27,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
 
 </style>
+<?php 
+    $logged_in=$this->session->userdata('logged_in');
+    $default_party_id = $logged_in['default_party_id'];
+?>
 <div class="container">
     <div class="card">
         <div class="card-header bg-info text-white">
@@ -213,7 +217,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     $(function () {
         initDropdown('donor_party', '<?php echo json_encode($party); ?>');
-        initDropdown('procured_by_party', '<?php echo json_encode($procured_by_parties); ?>');
+        initDropdown('procured_by_party', '<?php echo json_encode($procured_by_parties); ?>', '<?= $default_party_id ?>');
         initDropdown('supplier_party', '<?php echo json_encode($party); ?>');
         initDropdown('manufactured_party', '<?php echo json_encode($party); ?>');
     });
@@ -222,7 +226,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         return str.replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t");
     }
 
-    function initDropdown(id, list){
+    function initDropdown(id, list, value){
         let data = JSON.parse(escapeSpecialChars(list));
         // console.log(data);
         var selectize = $(`#${id}`).selectize({
@@ -245,8 +249,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // if (!query.length) return callback();
                 selectize[0].selectize.setValue(null);
             },
-
         });
+        if(value){
+		    selectize[0].selectize.setValue(value);
+	    }
     }
 
     function filter_equipment_type(category, id){
