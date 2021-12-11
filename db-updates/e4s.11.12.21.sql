@@ -31,3 +31,10 @@ ALTER TABLE `equipment_documents` CHANGE `update_by` `updated_by` INT(11) NULL D
 --
 INSERT INTO `user_function` (`user_function_id`, `user_function`, `user_function_display`, `description`) 
 VALUES (NULL, 'equipment_document', 'Equipment Document', '');
+
+
+---
+--- added user function for summary report
+---
+INSERT INTO `user_function` (`user_function_id`, `user_function`, `user_function_display`, `description`)
+VALUES (NULL, 'summary_report', 'Summary report', '');
