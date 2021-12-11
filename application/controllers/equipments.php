@@ -131,23 +131,24 @@ class Equipments extends CI_Controller {
 		if($this->session->userdata('logged_in')){
 			$equipment = $this->master_model->get_equipment_by_id($equipment_id);
 			$edit_equipment_access=0;
-			$add_equipment_location=0;
-			$add_equipment_document=0;
-			$delete_equipment_document=0;
+			$add_equipment_location_access=0;
+			$add_equipment_document_access=0;
+			$delete_equipment_document_access=0;
+			$has_party_access =  in_array($equipment->procured_by_party_id, $this->data['user_party_ids']);
 			foreach($this->data['functions'] as $f){
 				if($f->user_function=="equipment"){ 
-					if($f->edit && in_array($equipment->procured_by_party_id, $this->data['user_party_ids']))
-						$edit_equipment_access=1;  	
+					if($f->edit && $has_party_access)
+						$edit_equipment_access=1;  
 				}	
 				if($f->user_function=="equipment_location"){ 
-					if($f->add)
-						$add_equipment_location=1;  	
+					if($f->add && $has_party_access)
+						$add_equipment_location_access=1;  	
 				}	
 				if($f->user_function=="equipment_document"){ 
-					if($f->add)
-						$add_equipment_document=1; 
-					if($f->remove && in_array($equipment->procured_by_party_id, $this->data['user_party_ids']) )
-						$delete_equipment_document=1; 
+					if($f->add && $has_party_access)
+						$add_equipment_document_access=1; 
+					if($f->remove && $has_party_access)
+						$delete_equipment_document_access=1; 
 				}	
 			}
 			if($edit_equipment_access){
@@ -169,9 +170,9 @@ class Equipments extends CI_Controller {
 				$this->data['equipment_documents'] = $this->documentation_model->get_documents_by_equipment_id($equipment_id);
 				$this->data['journal_type'] = $this->master_model->get_data('journal_type');
 				$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
-				$this->data['add_equipment_location'] = $add_equipment_location;
-				$this->data['add_equipment_document'] = $add_equipment_document;
-				$this->data['delete_equipment_document'] = $delete_equipment_document;
+				$this->data['add_equipment_location_access'] = $add_equipment_location_access;
+				$this->data['add_equipment_document_access'] = $add_equipment_document_access;
+				$this->data['delete_equipment_document_access'] = $delete_equipment_document_access;
 				// documents default constraints
 				$allowed_types = $this->master_model->get_defaults('upload_allowed_types')->value;
 				$max_size = $this->master_model->get_defaults('upload_max_size')->value;
@@ -253,7 +254,6 @@ class Equipments extends CI_Controller {
 							$config['encrypt_name'] = FALSE;
 							$config['overwrite'] = $overwrite ? TRUE : FALSE;
 							$config['remove_spaces'] = $remove_spaces ? TRUE : FALSE;
-							var_dump($overwrite);
 							// Upload file and add document record
 							$msg = "Error: ";
 							$uploadOk = 1;

@@ -254,7 +254,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </tbody>
             </table>
         </div>
-        <?php if($add_equipment_location) { ?>
+        <?php if($add_equipment_location_access) { ?>
         <div class="card-body">
             <form id="add_location" action="<?=  base_url('equipments/edit/').$equipment_id; ?>" method="POST">
                 <input type="hidden" name="form_for" value="add_equipment_location_log">
@@ -327,7 +327,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td>
                                 <button id="view-document" class="btn btn-info btn-sm round-button" onclick="view_document('<?=$r->document_link; ?>');"><i class='fa fa-external-link' aria-hidden='true'></i></button>
                                 <button id="edit-document" class="btn btn-info btn-sm round-button" onclick="edit_document('<?=$r->document_link; ?>');"><i class='fa fa-pencil' aria-hidden='true'></i></button>
-                                <?php if($delete_equipment_document) { ?>
+                                <?php if($delete_equipment_document_access) { ?>
                                     <button id="delete-document" class="btn btn-danger btn-sm round-button" onclick="delete_document('<?=$r->id; ?>');"><i class='fa fa-trash' aria-hidden='true'></i></button>
                                 <?php } ?>
                             </td>
@@ -336,7 +336,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </tbody>
             </table>
         </div>
-        <?php if($add_equipment_document) { ?>
+        <?php if($add_equipment_document_access) { ?>
             <div class="card-body">
                 <form enctype="multipart/form-data" id="add_equipment_document" action="<?= base_url('equipments/edit/').$equipment_id; ?>" method="POST">
                     <input type="hidden" name="form_for" value="upload_equipment_document">
