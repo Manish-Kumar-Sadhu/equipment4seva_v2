@@ -301,4 +301,8 @@ class Equipments extends CI_Controller {
 		}
 	}
 
+	function delete_document($id){
+		$deleted = $this->documentation_model->delete_document($id);
+		print json_encode($deleted);
+	}
 }

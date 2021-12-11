@@ -327,7 +327,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td>
                                 <button id="view-document" class="btn btn-info btn-sm round-button" onclick="view_document('<?=$r->document_link; ?>');"><i class='fa fa-external-link' aria-hidden='true'></i></button>
                                 <button id="edit-document" class="btn btn-info btn-sm round-button" onclick="edit_document('<?=$r->document_link; ?>');"><i class='fa fa-pencil' aria-hidden='true'></i></button>
-                                <button id="delete-document" class="btn btn-danger btn-sm round-button" onclick="delete_document('<?=$r->document_link; ?>');"><i class='fa fa-trash' aria-hidden='true'></i></button>
+                                <button id="delete-document" class="btn btn-danger btn-sm round-button" onclick="delete_document('<?=$r->id; ?>');"><i class='fa fa-trash' aria-hidden='true'></i></button>
                             </td>
                         </tr>
                     <?php }  ?>
@@ -518,6 +518,59 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     function view_document(document_link){
         window.open("<?php echo base_url()."assets/equipment_documents/";?>"+document_link, '_blank');
     }
+
+    function delete_document(id){
+        swal({
+            title: "Are you sure?",
+            text: "You will not be able to recover this document!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonClass: "btn btn-outline-secondary",
+            cancelButtonText: "Cancel!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+            },
+            function(isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    type: "DELETE",
+                    accepts: {
+                        contentType: "application/json"
+                    },
+                    url: "<?= base_url() ?>equipments/delete_document/"+id,
+                    dataType: "text",
+                    success: function (response) {
+                        const res =  JSON.parse(response);
+                        swal({
+                            title: "Success",
+                            text: "Question has been deleted!",
+                            type: "success",
+                            timer: 2000
+                        });
+                        location.reload();
+                    },
+                    error: function(){
+                        swal({
+                            title: "Cancelled",
+                            text: "Something went wrong. Please try again!",
+                            type: "error",
+                            timer: 2000
+                        })
+                    }
+                });
+            } else {
+                swal({
+                    title: "Cancelled",
+                    text: "Document is safe!",
+                    type: "error",
+                    timer: 2000
+                })
+            }
+            });  
+    }
+
     // tooltips
     tippy("#view-document", {
         content : 'view document'
