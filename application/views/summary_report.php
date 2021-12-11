@@ -37,11 +37,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $procured_by_party = $this->input->post('procured_by_party');
     $supplier_party = $this->input->post('supplier_party');
     $manufactured_party = $this->input->post('manufactured_party');
+    $group_by_equipment_type = $this->input->post('group_by_equipment_type');
     $group_by_equipment_category = $this->input->post('group_by_equipment_category');
 ?>
 
 <div class="container">
     <form id="summary_report" action="<?= base_url('reports/summary_report'); ?>" method="POST">
+        <input type="hidden" id="1" name="postback" value="1">
         <div class="row">
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="equipment_category">Equipment Category</label>
@@ -54,12 +56,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         ><?php echo $r->equipment_category;?></option>    
                         <?php }  ?>
                 </select>
-                <input type="checkbox" name="group_by_equipment_category" id="group_by_equipment_category" <?php echo $group_by_equip_category->value ? 'checked' :''  ?>/> <span>Group by equipment category</span>
+                <?php if(!$this->input->post('postback')) { ?>				  
+                    <input type="checkbox" name="group_by_equipment_category" id="group_by_equipment_category" value="1" checked onclick="handleClick();"  > <span>Group by equipment category</span>
+                <?php } else { ?>
+                    <input type="checkbox" name="group_by_equipment_category" id="group_by_equipment_category" value="1" <?php if($group_by_equipment_category) echo "checked";?> onclick="handleClick();"  > <span>Group by equipment category</span>
+                <?php } ?>
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="equipment_type">Equipment Type</label>
                 <select class="form-control" name="equipment_type" id="equipment_type">
-                    <option value="0" selected>Equipment Type</option>
+                    <option value="" selected>Equipment Type</option>
                     <?php
                         foreach($equipment_type as $r){ ?>
                         <option value="<?php echo $r->equipment_type_id;?>"    
@@ -67,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         ><?php echo $r->equipment_type;?></option>    
                         <?php }  ?>
                 </select>
-                <input type="checkbox" name="group_by_equipment_type" id="group_by_equipment_type"/> <span>Group by equipment category</span>
+                <input type="checkbox" name="group_by_equipment_type" id="group_by_equipment_type" value="1" <?php if($group_by_equipment_type) echo "checked";?>  onclick="handleClick();" /> <span>Group by equipment type</span>
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="from_invoice_date">From Invoice date</label>
@@ -119,8 +125,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <thead>
                 <tr>
                     <th style="text-align:center">#</th>
-                    <th style="text-align:center">Equipment Category</th>
-                    <th style="text-align:center">Equipment Type</th>
+                    <?php if($group_by_equipment_category)  { ?>
+                        <th style="text-align:center">Equipment Category</th>
+                    <?php } if($group_by_equipment_type) { ?>
+                        <th style="text-align:center">Equipment Type</th>
+                    <?php } ?>
                     <th style="text-align:center">No. of records</th>
                     <th style="text-align:center">Total Amount</th>
                 </tr>
@@ -130,12 +139,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $serial_number=1;
                     $total_no_of_records=0;
                     $grand_total_amount=0;
-                    foreach($summary_data as $r){ ?>
+                    $val_count='';
+                    foreach($summary_data as $r){
+                        $val_count=0;
+                    ?>
                     <tr>
                         <td><?php echo $serial_number++; ?></td>
-                        <td><?php echo $r->equipment_category; ?></td>
-                        <td><?php echo $r->equipment_type; ?></td>
-                        <td><?php echo $r->no_of_records; ?></td>
+                        <?php if($group_by_equipment_category)  { ?>
+                            <td><?php echo $r->equipment_category; $val_count=$val_count +1; ?></td>
+                        <?php } if($group_by_equipment_type) { ?>
+                            <td><?php echo $r->equipment_type; $val_count=$val_count +1; ?></td>
+                        <?php } ?>
+                        <td style="text-align:right"><?php echo $r->no_of_records; ?></td>
                         <td style="text-align:right"><?php echo number_format($r->total_amount); ?></td>
                     </tr>
                 <?php
@@ -146,9 +161,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <tfoot>
                 <tr>
                     <th style="text-align:center">Total</th>
-                    <th style="text-align:center"></th>
-                    <th style="text-align:center"></th>
-                    <th style="text-align:center"><?php echo $total_no_of_records;  ?> </th>
+                    <?php
+                        for ($i = 0; $i < $val_count; $i++) {
+                            echo "<th></th>";
+                        }
+                        ?>
+                    <th style="text-align:right"><?php echo $total_no_of_records;  ?> </th>
                     <th style="text-align:right"><?php echo number_format($grand_total_amount);  ?> </th>
                 </tr>
             </tfoot>
@@ -206,7 +224,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // use uitheme widget to apply defauly jquery ui (jui) class names
                 // see the uitheme demo for more details on how to change the class names
                 resizable:false,
-                resizable_widths: ['5%','20%','20%','20%','20%'],
                 uitheme : 'jui'
             }
         };
@@ -262,6 +279,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             const {equipment_type_id ,equipment_type} = valueOfElement;
             $(`#${id}`).append($('<option></option>').val(equipment_type_id).html(equipment_type));
         });
+    }
+
+    function handleClick() {
+    var groupByEquipmentCategory = document.getElementById("group_by_equipment_category");
+    var groupByEquipmentType = document.getElementById("group_by_equipment_type");
+    var groupbyicdcode = document.getElementById("groupbyicdcode");
+    if ( !groupByEquipmentCategory.checked && !groupByEquipmentType.checked){
+        groupByEquipmentCategory.checked = true;
+    }
     }
 
 
