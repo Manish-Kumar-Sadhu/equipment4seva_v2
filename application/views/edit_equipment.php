@@ -355,12 +355,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="form-group col-md-4 col-lg-3 col-xs-12">
                             <label for="document_date">Document date<span class="star" style="color:red"> *</span></label>
-                            <input class="form-control" name="document_date" type="date"  max="<?php echo date("Y-m-d") ?>" >
+                            <input class="form-control" name="document_date" type="date"  max="<?php echo date("Y-m-d") ?>" required>
                         </div>
                         <div class="form-group col-md-4 col-lg-3 col-xs-12">
                             <label for="upload_file">Upload Image<span class="star" style="color:red"> *</span></label>
                             <input type="text" class="sr-only" hidden name="document_link"/>
-                            <input type="file" name="upload_file" id="upload_file"/>
+                            <input type="file" name="upload_file" id="upload_file" required>
                         </div>
                         <div class="form-group col-md-6 col-lg-6 col-xs-12">
                             <label for="note">Note</label>
