@@ -10,3 +10,8 @@ INSERT INTO `defaults` (`default_id`, `default_tilte`, `default_description`, `d
 ('upload_remove_spaces', 'Remove spaces in Equipment Document file name', 'If set to TRUE, any spaces in the file name will be converted to underscores. This is recommended.', 'Text', '', '', '', 'TRUE'),
 ('upload_overwrite', 'Overwrite feature for document upload', 'If set to true, if a file with the same name as the one you are uploading exists, it will be overwritten. If set to false, a number will be appended to the filename if another with the same name exists.', 'Text', '', '', '', 'TRUE');
 COMMIT;
+
+---
+--- Updated document type to allow pdf
+---
+UPDATE `defaults` SET `value` = 'gif|jpg|jpeg|png|pdf' WHERE `defaults`.`default_id` = 'upload_allowed_types';
