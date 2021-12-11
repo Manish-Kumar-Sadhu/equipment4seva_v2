@@ -25,3 +25,9 @@ ALTER TABLE `equipment_documents` CHANGE `create_datetime` `create_datetime` DAT
 --- fixed column name 
 ---
 ALTER TABLE `equipment_documents` CHANGE `update_by` `updated_by` INT(11) NULL DEFAULT NULL;
+
+--
+-- new user function for equipment document
+--
+INSERT INTO `user_function` (`user_function_id`, `user_function`, `user_function_display`, `description`) 
+VALUES (NULL, 'equipment_document', 'Equipment Document', '');
