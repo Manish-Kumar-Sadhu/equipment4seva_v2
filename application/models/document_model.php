@@ -1,5 +1,5 @@
 <?php
-class documentation_model extends CI_Model{
+class Document_model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 	}

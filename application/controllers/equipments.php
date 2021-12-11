@@ -8,7 +8,7 @@ class Equipments extends CI_Controller {
 		$this->load->model('master_model');
 		if($this->session->userdata('logged_in')){
 			$this->load->model('user_model');
-			$this->load->model('documentation_model');
+			$this->load->model('document_model');
 			$userdata = $this->session->userdata('logged_in');
 			$user_id = $userdata['user_id'];
 			$this->data['functions']=$this->user_model->user_function($user_id);
@@ -175,7 +175,7 @@ class Equipments extends CI_Controller {
 				$this->data['equipment_procurement_status'] = $this->master_model->get_data('equipment_procurement_status');
 				$this->data['equipment_functional_status'] = $this->master_model->get_data('equipment_functional_status');
 				$this->data['equipment_location_history'] = $this->master_model->get_equipment_location_history($equipment_id);
-				$this->data['equipment_documents'] = $this->documentation_model->get_documents_by_equipment_id($equipment_id);
+				$this->data['equipment_documents'] = $this->document_model->get_documents_by_equipment_id($equipment_id);
 				$this->data['journal_type'] = $this->master_model->get_data('journal_type');
 				$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
 				$this->data['add_equipment_location_access'] = $add_equipment_location_access;
@@ -210,7 +210,7 @@ class Equipments extends CI_Controller {
 							$this->data['status']=200;
 							$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
 							$this->data['equipment_location_history'] = $this->master_model->get_equipment_location_history($equipment_id);
-							$this->data['equipment_documents'] = $this->documentation_model->get_documents_by_equipment_id($equipment_id);
+							$this->data['equipment_documents'] = $this->document_model->get_documents_by_equipment_id($equipment_id);
 							$this->load->view('edit_equipment',$this->data);
 						} else {
 							$this->data['msg']="Error updating equipment. Please retry.";
@@ -223,7 +223,7 @@ class Equipments extends CI_Controller {
 							$this->data['status']=200;
 							$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
 							$this->data['equipment_location_history'] = $this->master_model->get_equipment_location_history($equipment_id);
-							$this->data['equipment_documents'] = $this->documentation_model->get_documents_by_equipment_id($equipment_id);
+							$this->data['equipment_documents'] = $this->document_model->get_documents_by_equipment_id($equipment_id);
 							$this->load->view('edit_equipment',$this->data);
 						} else {
 							$this->data['msg']="Error adding equipment's location log. Please retry.";
@@ -291,12 +291,12 @@ class Equipments extends CI_Controller {
 							}
 							
 							// Add document record
-							if ($uploadOk ==1 && $this->documentation_model->add_document($file['file_name'], $equipment_id)){							
+							if ($uploadOk ==1 && $this->document_model->add_document($file['file_name'], $equipment_id)){							
 								$this->data['status']=200;
 								$this->data['msg']="Document Added Succesfully";
 								$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
 								$this->data['equipment_location_history'] = $this->master_model->get_equipment_location_history($equipment_id);
-								$this->data['equipment_documents'] = $this->documentation_model->get_documents_by_equipment_id($equipment_id);
+								$this->data['equipment_documents'] = $this->document_model->get_documents_by_equipment_id($equipment_id);
 								$this->load->view('edit_equipment',$this->data);					
 							}
 							else {
@@ -318,12 +318,12 @@ class Equipments extends CI_Controller {
 
 	function delete_document($id){
 		$this->load->helper("file");
-		$document = $this->documentation_model->get_document_by_id($id);
+		$document = $this->document_model->get_document_by_id($id);
 		if($document) {
 			$path_to_file = "./assets/equipment_documents/".$document->document_link;
 			// deleting file from assests folder
 			if(file_exists($path_to_file) && unlink($path_to_file)){
-				$deleted = $this->documentation_model->delete_document($id);
+				$deleted = $this->document_model->delete_document($id);
 				print json_encode($deleted);
 			}
 			// updated deleted info in equipment documents table
