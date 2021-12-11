@@ -67,6 +67,20 @@
       </ul>
       <ul class="navbar-nav navbar-right ">  
         <li class="dropdown">
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" style="text-decoration:none; color:black;" > Reports <b class="caret"></b></a>
+              <?php 
+                foreach($functions as $f){
+                  if($f->user_function=="summary_report") { ?>
+                      <ul class="dropdown-menu"> 
+                        <?php if($f->view) { ?>
+                          <a class="dropdown-item" href="<?php echo base_url()."reports/summary_report";?>">Summary report</a>
+                       <?php } ?>
+                      </ul>   
+                  <?php }
+                }
+              ?>
+        </li>
+        <li class="dropdown">
             <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" style="text-decoration:none; color:black;" > Parties <b class="caret"></b></a>
               <?php 
                 foreach($functions as $f){
