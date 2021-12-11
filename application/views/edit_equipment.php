@@ -327,7 +327,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td>
                                 <button id="view-document" class="btn btn-info btn-sm round-button" onclick="view_document('<?=$r->document_link; ?>');"><i class='fa fa-external-link' aria-hidden='true'></i></button>
                                 <button id="edit-document" class="btn btn-info btn-sm round-button" onclick="edit_document('<?=$r->document_link; ?>');"><i class='fa fa-pencil' aria-hidden='true'></i></button>
-                                <button id="delete-document" class="btn btn-danger btn-sm round-button" onclick="delete_document('<?=$r->id; ?>');"><i class='fa fa-trash' aria-hidden='true'></i></button>
+                                <?php if($delete_equipment_document) { ?>
+                                    <button id="delete-document" class="btn btn-danger btn-sm round-button" onclick="delete_document('<?=$r->id; ?>');"><i class='fa fa-trash' aria-hidden='true'></i></button>
+                                <?php } ?>
                             </td>
                         </tr>
                     <?php }  ?>

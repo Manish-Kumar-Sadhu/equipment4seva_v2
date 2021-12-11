@@ -133,6 +133,7 @@ class Equipments extends CI_Controller {
 			$edit_equipment_access=0;
 			$add_equipment_location=0;
 			$add_equipment_document=0;
+			$delete_equipment_document=0;
 			foreach($this->data['functions'] as $f){
 				if($f->user_function=="equipment"){ 
 					if($f->edit && in_array($equipment->procured_by_party_id, $this->data['user_party_ids']))
@@ -144,7 +145,9 @@ class Equipments extends CI_Controller {
 				}	
 				if($f->user_function=="equipment_document"){ 
 					if($f->add)
-						$add_equipment_document=1;  	
+						$add_equipment_document=1; 
+					if($f->remove && in_array($equipment->procured_by_party_id, $this->data['user_party_ids']) )
+						$delete_equipment_document=1; 
 				}	
 			}
 			if($edit_equipment_access){
@@ -168,6 +171,7 @@ class Equipments extends CI_Controller {
 				$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
 				$this->data['add_equipment_location'] = $add_equipment_location;
 				$this->data['add_equipment_document'] = $add_equipment_document;
+				$this->data['delete_equipment_document'] = $delete_equipment_document;
 				// documents default constraints
 				$allowed_types = $this->master_model->get_defaults('upload_allowed_types')->value;
 				$max_size = $this->master_model->get_defaults('upload_max_size')->value;
