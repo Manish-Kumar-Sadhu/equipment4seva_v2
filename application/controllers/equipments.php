@@ -314,7 +314,7 @@ class Equipments extends CI_Controller {
 		if($document) {
 			$path_to_file = "./assets/equipment_documents/".$document->document_link;
 			// deleting file from assests folder
-			if(unlink($path_to_file)){
+			if(file_exists($path_to_file) && unlink($path_to_file)){
 				$deleted = $this->documentation_model->delete_document($id);
 				print json_encode($deleted);
 			}
