@@ -197,6 +197,7 @@ class Equipments extends CI_Controller {
 							$this->data['status']=200;
 							$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
 							$this->data['equipment_location_history'] = $this->master_model->get_equipment_location_history($equipment_id);
+							$this->data['equipment_documents'] = $this->documentation_model->get_documents_by_equipment_id($equipment_id);
 							$this->load->view('edit_equipment',$this->data);
 						} else {
 							$this->data['msg']="Error updating equipment. Please retry.";
@@ -209,6 +210,7 @@ class Equipments extends CI_Controller {
 							$this->data['status']=200;
 							$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
 							$this->data['equipment_location_history'] = $this->master_model->get_equipment_location_history($equipment_id);
+							$this->data['equipment_documents'] = $this->documentation_model->get_documents_by_equipment_id($equipment_id);
 							$this->load->view('edit_equipment',$this->data);
 						} else {
 							$this->data['msg']="Error adding equipment's location log. Please retry.";
@@ -282,6 +284,7 @@ class Equipments extends CI_Controller {
 								$this->data['msg']="Document Added Succesfully";
 								$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
 								$this->data['equipment_location_history'] = $this->master_model->get_equipment_location_history($equipment_id);
+								$this->data['equipment_documents'] = $this->documentation_model->get_documents_by_equipment_id($equipment_id);
 								$this->load->view('edit_equipment',$this->data);					
 							}
 							else {
