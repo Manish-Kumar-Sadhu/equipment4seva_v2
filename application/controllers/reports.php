@@ -26,7 +26,6 @@ class Reports extends CI_Controller {
         if($this->session->userdata('logged_in')){
             $this->data['title']='Summary report';
             $this->load->view('templates/header' , $this->data);
-			$this->data['group_by_equip_category'] = $this->master_model->get_defaults('summary_report_group_by_equip_category');
 			$this->data['equipment_type'] = $this->master_model->get_data('equipment_type');
 			$this->data['equipment_category'] = $this->master_model->get_data('equipment_category');
 			$this->data['location'] = $this->master_model->get_data('location');
