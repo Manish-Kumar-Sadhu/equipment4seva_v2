@@ -20,3 +20,8 @@ UPDATE `defaults` SET `value` = 'gif|jpg|jpeg|png|pdf' WHERE `defaults`.`default
 --- Inserting current timestamp for create_datetime in equipment_documents
 ---
 ALTER TABLE `equipment_documents` CHANGE `create_datetime` `create_datetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+---
+--- fixed column name 
+---
+ALTER TABLE `equipment_documents` CHANGE `update_by` `updated_by` INT(11) NULL DEFAULT NULL;
