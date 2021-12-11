@@ -75,7 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     .round-button{
         border-radius:100%;
         border: solid 1px;
-        margin-left:15px;
+        margin-left:10px;
     }
     select{
         cursor: pointer;
@@ -305,6 +305,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <th style="text-align:center">Current Location</th>
                     <?php } ?>
                     <th style="text-align:center">District, State</th>
+                    <?php if($logged_in) { ?>
+                        <th style="text-align:center">Cost</th>
+                    <?php } ?>
                     <th style="text-align:center">Invoice Date</th>
                     <th style="text-align:center">Details</th>
                 </tr>
@@ -322,6 +325,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $r->location; ?></td>
                         <?php } ?>
                         <td><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
+                        <?php if($logged_in) { ?>
+                            <td style="text-align:right"><?php echo number_format($r->cost); ?></td>
+                        <?php } ?>
                         <td style="text-align:center"><?php echo  date("d-M-Y", strtotime($r->invoice_date)); ?></td>
                         <td>
                             <button id="view-equipment" class="btn btn-info btn-sm round-button" onclick="view_equipment(<?=$r->equipment_id; ?>);"><i class='fa fa-external-link' aria-hidden='true'></i></button>
@@ -436,7 +442,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         let logged_in = '<?php echo $logged_in ? true : false; ?>'
         let reusableWidthValues = []
         if(logged_in){
-            reusableWidthValues = [ '5%', '10%', '15%','15%', '10%', '20%','10%', '20%']
+            reusableWidthValues = [ '5%', '10%', '15%','15%', '10%', '18%', '7%', '10%', '15%']
         } else {
             reusableWidthValues = [ '5%', '15%', '20%','15%', '20%', '10%', '10%']
         }
