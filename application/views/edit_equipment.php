@@ -25,6 +25,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     input[type=number] {
     -moz-appearance: textfield;
     }
+    .round-button{
+        border-radius:100%;
+        border: solid 1px;
+        margin-left:15px;
+    }
 
 </style>
 <?php 
@@ -295,6 +300,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="card-header bg-info text-white">
             <h4>Equipment Document Information </h4>
         </div>
+        <div class="card-body">
+            <table id="table-sort" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">#</th>
+                        <th style="text-align:center">Document type</th>
+                        <th style="text-align:center">Document date</th>
+                        <th style="text-align:center">Document link</th>
+                        <th style="text-align:center">Created by</th>
+                        <th style="text-align:center">Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $i=1;
+                        foreach($equipment_documents as $r){ ?>
+                        <tr>
+                            <td><?php echo $i++; ?></td>
+                            <td><?php echo $r->document_type; ?></td>
+                            <td  style="text-align:center"><?php  echo date("d-M-Y", strtotime($r->document_date)); ?></td>
+                            <td><button id="view-document" class="btn btn-info btn-sm round-button" onclick="view_document('<?=$r->document_link; ?>');"><i class='fa fa-external-link' aria-hidden='true'></i></button></td>
+                            <td><?php echo $r->created_user_first_name.' '.$r->created_user_last_name; ?></td>
+                            <td><?php echo $r->equipment_document_note; ?></td>
+                        </tr>
+                    <?php }  ?>
+                </tbody>
+            </table>
+        </div>
         <?php if($add_equipment_document) { ?>
             <div class="card-body">
                 <form enctype="multipart/form-data" id="add_equipment_document" action="<?= base_url('equipments/edit/').$equipment_id; ?>" method="POST">
@@ -474,5 +507,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             return false;
         }
         return true;
+    }
+
+    function view_document(document_link){
+        window.open("<?php echo base_url()."assets/equipment_documents/";?>"+document_link, '_blank');
     }
 </script>
