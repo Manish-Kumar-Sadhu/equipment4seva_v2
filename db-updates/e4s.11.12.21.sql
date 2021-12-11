@@ -15,3 +15,8 @@ COMMIT;
 --- Updated document type to allow pdf
 ---
 UPDATE `defaults` SET `value` = 'gif|jpg|jpeg|png|pdf' WHERE `defaults`.`default_id` = 'upload_allowed_types';
+
+---
+--- Inserting current timestamp for create_datetime in equipment_documents
+---
+ALTER TABLE `equipment_documents` CHANGE `create_datetime` `create_datetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
