@@ -293,12 +293,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div>
     <div class="card">
         <div class="card-header bg-info text-white">
-            <h4>Equipment Document Information</h4>
+            <h4>Equipment Document Information </h4>
         </div>
         <?php if($add_equipment_document) { ?>
             <div class="card-body">
-                <form id="add_equipment_document" action="<?=  base_url('equipments/edit/').$equipment_id; ?>" method="POST">
-                    <input type="hidden" name="form_for" value="add_equipment_document">
+                <form enctype="multipart/form-data" id="add_equipment_document" action="<?= base_url('equipments/edit/').$equipment_id; ?>" method="POST">
+                    <input type="hidden" name="form_for" value="upload_equipment_document">
                     <div class="row">
                         <div class="form-group col-md-4 col-lg-3 col-xs-12">
                             <label for="document_type">Document type<span class="star" style="color:red"> *</span></label>
@@ -313,13 +313,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </select>
                         </div>
                         <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                            <label for="document_date">Document Date<span class="star" style="color:red"> *</span></label>
-                            <input class="form-control" name="document_date" type="date"  max="<?php echo date("Y-m-d") ?>" required >
+                            <label for="document_date">Document date<span class="star" style="color:red"> *</span></label>
+                            <input class="form-control" name="document_date" type="date"  max="<?php echo date("Y-m-d") ?>" >
                         </div>
                         <div class="form-group col-md-4 col-lg-3 col-xs-12">
                             <label for="upload_file">Upload Image<span class="star" style="color:red"> *</span></label>
                             <input type="text" class="sr-only" hidden name="document_link"/>
-                            <input type="file" name="upload_file" id="upload_file" readonly="true"/>
+                            <input type="file" name="upload_file" id="upload_file"/>
                         </div>
                         <div class="form-group col-md-6 col-lg-6 col-xs-12">
                             <label for="note">Note</label>
@@ -356,7 +356,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         initDropdown('supplier_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->supplier_party_id;?>);
         initDropdown('manufactured_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->manufacturer_party_id;?>);
         initDropdown('receiver_party_id', '<?php echo json_encode($party); ?>');
-
+        //reseting dropdowns on page load
+        $("#location, #document_type").val('');
         filter_equipment_type('equipment_category','equipment_type', <?php echo $equipment->equipment_type_id;?>);
         var options = {
 			widthFixed : false,
@@ -451,7 +452,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         filtered_equipment_types = $.grep(equipment_types , function(v){
             return v.equipment_category_id == selected_category;
         }) ;
-        console.log(filtered_equipment_types);  
+        // console.log(filtered_equipment_types);  
         // iterating the filtered equipment types
         $.each(filtered_equipment_types, function (indexInArray, valueOfElement) { 
             const {equipment_type_id ,equipment_type} = valueOfElement;
