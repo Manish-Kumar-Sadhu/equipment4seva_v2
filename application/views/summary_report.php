@@ -37,6 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $procured_by_party = $this->input->post('procured_by_party');
     $supplier_party = $this->input->post('supplier_party');
     $manufactured_party = $this->input->post('manufactured_party');
+    $group_by_equipment_category = $this->input->post('group_by_equipment_category');
 ?>
 
 <div class="container">
@@ -53,6 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         ><?php echo $r->equipment_category;?></option>    
                         <?php }  ?>
                 </select>
+                <input type="checkbox" name="group_by_equipment_category" id="group_by_equipment_category" <?php echo $group_by_equip_category->value ? 'checked' :''  ?>/> <span>Group by equipment category</span>
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="equipment_type">Equipment Type</label>
@@ -65,6 +67,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         ><?php echo $r->equipment_type;?></option>    
                         <?php }  ?>
                 </select>
+                <input type="checkbox" name="group_by_equipment_type" id="group_by_equipment_type"/> <span>Group by equipment category</span>
             </div>
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="from_invoice_date">From Invoice date</label>
@@ -124,17 +127,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </thead>
             <tbody>
                 <?php
-                    $i=1;
+                    $serial_number=1;
+                    $total_no_of_records=0;
+                    $grand_total_amount=0;
                     foreach($summary_data as $r){ ?>
                     <tr>
-                        <td><?php echo $i++; ?></td>
+                        <td><?php echo $serial_number++; ?></td>
                         <td><?php echo $r->equipment_category; ?></td>
                         <td><?php echo $r->equipment_type; ?></td>
                         <td><?php echo $r->no_of_records; ?></td>
-                        <td style="text-align:right"><?php echo $r->total_amount; ?></td>
+                        <td style="text-align:right"><?php echo number_format($r->total_amount); ?></td>
                     </tr>
-                <?php }  ?>
+                <?php
+                    $total_no_of_records += $r->no_of_records;
+                    $grand_total_amount += $r->total_amount;
+                }  ?>
             </tbody>
+            <tfoot>
+                <tr>
+                    <th style="text-align:center">Total</th>
+                    <th style="text-align:center"></th>
+                    <th style="text-align:center"></th>
+                    <th style="text-align:center"><?php echo $total_no_of_records;  ?> </th>
+                    <th style="text-align:right"><?php echo number_format($grand_total_amount);  ?> </th>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </div>
