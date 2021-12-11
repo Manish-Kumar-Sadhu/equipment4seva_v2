@@ -31,16 +31,14 @@ class Reports_model extends CI_Model {
         if($this->input->post('group_by_equipment_category')){
             $this->db->group_by('equipment_type.equipment_category_id');
         }
-        // if($this->input->post('group_by_equipment_type')=='on'){
-        //     $this->db->group_by('equipment.equipment_type_id');
-        // }
+        if($this->input->post('group_by_equipment_type')){
+            $this->db->group_by('equipment.equipment_type_id');
+        }
         $this->db->select("equipment_type, equipment_category, COUNT(equipment.equipment_id) as no_of_records, SUM(equipment.cost) as total_amount")
             ->join('equipment_type','equipment_type.equipment_type_id=equipment.equipment_type_id','left')
             ->join('equipment_category','equipment_category.id=equipment_type.equipment_category_id','left')
-            ->from("equipment")
-            ->group_by('equipment_category.id');
+            ->from("equipment");
         $query=$this->db->get();
-        echo $this->db->last_query();
         return $query->result();
     }
 }
