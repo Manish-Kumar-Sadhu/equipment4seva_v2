@@ -23,62 +23,70 @@ class Equipments extends CI_Controller {
     }
 
 	public function index(){
-		$this->data['title']='Equipments';
-		$this->load->view('templates/header' , $this->data);
-		$this->data['pagination'] = $this->master_model->get_defaults('pagination');
-		$this->data['equipment_type'] = $this->master_model->get_data('equipment_type');
-		$this->data['equipment_category'] = $this->master_model->get_data('equipment_category');
-		$this->data['location'] = $this->master_model->get_data('location');
-		$this->data['donor_parties'] = $this->master_model->get_parties_by_party_type('donor_party');
-		$this->data['procured_by_parties'] = $this->master_model->get_parties_by_party_type('procured_by_party');
-		$this->data['supplier_parties'] = $this->master_model->get_parties_by_party_type('supplier_party');
-		$this->data['manufactured_parties'] = $this->master_model->get_parties_by_party_type('manufactured_party');
-		$equipment_data = $this->master_model->get_equipment_data($this->data['pagination']->value);
-		foreach ($equipment_data as $key => $value) {
-			$location = $this->master_model->get_equipment_current_location($value->equipment_id);
-			$value->location = $location ? $location->location : '------';
-			$value->state = $location ? $location->state : '';
-			$value->district = $location ? $location->district : '';
-		}
-		$this->data['equipment_data']=$equipment_data;
-		$this->data['equipment_count'] = $this->master_model->get_equipment_count();
-		$this->data['edit_equipment_access']=0;
-		$this->data['view_equipment_access']=0;
-		$this->data['remove_equipment_access']=0;
 		if($this->session->userdata('logged_in')){
-			foreach($this->data['functions'] as $f){
-				if($f->user_function=="equipment"){ 
-					if($f->edit)
-						$this->data['edit_equipment_access']=1;                
-					if($f->view)
-						$this->data['view_equipment_access']=1;                
-					if($f->remove){
-						$this->data['remove_equipment_access']=1;                
+			$this->data['title']='Equipments';
+			$this->load->view('templates/header' , $this->data);
+			$this->data['pagination'] = $this->master_model->get_defaults('pagination');
+			$this->data['equipment_type'] = $this->master_model->get_data('equipment_type');
+			$this->data['equipment_category'] = $this->master_model->get_data('equipment_category');
+			$this->data['location'] = $this->master_model->get_data('location');
+			$this->data['donor_parties'] = $this->master_model->get_parties_by_party_type('donor_party');
+			$this->data['procured_by_parties'] = $this->master_model->get_parties_by_party_type('procured_by_party');
+			$this->data['supplier_parties'] = $this->master_model->get_parties_by_party_type('supplier_party');
+			$this->data['manufactured_parties'] = $this->master_model->get_parties_by_party_type('manufactured_party');
+			$equipment_data = $this->master_model->get_equipment_data($this->data['pagination']->value);
+			foreach ($equipment_data as $key => $value) {
+				$location = $this->master_model->get_equipment_current_location($value->equipment_id);
+				$value->location = $location ? $location->location : '------';
+				$value->state = $location ? $location->state : '';
+				$value->district = $location ? $location->district : '';
+			}
+			$this->data['equipment_data']=$equipment_data;
+			$this->data['equipment_count'] = $this->master_model->get_equipment_count();
+			$this->data['edit_equipment_access']=0;
+			$this->data['view_equipment_access']=0;
+			$this->data['remove_equipment_access']=0;
+			if($this->session->userdata('logged_in')){
+				foreach($this->data['functions'] as $f){
+					if($f->user_function=="equipment"){ 
+						if($f->edit)
+							$this->data['edit_equipment_access']=1;                
+						if($f->view)
+							$this->data['view_equipment_access']=1;                
+						if($f->remove){
+							$this->data['remove_equipment_access']=1;                
+						}
 					}
 				}
 			}
+			$this->load->view('equipments', $this->data);
+			$this->load->view('templates/footer' ,$this->data);
+		} else {
+			show_404();
 		}
-		$this->load->view('equipments', $this->data);
-		$this->load->view('templates/footer' ,$this->data);
 	}
 
 	function view($equipment_id){
-		$this->data['title']='Equipment';
-		$this->load->view('templates/header', $this->data);
-		$this->data['equipment_type'] = $this->master_model->get_data('equipment_type');
-		$this->data['equipment_category'] = $this->master_model->get_data('equipment_category');
-		$this->data['location'] = $this->master_model->get_data('location');
-		$this->data['equipment_procurement_type'] = $this->master_model->get_data('equipment_procurement_type');
-		$this->data['equipment_procurement_status'] = $this->master_model->get_data('equipment_procurement_status');
-		$this->data['equipment_functional_status'] = $this->master_model->get_data('equipment_functional_status');
-		$this->data['equipment_location_history'] = $this->master_model->get_equipment_location_history($equipment_id);
-		$this->data['district'] = $this->master_model->get_data('district');
-		$this->data['journal_type'] = $this->master_model->get_data('journal_type');
-		$this->data['party'] = $this->master_model->get_data('party');
-        $this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
-        $this->data['equipment_location_data'] = $this->master_model->get_equipment_current_location($equipment_id);
-        $this->load->view('equipment', $this->data);
-		$this->load->view('templates/footer' ,$this->data);
+		if($this->session->userdata('logged_in')){
+			$this->data['title']='Equipment';
+			$this->load->view('templates/header', $this->data);
+			$this->data['equipment_type'] = $this->master_model->get_data('equipment_type');
+			$this->data['equipment_category'] = $this->master_model->get_data('equipment_category');
+			$this->data['location'] = $this->master_model->get_data('location');
+			$this->data['equipment_procurement_type'] = $this->master_model->get_data('equipment_procurement_type');
+			$this->data['equipment_procurement_status'] = $this->master_model->get_data('equipment_procurement_status');
+			$this->data['equipment_functional_status'] = $this->master_model->get_data('equipment_functional_status');
+			$this->data['equipment_location_history'] = $this->master_model->get_equipment_location_history($equipment_id);
+			$this->data['district'] = $this->master_model->get_data('district');
+			$this->data['journal_type'] = $this->master_model->get_data('journal_type');
+			$this->data['party'] = $this->master_model->get_data('party');
+			$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
+			$this->data['equipment_location_data'] = $this->master_model->get_equipment_current_location($equipment_id);
+			$this->load->view('equipment', $this->data);
+			$this->load->view('templates/footer' ,$this->data);
+		} else {
+			show_404();
+		}
 	}
 
     function add(){

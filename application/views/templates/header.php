@@ -121,9 +121,9 @@
           <?php } else {?>
           </ul>
           <ul class="navbar-nav navbar-right">
-            <li class="nav-item   <?php if(preg_match("^".base_url()."home/about^",current_url())){ echo " active";}?>">
+            <!-- <li class="nav-item   <?php if(preg_match("^".base_url()."home/about^",current_url())){ echo " active";}?>">
               <a class="nav-link" id="equipments-data-tab" href="<?php echo base_url()."equipments";?>" style="text-decoration:none; color:black;"> Equipment</a>
-            </li>
+            </li> -->
             <li class="nav-item   <?php if(preg_match("^".base_url()."home/login^",current_url())){ echo " active";}?>">
               <a class="nav-link" href="<?php echo base_url()."home/login";?>" style="text-decoration:none; color:black;"><i class="fa fa-sign-in" style="color:black;"></i> Login</a>
             </li>
