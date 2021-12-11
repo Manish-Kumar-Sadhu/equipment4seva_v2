@@ -518,7 +518,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
 
     function view_document(document_link){
-        window.open("<?php echo base_url()."assets/equipment_documents/";?>"+document_link, '_blank');
+        window.open("<?php echo base_url()."document/";?>"+document_link, '_blank');
     }
 
     function delete_document(id){
