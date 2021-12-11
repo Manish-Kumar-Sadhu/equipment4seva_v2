@@ -179,10 +179,13 @@ class Equipments extends CI_Controller {
 				$this->data['max_size'] = $max_size;
 				$this->data['max_width'] = $max_width;
 				$this->data['max_height'] = $max_height;
+				$this->data['overwrite'] = $overwrite;
 				if($this->input->post('form_for')== 'update_equipment_details') {
 					$this->form_validation->set_rules('equipment_name','equipment_name','required');
 				} else if($this->input->post('form_for') == 'add_equipment_location_log'){
 					$this->form_validation->set_rules('location','location','required');
+				} else if($this->input->post('form_for')== 'upload_equipment_document') {
+					$this->form_validation->set_rules('document_type','document_type','required');
 				}
 				if ($this->form_validation->run() == FALSE) {
 					$this->load->view('edit_equipment',$this->data);
@@ -211,27 +214,27 @@ class Equipments extends CI_Controller {
 							$this->data['status']=500;
 							$this->load->view('edit_equipment',$this->data);
 						}
-					} else if($this->input->post('form_for') == 'add_equipment_document') {
+					} else if($this->input->post('form_for') == 'upload_equipment_document') {
 						// Set field validation rules
 						$config=array(
-							array(
-								'field'   => 'keyword',
-								'label'   => 'keyword',
-								'rules'   => 'required|trim|xss_clean'
-							),
-							array(
-								'field'   => 'topic',
-								'label'   => 'topic',
-								'rules'   => 'required|trim|xss_clean'
-							),
-							array(
-								'field'   => 'document_date',
-								'label'   => 'document_date',
-								'rules'   => 'required|trim|xss_clean'
-							)		     
+							// array(
+							// 	'field'   => 'keyword',
+							// 	'label'   => 'keyword',
+							// 	'rules'   => 'required|trim|xss_clean'
+							// ),
+							// array(
+							// 	'field'   => 'topic',
+							// 	'label'   => 'topic',
+							// 	'rules'   => 'required|trim|xss_clean'
+							// ),
+							// array(
+							// 	'field'   => 'document_date',
+							// 	'label'   => 'document_date',
+							// 	'rules'   => 'required|trim|xss_clean'
+							// )		     
 						);
 						$this->form_validation->set_rules($config);
-						if($this->form_validation->run()===FALSE){	
+						if($this->form_validation->run()===FALSE){
 							$this->load->view('edit_equipment',$this->data);		
 						} else {
 							$dir_path = './assets/equipment_documents/';
@@ -241,9 +244,9 @@ class Equipments extends CI_Controller {
 							$config['max_width'] = $max_width;
 							$config['max_height'] = $max_height;
 							$config['encrypt_name'] = FALSE;
-							$config['overwrite'] = $overwrite;
-							$config['remove_spaces'] = $remove_spaces;
-
+							$config['overwrite'] = $overwrite ? TRUE : FALSE;
+							$config['remove_spaces'] = $remove_spaces ? TRUE : FALSE;
+							var_dump($overwrite);
 							// Upload file and add document record
 							$msg = "Error: ";
 							$uploadOk = 1;
@@ -261,6 +264,7 @@ class Equipments extends CI_Controller {
 							} else {
 								// if everything is ok, try to upload file
 								$this->load->library('upload', $config);
+								$this->upload->initialize($config);
 								if (!$this->upload->do_upload('upload_file')) {
 									$status=500;
 									$msg = $msg . $this->upload->display_errors();
@@ -272,13 +276,17 @@ class Equipments extends CI_Controller {
 							}
 							
 							// Add document record
-							if ($uploadOk ==1 && $this->documentation_model->add_document($file['file_name'])){							
+							if ($uploadOk ==1 && $this->documentation_model->add_document($file['file_name'], $equipment_id)){							
 								$this->data['status']=200;
-								$this->data['msg']="Document Added Succesfully";					
+								$this->data['msg']="Document Added Succesfully";
+								$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
+								$this->data['equipment_location_history'] = $this->master_model->get_equipment_location_history($equipment_id);
+								$this->load->view('edit_equipment',$this->data);					
 							}
 							else {
 								$this->data['status']=$status;
 								$this->data['msg'] = $msg;
+								$this->load->view('edit_equipment',$this->data);
 							}
 						}
 					}
