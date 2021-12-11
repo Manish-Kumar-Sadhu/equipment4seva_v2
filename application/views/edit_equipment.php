@@ -291,6 +291,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <?php } ?>
     </div>
+    <div class="card">
+        <div class="card-header bg-info text-white">
+            <h4>Equipment Document Information</h4>
+        </div>
+        <?php if($add_equipment_document) { ?>
+            <div class="card-body">
+                <form id="add_equipment_document" action="<?=  base_url('equipments/edit/').$equipment_id; ?>" method="POST">
+                    <input type="hidden" name="form_for" value="add_equipment_document">
+                    <div class="row">
+                        <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                            <label for="document_type">Document type<span class="star" style="color:red"> *</span></label>
+                            <select class="form-control" name="document_type" id="document_type" required>
+                                <option value="" selected>Document type</option>
+                                <?php
+                                    foreach($equipment_document_type as $r){ ?>
+                                    <option value="<?php echo $r->document_type_id;?>"    
+                                    <?php if($this->input->post('document_type') == $r->document_type_id) echo " selected "; ?>
+                                    ><?php echo $r->document_type;?></option>    
+                                    <?php }  ?>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                            <label for="document_date">Document Date<span class="star" style="color:red"> *</span></label>
+                            <input class="form-control" name="document_date" type="date"  max="<?php echo date("Y-m-d") ?>" required >
+                        </div>
+                        <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                            <label for="upload_file">Upload Image<span class="star" style="color:red"> *</span></label>
+                            <input type="text" class="sr-only" hidden name="document_link"/>
+                            <input type="file" name="upload_file" id="upload_file" readonly="true"/>
+                        </div>
+                        <div class="form-group col-md-6 col-lg-6 col-xs-12">
+                            <label for="note">Note</label>
+                            <textarea class="form-control" name="note" rows="1"></textarea>
+                        </div>
+                        <div class="form-group col-md-6 col-lg-6 col-xs-12" style="margin-top:2rem;">
+                            <button type="submit" class='btn btn-info '>Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        <?php } ?>
+    </div>
 </div>
 
 <script>

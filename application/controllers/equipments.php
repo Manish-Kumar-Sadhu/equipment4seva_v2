@@ -8,6 +8,7 @@ class Equipments extends CI_Controller {
 		$this->load->model('master_model');
 		if($this->session->userdata('logged_in')){
 			$this->load->model('user_model');
+			$this->load->model('documentation_model');
 			$userdata = $this->session->userdata('logged_in');
 			$user_id = $userdata['user_id'];
 			$this->data['functions']=$this->user_model->user_function($user_id);
@@ -131,6 +132,7 @@ class Equipments extends CI_Controller {
 			$equipment = $this->master_model->get_equipment_by_id($equipment_id);
 			$edit_equipment_access=0;
 			$add_equipment_location=0;
+			$add_equipment_document=0;
 			foreach($this->data['functions'] as $f){
 				if($f->user_function=="equipment"){ 
 					if($f->edit && in_array($equipment->procured_by_party_id, $this->data['user_party_ids']))
@@ -139,6 +141,10 @@ class Equipments extends CI_Controller {
 				if($f->user_function=="equipment_location"){ 
 					if($f->add)
 						$add_equipment_location=1;  	
+				}	
+				if($f->user_function=="equipment_document"){ 
+					if($f->add)
+						$add_equipment_document=1;  	
 				}	
 			}
 			if($edit_equipment_access){
@@ -149,6 +155,7 @@ class Equipments extends CI_Controller {
 				$this->data['equipment_id'] = $equipment_id;
 				$this->data['equipment_type'] = $this->master_model->get_data('equipment_type');
 				$this->data['equipment_category'] = $this->master_model->get_data('equipment_category');
+				$this->data['equipment_document_type'] = $this->master_model->get_data('equipment_document_type');
 				$this->data['locations'] = $this->master_model->get_data('location');
 				$this->data['party'] = $this->master_model->get_data('party');
 				$this->data['procured_by_parties'] = $this->master_model->get_parties_of_user();
@@ -159,6 +166,19 @@ class Equipments extends CI_Controller {
 				$this->data['journal_type'] = $this->master_model->get_data('journal_type');
 				$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
 				$this->data['add_equipment_location'] = $add_equipment_location;
+				$this->data['add_equipment_document'] = $add_equipment_document;
+				// documents default constraints
+				$allowed_types = $this->master_model->get_defaults('upload_allowed_types')->value;
+				$max_size = $this->master_model->get_defaults('upload_max_size')->value;
+				$max_width = $this->master_model->get_defaults('upload_max_width')->value;
+				$max_height = $this->master_model->get_defaults('upload_max_height')->value;
+				$remove_spaces = $this->master_model->get_defaults('upload_remove_spaces')->value;
+				$overwrite = $this->master_model->get_defaults('upload_overwrite')->value;
+
+				$this->data['allowed_types'] = $allowed_types;
+				$this->data['max_size'] = $max_size;
+				$this->data['max_width'] = $max_width;
+				$this->data['max_height'] = $max_height;
 				if($this->input->post('form_for')== 'update_equipment_details') {
 					$this->form_validation->set_rules('equipment_name','equipment_name','required');
 				} else if($this->input->post('form_for') == 'add_equipment_location_log'){
@@ -190,6 +210,76 @@ class Equipments extends CI_Controller {
 							$this->data['msg']="Error adding equipment's location log. Please retry.";
 							$this->data['status']=500;
 							$this->load->view('edit_equipment',$this->data);
+						}
+					} else if($this->input->post('form_for') == 'add_equipment_document') {
+						// Set field validation rules
+						$config=array(
+							array(
+								'field'   => 'keyword',
+								'label'   => 'keyword',
+								'rules'   => 'required|trim|xss_clean'
+							),
+							array(
+								'field'   => 'topic',
+								'label'   => 'topic',
+								'rules'   => 'required|trim|xss_clean'
+							),
+							array(
+								'field'   => 'document_date',
+								'label'   => 'document_date',
+								'rules'   => 'required|trim|xss_clean'
+							)		     
+						);
+						$this->form_validation->set_rules($config);
+						if($this->form_validation->run()===FALSE){	
+							$this->load->view('edit_equipment',$this->data);		
+						} else {
+							$dir_path = './assets/equipment_documents/';
+							$config['upload_path'] = $dir_path;
+							$config['allowed_types'] = $allowed_types;
+							$config['max_size'] = $max_size;
+							$config['max_width'] = $max_width;
+							$config['max_height'] = $max_height;
+							$config['encrypt_name'] = FALSE;
+							$config['overwrite'] = $overwrite;
+							$config['remove_spaces'] = $remove_spaces;
+
+							// Upload file and add document record
+							$msg = "Error: ";
+							$uploadOk = 1;
+							$target_file = $dir_path . basename($_FILES["upload_file"]["name"]);
+							$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+							if ($_FILES['upload_file']['size'] <= 0 && $uploadOk == 1) {
+								$status = 500;
+								$msg = $msg . "Select at least one file.";
+								$uploadOk = 0;
+							}
+							
+							// Check for upload errors
+							if ($uploadOk == 0) {
+								$this->data['msg']= $msg . " Your file was not uploaded.";
+							} else {
+								// if everything is ok, try to upload file
+								$this->load->library('upload', $config);
+								if (!$this->upload->do_upload('upload_file')) {
+									$status=500;
+									$msg = $msg . $this->upload->display_errors();
+									$uploadOk = 0;
+								} else {
+									$file = $this->upload->data();
+									$uploadOk = 1;
+								}
+							}
+							
+							// Add document record
+							if ($uploadOk ==1 && $this->documentation_model->add_document($file['file_name'])){							
+								$this->data['status']=200;
+								$this->data['msg']="Document Added Succesfully";					
+							}
+							else {
+								$this->data['status']=$status;
+								$this->data['msg'] = $msg;
+							}
 						}
 					}
 				}

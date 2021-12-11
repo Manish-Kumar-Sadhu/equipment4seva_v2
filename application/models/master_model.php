@@ -67,6 +67,10 @@ class Master_model extends CI_Model {
             $this->db->select("*")->from("state");
             $this->db->order_by("state");
         }
+        else if($type=="equipment_document_type") {
+            $this->db->select("*")->from("equipment_document_type");
+            $this->db->order_by("document_type");
+        }
         $query=$this->db->get();
 		return $query->result();
     }
