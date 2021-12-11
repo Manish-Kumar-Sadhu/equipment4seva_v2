@@ -28,7 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     .round-button{
         border-radius:100%;
         border: solid 1px;
-        margin-left:15px;
+        margin-left:10px;
     }
 
 </style>
@@ -307,9 +307,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <th style="text-align:center">#</th>
                         <th style="text-align:center">Document type</th>
                         <th style="text-align:center">Document date</th>
-                        <th style="text-align:center">Document link</th>
                         <th style="text-align:center">Created by</th>
+                        <th style="text-align:center">updated by</th>
                         <th style="text-align:center">Note</th>
+                        <th style="text-align:center">Document actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -320,9 +321,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $i++; ?></td>
                             <td><?php echo $r->document_type; ?></td>
                             <td  style="text-align:center"><?php  echo date("d-M-Y", strtotime($r->document_date)); ?></td>
-                            <td><button id="view-document" class="btn btn-info btn-sm round-button" onclick="view_document('<?=$r->document_link; ?>');"><i class='fa fa-external-link' aria-hidden='true'></i></button></td>
                             <td><?php echo $r->created_user_first_name.' '.$r->created_user_last_name; ?></td>
+                            <td><?php echo $r->last_updated_user_first_name.' '.$r->last_updated_user_last_name; ?></td>
                             <td><?php echo $r->equipment_document_note; ?></td>
+                            <td>
+                                <button id="view-document" class="btn btn-info btn-sm round-button" onclick="view_document('<?=$r->document_link; ?>');"><i class='fa fa-external-link' aria-hidden='true'></i></button>
+                                <button id="edit-document" class="btn btn-info btn-sm round-button" onclick="edit_document('<?=$r->document_link; ?>');"><i class='fa fa-pencil' aria-hidden='true'></i></button>
+                                <button id="delete-document" class="btn btn-danger btn-sm round-button" onclick="delete_document('<?=$r->document_link; ?>');"><i class='fa fa-trash' aria-hidden='true'></i></button>
+                            </td>
                         </tr>
                     <?php }  ?>
                 </tbody>
@@ -512,4 +518,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     function view_document(document_link){
         window.open("<?php echo base_url()."assets/equipment_documents/";?>"+document_link, '_blank');
     }
+    // tooltips
+    tippy("#view-document", {
+        content : 'view document'
+    });
+    tippy("#edit-document", {
+        content : 'edit document'
+    });
+    tippy("#delete-document", {
+        content : 'delete document'
+    });
 </script>
