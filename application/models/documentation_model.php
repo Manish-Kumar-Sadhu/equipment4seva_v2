@@ -29,7 +29,20 @@ class documentation_model extends CI_Model{
 		$this->db->where('id',$id);
 		$this->db->update('equipment_documents',$data);
 		$this->db->trans_complete(); //Transaction Ends
-		if($this->db->trans_status()===TRUE) return true; else return false; //if transaction completed successfully return true, else false.
+		if($this->db->trans_status()===TRUE) return -1; else return 1; //if transaction completed successfully return true, else false.
+	}
+
+	function get_document_by_id($id){
+		$this->db->select('id,document_link')
+			->from('equipment_documents')
+			->where("id",$id);
+		$query = $this->db->get();
+		$result =  $query->row();
+		if($result){
+            return $result;       
+        }else{
+            return false;
+        }
 	}
 
 	function get_documents_by_equipment_id($equipment_id){

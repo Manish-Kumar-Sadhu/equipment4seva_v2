@@ -305,7 +305,16 @@ class Equipments extends CI_Controller {
 	}
 
 	function delete_document($id){
-		$deleted = $this->documentation_model->delete_document($id);
-		print json_encode($deleted);
+		$this->load->helper("file");
+		$document = $this->documentation_model->get_document_by_id($id);
+		if($document) {
+			$path_to_file = "./assets/equipment_documents/".$document->document_link;
+			// deleting file from assests folder
+			if(unlink($path_to_file)){
+				$deleted = $this->documentation_model->delete_document($id);
+				print json_encode($deleted);
+			}
+			// updated deleted info in equipment documents table
+		}
 	}
 }
