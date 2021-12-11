@@ -141,7 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?php if($logged_in) { ?>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="cost">Cost</label>
-                        <input class="form-control" name="cost" type="number" value="<?= $equipment->cost; ?>" disabled >
+                        <input class="form-control" name="cost" type="text" value="<?= number_format($equipment->cost); ?>" disabled >
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="invoice_number">Invoice Number</label>

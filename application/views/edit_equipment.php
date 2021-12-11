@@ -25,6 +25,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     input[type=number] {
     -moz-appearance: textfield;
     }
+    .round-button{
+        border-radius:100%;
+        border: solid 1px;
+        margin-left:10px;
+    }
 
 </style>
 <?php 
@@ -249,7 +254,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </tbody>
             </table>
         </div>
-        <?php if($add_equipment_location) { ?>
+        <?php if($add_equipment_location_access) { ?>
         <div class="card-body">
             <form id="add_location" action="<?=  base_url('equipments/edit/').$equipment_id; ?>" method="POST">
                 <input type="hidden" name="form_for" value="add_equipment_location_log">
@@ -291,6 +296,84 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <?php } ?>
     </div>
+    <div class="card">
+        <div class="card-header bg-info text-white">
+            <h4>Equipment Document Information </h4>
+        </div>
+        <div class="card-body">
+            <table id="table-sort" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">#</th>
+                        <th style="text-align:center">Document type</th>
+                        <th style="text-align:center">Document date</th>
+                        <th style="text-align:center">Created by</th>
+                        <th style="text-align:center">updated by</th>
+                        <th style="text-align:center">Note</th>
+                        <th style="text-align:center">Document actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $i=1;
+                        foreach($equipment_documents as $r){ ?>
+                        <tr>
+                            <td><?php echo $i++; ?></td>
+                            <td><?php echo $r->document_type; ?></td>
+                            <td  style="text-align:center"><?php  echo date("d-M-Y", strtotime($r->document_date)); ?></td>
+                            <td><?php echo $r->created_user_first_name.' '.$r->created_user_last_name; ?></td>
+                            <td><?php echo $r->last_updated_user_first_name.' '.$r->last_updated_user_last_name; ?></td>
+                            <td><?php echo $r->equipment_document_note; ?></td>
+                            <td>
+                                <button id="view-document" class="btn btn-info btn-sm round-button" onclick="view_document('<?=$r->document_link; ?>');"><i class='fa fa-external-link' aria-hidden='true'></i></button>
+                                <button id="edit-document" class="btn btn-info btn-sm round-button" onclick="edit_document('<?=$r->document_link; ?>');"><i class='fa fa-pencil' aria-hidden='true'></i></button>
+                                <?php if($delete_equipment_document_access) { ?>
+                                    <button id="delete-document" class="btn btn-danger btn-sm round-button" onclick="delete_document('<?=$r->id; ?>');"><i class='fa fa-trash' aria-hidden='true'></i></button>
+                                <?php } ?>
+                            </td>
+                        </tr>
+                    <?php }  ?>
+                </tbody>
+            </table>
+        </div>
+        <?php if($add_equipment_document_access) { ?>
+            <div class="card-body">
+                <form enctype="multipart/form-data" id="add_equipment_document" action="<?= base_url('equipments/edit/').$equipment_id; ?>" method="POST">
+                    <input type="hidden" name="form_for" value="upload_equipment_document">
+                    <div class="row">
+                        <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                            <label for="document_type">Document type<span class="star" style="color:red"> *</span></label>
+                            <select class="form-control" name="document_type" id="document_type" required>
+                                <option value="" selected>Document type</option>
+                                <?php
+                                    foreach($equipment_document_type as $r){ ?>
+                                    <option value="<?php echo $r->document_type_id;?>"    
+                                    <?php if($this->input->post('document_type') == $r->document_type_id) echo " selected "; ?>
+                                    ><?php echo $r->document_type;?></option>    
+                                    <?php }  ?>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                            <label for="document_date">Document date<span class="star" style="color:red"> *</span></label>
+                            <input class="form-control" name="document_date" type="date"  max="<?php echo date("Y-m-d") ?>" required>
+                        </div>
+                        <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                            <label for="upload_file">Upload Image<span class="star" style="color:red"> *</span></label>
+                            <input type="text" class="sr-only" hidden name="document_link"/>
+                            <input type="file" name="upload_file" id="upload_file" required>
+                        </div>
+                        <div class="form-group col-md-6 col-lg-6 col-xs-12">
+                            <label for="note">Note</label>
+                            <textarea class="form-control" name="note" rows="1"></textarea>
+                        </div>
+                        <div class="form-group col-md-6 col-lg-6 col-xs-12" style="margin-top:2rem;">
+                            <button type="submit" class='btn btn-info '>Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        <?php } ?>
+    </div>
 </div>
 
 <script>
@@ -314,7 +397,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         initDropdown('supplier_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->supplier_party_id;?>);
         initDropdown('manufactured_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->manufacturer_party_id;?>);
         initDropdown('receiver_party_id', '<?php echo json_encode($party); ?>');
-
+        //reseting dropdowns on page load
+        $("#location, #document_type").val('');
         filter_equipment_type('equipment_category','equipment_type', <?php echo $equipment->equipment_type_id;?>);
         var options = {
 			widthFixed : false,
@@ -409,7 +493,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         filtered_equipment_types = $.grep(equipment_types , function(v){
             return v.equipment_category_id == selected_category;
         }) ;
-        console.log(filtered_equipment_types);  
+        // console.log(filtered_equipment_types);  
         // iterating the filtered equipment types
         $.each(filtered_equipment_types, function (indexInArray, valueOfElement) { 
             const {equipment_type_id ,equipment_type} = valueOfElement;
@@ -432,4 +516,71 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
         return true;
     }
+
+    function view_document(document_link){
+        window.open("<?php echo base_url()."document/";?>"+document_link, '_blank');
+    }
+
+    function delete_document(id){
+        swal({
+            title: "Are you sure?",
+            text: "You will not be able to recover this document!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonClass: "btn btn-outline-secondary",
+            cancelButtonText: "Cancel!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+            },
+            function(isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    type: "DELETE",
+                    accepts: {
+                        contentType: "application/json"
+                    },
+                    url: "<?= base_url() ?>equipments/delete_document/"+id,
+                    dataType: "text",
+                    success: function (response) {
+                        const res =  JSON.parse(response);
+                        swal({
+                            title: "Success",
+                            text: "Question has been deleted!",
+                            type: "success",
+                            timer: 2000
+                        });
+                        location.reload();
+                    },
+                    error: function(){
+                        swal({
+                            title: "Cancelled",
+                            text: "Something went wrong. Please try again!",
+                            type: "error",
+                            timer: 2000
+                        })
+                    }
+                });
+            } else {
+                swal({
+                    title: "Cancelled",
+                    text: "Document is safe!",
+                    type: "error",
+                    timer: 2000
+                })
+            }
+            });  
+    }
+
+    // tooltips
+    tippy("#view-document", {
+        content : 'view document'
+    });
+    tippy("#edit-document", {
+        content : 'edit document'
+    });
+    tippy("#delete-document", {
+        content : 'delete document'
+    });
 </script>
