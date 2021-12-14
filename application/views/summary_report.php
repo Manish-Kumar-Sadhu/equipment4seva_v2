@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $from_date = $this->input->post('from_date');
     $donor_party = $this->input->post('donor_party');
     $selected_equipment_type_id = $this->input->post('equipment_type');
-    $procured_by_party = $this->input->post('procured_by_party');
+    $procured_by_party = $this->input->post('procured_by_party') ? $this->input->post('procured_by_party') : $default_party_id ;
     $supplier_party = $this->input->post('supplier_party');
     $manufactured_party = $this->input->post('manufactured_party');
     $group_by_equipment_type = $this->input->post('group_by_equipment_type');
@@ -178,7 +178,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     $(function () {
         initDropdown('donor_party', '<?php echo json_encode($donor_parties); ?>', <?php echo $donor_party; ?>);
-        initDropdown('procured_by_party', '<?php echo json_encode($procured_by_parties); ?>', '<?= $default_party_id ?>');
+        initDropdown('procured_by_party', '<?php echo json_encode($procured_by_parties); ?>', '<?= $procured_by_party ?>');
         initDropdown('supplier_party', '<?php echo json_encode($supplier_parties); ?>', <?php echo $supplier_party ?>);
         initDropdown('manufactured_party', '<?php echo json_encode($manufactured_parties); ?>', <?php echo $manufactured_party ?>);
         var options = {
