@@ -349,7 +349,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
 
     $(function () {
-        const viewEquipment = <?php echo $view_equipment; ?>
+        const viewEquipment = <?php echo $view_equipment_access; ?>
         // $("input, select, textarea").attr('disabled',true);
         if(viewEquipment){
             initDropdown('donor_party', '<?php echo json_encode($party); ?>', <?php echo $equipment->donor_party_id;?>);
