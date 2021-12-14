@@ -77,6 +77,7 @@ class Equipments extends CI_Controller {
 			$this->data['equipment_procurement_status'] = $this->master_model->get_data('equipment_procurement_status');
 			$this->data['equipment_functional_status'] = $this->master_model->get_data('equipment_functional_status');
 			$this->data['equipment_location_history'] = $this->master_model->get_equipment_location_history($equipment_id);
+			$this->data['equipment_documents'] = $this->document_model->get_documents_by_equipment_id($equipment_id);
 			$this->data['district'] = $this->master_model->get_data('district');
 			$this->data['journal_type'] = $this->master_model->get_data('journal_type');
 			$this->data['party'] = $this->master_model->get_data('party');

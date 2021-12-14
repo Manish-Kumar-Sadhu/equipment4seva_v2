@@ -301,6 +301,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </table>
             </div>
         </div>
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h4>Equipment Document Information </h4>
+            </div>
+            <div class="card-body">
+                <table id="table-sort" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center">#</th>
+                            <th style="text-align:center">Document type</th>
+                            <th style="text-align:center">Document date</th>
+                            <th style="text-align:center">Created by</th>
+                            <th style="text-align:center">updated by</th>
+                            <th style="text-align:center">Note</th>
+                            <th style="text-align:center">View document</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $i=1;
+                            foreach($equipment_documents as $r){ ?>
+                            <tr>
+                                <td><?php echo $i++; ?></td>
+                                <td><?php echo $r->document_type; ?></td>
+                                <td  style="text-align:center"><?php  echo date("d-M-Y", strtotime($r->document_date)); ?></td>
+                                <td><?php echo $r->created_user_first_name.' '.$r->created_user_last_name; ?></td>
+                                <td><?php echo $r->last_updated_user_first_name.' '.$r->last_updated_user_last_name; ?></td>
+                                <td><?php echo $r->equipment_document_note; ?></td>
+                                <td>
+                                    <button id="view-document" class="btn btn-info btn-sm round-button" onclick="view_document('<?=$r->document_link; ?>');"><i class='fa fa-external-link' aria-hidden='true'></i></button>
+                                </td>
+                            </tr>
+                        <?php }  ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     <?php } ?>
 </div>
 
@@ -402,6 +439,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         window.open("<?php echo base_url()."equipments/edit/";?>"+id);
     }
 
+    function view_document(document_link){
+        window.open("<?php echo base_url()."document/";?>"+document_link, '_blank');
+    }
     // tooltips
     tippy("#edit-equipment",{
         content: 'edit equipment'
@@ -409,5 +449,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     tippy("#delete-equipment",{
         content: 'delete equipment'
     });
-    
+    tippy("#view-document", {
+        content : 'view document'
+    });
+    tippy("#edit-document", {
+        content : 'edit document'
+    });
+    tippy("#delete-document", {
+        content : 'delete document'
+    });
 </script>
