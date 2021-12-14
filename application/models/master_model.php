@@ -1,11 +1,13 @@
 <?php
 class Master_model extends CI_Model {
     private $user_party_ids =[];
+    private $user_id ='';
     function __construct() {
         parent::__construct();
         $this->load->model('user_model');
-        $user_id = $this->session->userdata('logged_in')['user_id'];
-        $user_parties=$this->user_model->user_parties($user_id);
+        $user_data = $this->session->userdata('logged_in');
+        $this->user_id = $user_data['user_id'];
+        $user_parties=$this->user_model->user_parties($this->user_id);
         foreach ($user_parties as $key => $value) {
             array_push($this->user_party_ids, $value->party_id);
         }
@@ -239,11 +241,10 @@ class Master_model extends CI_Model {
     }
 
     function get_parties_of_user(){
-        $user_id =$this->session->userdata('logged_in')['user_id'];
         $this->db->select('party.party_id, party_name')
             ->from('party')
             ->join('user_party_link', 'user_party_link.party_id=party.party_id', 'left')
-            ->where('user_id',$user_id)
+            ->where('user_id',$this->user_id)
             ->order_by('party_name', 'desc');
 
         $query = $this->db->get();
@@ -297,7 +298,7 @@ class Master_model extends CI_Model {
             'equipment_procurement_type_id'=>$this->input->post('procurement_type'),
             'functional_status_id'=>$this->input->post('functional_status'),
             'note'=>$this->input->post('note'),
-            'created_by'=>$this->session->userdata('logged_in')['user_id']
+            'created_by'=>$this->user_id
         );
 
         $this->db->trans_start(); //Transaction begins
@@ -333,7 +334,7 @@ class Master_model extends CI_Model {
             'equipment_procurement_type_id'=>$this->input->post('procurement_type'),
             'functional_status_id'=>$this->input->post('functional_status'),
             'note'=>$this->input->post('note'),
-            'updated_by'=>$this->session->userdata('logged_in')['user_id'],
+            'updated_by'=>$this->user_id,
             'updated_datetime'=>date("Y-m-d H:i:s")
         );
         $this->db->trans_start(); //Transaction begins
@@ -362,7 +363,7 @@ class Master_model extends CI_Model {
             'address'=>$this->input->post('address'),
             'delivery_date'=>$this->input->post('delivery_date'),
             'note'=>$this->input->post('note'),
-            'created_by'=>$this->session->userdata('logged_in')['user_id'],
+            'created_by'=>$this->user_id
         );
         $this->db->trans_start(); //Transaction begins
         $this->db->insert('equipment_location_log',$data); //Insert 
@@ -371,7 +372,6 @@ class Master_model extends CI_Model {
     }
 
     function get_equipment_location_history($equipment_id) {
-        $logged_in = $this->session->userdata('logged_in');
         $this->db->select("equipment_location_log_id, equipment_location_log.equipment_id, party_name, location, address, state.state, district,
          delivery_date, equipment_location_log.note, created_user.first_name as created_user_first_name, created_user.last_name  as created_user_last_name,
          updated_user.first_name as last_updated_user_first_name , updated_user.last_name as last_updated_user_last_name")
@@ -430,7 +430,7 @@ class Master_model extends CI_Model {
             // 'contact_person_id'=>$this->input->post('contact_person'),
             'party_pan'=>$this->input->post('party_pan'),
             'note'=>$this->input->post('note'),
-            'created_by'=>$this->session->userdata('logged_in')['user_id'],
+            'created_by'=>$this->user_id,
         );
         $this->db->trans_start(); //Transaction begins
         $this->db->insert('party',$data); //Insert 
@@ -454,7 +454,7 @@ class Master_model extends CI_Model {
             // 'contact_person_id'=>$this->input->post('contact_person'),
             'party_pan'=>$this->input->post('party_pan'),
             'note'=>$this->input->post('note'),
-            'updated_by'=>$this->session->userdata('logged_in')['user_id'],
+            'updated_by'=>$this->user_id,
             'updated_datetime'=>date("Y-m-d H:i:s")
         );
         $this->db->trans_start(); //Transaction begins
