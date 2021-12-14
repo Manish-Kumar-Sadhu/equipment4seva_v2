@@ -1,7 +1,14 @@
 <?php
 class Master_model extends CI_Model {
+    private $user_party_ids =[];
     function __construct() {
         parent::__construct();
+        $this->load->model('user_model');
+        $user_id = $this->session->userdata('logged_in')['user_id'];
+        $user_parties=$this->user_model->user_parties($user_id);
+        foreach ($user_parties as $key => $value) {
+            array_push($this->user_party_ids, $value->party_id);
+        }
     }
     
 
@@ -122,9 +129,12 @@ class Master_model extends CI_Model {
         /* if($this->input->post('location')){
             $this->db->where('location_id', $this->input->post('location'));
         } */
+
+
         $this->db->select("*")
             ->from("equipment")
             ->join('equipment_type','equipment_type.equipment_type_id=equipment.equipment_type_id','left')
+            ->where_in('equipment.procured_by_party_id', $this->user_party_ids)
             // ->join('equipment_location_log','equipment_location_log.equipment_id=equipment.equipment_id','inner')
             // ->join('location','location.location_id=equipment_location_log.location_id','left')
             // ->group_by('equipment_location_log.equipment_id')
@@ -169,7 +179,8 @@ class Master_model extends CI_Model {
         } */
         $this->db->select("COUNT(*) as count")
             ->from("equipment")
-            ->join('equipment_type','equipment_type.equipment_type_id=equipment.equipment_type_id','left');
+            ->join('equipment_type','equipment_type.equipment_type_id=equipment.equipment_type_id','left')
+            ->where_in('equipment.procured_by_party_id', $this->user_party_ids);
             // ->join('equipment_location_log','equipment_location_log.equipment_id=equipment.equipment_id','inner')
             // ->join('location','location.location_id=equipment_location_log.location_id','left')
             // ->group_by('equipment_location_log.equipment_id')
