@@ -205,7 +205,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <button type="submit" class='btn btn-info btn-block'>Submit</button>                        
                     </div>
                 </div>
-                <?php if($logged_in) { ?>
                 <div class="row">
                     <div class="col-md-6">
                         <b> Created By :</b> <?php echo $equipment->created_user_first_name ? $equipment->created_user_first_name :''; echo $equipment->created_user_last_name ? ' '.$equipment->created_user_last_name.', ' : ''; echo $equipment->equipment_created_datetime ? date("d-M-Y h:i A", strtotime($equipment->equipment_created_datetime)) : ''; ?>
@@ -214,153 +213,75 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <b> Last Updated By :</b> <?php echo $equipment->last_updated_user_first_name ? $equipment->last_updated_user_first_name : ''; echo  $equipment->last_updated_user_last_name ? ' '.$equipment->last_updated_user_last_name.', ' : ''; echo $equipment->equipment_last_updated_datetime ? date("d-M-Y h:i A", strtotime($equipment->equipment_last_updated_datetime)) : ''; ?>
                     </div>
                 </div>
-            <?php } ?>
             </form>
         </div>
     </div>
-    <div class="card">
-        <div class="card-header bg-info text-white">
-            <h4>Location Information</h4>
-        </div>
-        <div class="card-body">
-            <table id="table-sort" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th style="text-align:center">#</th>
-                        <th style="text-align:center">With</th>
-                        <th style="text-align:center">Location</th>
-                        <th style="text-align:center">District, State</th>
-                        <th style="text-align:center">Delivery date</th>
-                        <th style="text-align:center">Created by</th>
-                        <th style="text-align:center">Updated by</th>
-                        <th style="text-align:center">Note</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                        $i=1;
-                        foreach($equipment_location_history as $r){ ?>
-                        <tr>
-                            <td><?php echo $i++; ?></td>
-                            <td><?php echo $r->party_name; ?></td>
-                            <td><?php echo $r->location;?> <?php echo $r->address ? '('.$r->address.')' : '' ?> </td>
-                            <td><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
-                            <td  style="text-align:center"><?php  echo date("d-M-Y", strtotime($r->delivery_date)); ?></td>
-                            <td><?php echo $r->created_user_first_name.' '.$r->created_user_last_name; ?></td>
-                            <td><?php echo $r->last_updated_user_first_name.' '.$r->last_updated_user_last_name; ?></td>
-                            <td><?php echo $r->note; ?></td>
-                        </tr>
-                    <?php }  ?>
-                </tbody>
-            </table>
-        </div>
-        <?php if($add_equipment_location_access) { ?>
-        <div class="card-body">
-            <form id="add_location" action="<?=  base_url('equipments/edit/').$equipment_id; ?>" method="POST">
-                <input type="hidden" name="form_for" value="add_equipment_location_log">
-                <div class="row">
-                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                        <label for="location">Location<span class="star" style="color:red"> *</span></label>
-                        <select class="form-control" name="location" id="location" required>
-                            <option value="" selected>Location</option>
-                            <?php
-                                foreach($locations as $r){ ?>
-                                <option value="<?php echo $r->location_id;?>"    
-                                <?php if($this->input->post('location') == $r->location_id) echo " selected "; ?>
-                                ><?php echo $r->location;?></option>    
-                                <?php }  ?>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                        <label for="receiver_party_id">Receiver party<span class="star" style="color:red"> *</span></label>
-                        <select name="receiver_party_id" id="receiver_party_id" placeholder="Receiver party" required>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                        <label for="address">Address</label>
-                        <input class="form-control" name="address" type="text">
-                    </div>
-                    <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                        <label for="delivery_date">Delivery Date<span class="star" style="color:red"> *</span></label>
-                        <input class="form-control" name="delivery_date" type="date" max="<?php echo date("Y-m-d") ?>" required >
-                    </div>
-                    <div class="form-group col-md-6 col-lg-6 col-xs-12">
-                        <label for="note">Note</label>
-                        <textarea class="form-control" name="note" rows="1"></textarea>
-                    </div>
-                    <div class="form-group col-md-6 col-lg-6 col-xs-12" style="margin-top:2rem;">
-                        <button type="submit" class='btn btn-info '>Submit</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <?php } ?>
-    </div>
-    <div class="card">
-        <div class="card-header bg-info text-white">
-            <h4>Equipment Document Information </h4>
-        </div>
-        <div class="card-body">
-            <table id="table-sort" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th style="text-align:center">#</th>
-                        <th style="text-align:center">Document type</th>
-                        <th style="text-align:center">Document date</th>
-                        <th style="text-align:center">Created by</th>
-                        <th style="text-align:center">updated by</th>
-                        <th style="text-align:center">Note</th>
-                        <th style="text-align:center">Document actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                        $i=1;
-                        foreach($equipment_documents as $r){ ?>
-                        <tr>
-                            <td><?php echo $i++; ?></td>
-                            <td><?php echo $r->document_type; ?></td>
-                            <td  style="text-align:center"><?php  echo date("d-M-Y", strtotime($r->document_date)); ?></td>
-                            <td><?php echo $r->created_user_first_name.' '.$r->created_user_last_name; ?></td>
-                            <td><?php echo $r->last_updated_user_first_name.' '.$r->last_updated_user_last_name; ?></td>
-                            <td><?php echo $r->equipment_document_note; ?></td>
-                            <td>
-                                <button id="view-document" class="btn btn-info btn-sm round-button" onclick="view_document('<?=$r->document_link; ?>');"><i class='fa fa-external-link' aria-hidden='true'></i></button>
-                                <button id="edit-document" class="btn btn-info btn-sm round-button" onclick="edit_document('<?=$r->document_link; ?>');"><i class='fa fa-pencil' aria-hidden='true'></i></button>
-                                <?php if($delete_equipment_document_access) { ?>
-                                    <button id="delete-document" class="btn btn-danger btn-sm round-button" onclick="delete_document('<?=$r->id; ?>');"><i class='fa fa-trash' aria-hidden='true'></i></button>
-                                <?php } ?>
-                            </td>
-                        </tr>
-                    <?php }  ?>
-                </tbody>
-            </table>
-        </div>
-        <?php if($add_equipment_document_access) { ?>
+    <?php if($view_equipment_location_access) { ?>
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h4>Location Information</h4>
+            </div>
             <div class="card-body">
-                <form enctype="multipart/form-data" id="add_equipment_document" action="<?= base_url('equipments/edit/').$equipment_id; ?>" method="POST">
-                    <input type="hidden" name="form_for" value="upload_equipment_document">
+                <table id="table-sort" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center">#</th>
+                            <th style="text-align:center">With</th>
+                            <th style="text-align:center">Location</th>
+                            <th style="text-align:center">District, State</th>
+                            <th style="text-align:center">Delivery date</th>
+                            <th style="text-align:center">Created by</th>
+                            <th style="text-align:center">Updated by</th>
+                            <th style="text-align:center">Note</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $i=1;
+                            foreach($equipment_location_history as $r){ ?>
+                            <tr>
+                                <td><?php echo $i++; ?></td>
+                                <td><?php echo $r->party_name; ?></td>
+                                <td><?php echo $r->location;?> <?php echo $r->address ? '('.$r->address.')' : '' ?> </td>
+                                <td><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
+                                <td  style="text-align:center"><?php  echo date("d-M-Y", strtotime($r->delivery_date)); ?></td>
+                                <td><?php echo $r->created_user_first_name.' '.$r->created_user_last_name; ?></td>
+                                <td><?php echo $r->last_updated_user_first_name.' '.$r->last_updated_user_last_name; ?></td>
+                                <td><?php echo $r->note; ?></td>
+                            </tr>
+                        <?php }  ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php if($add_equipment_location_access) { ?>
+            <div class="card-body">
+                <form id="add_location" action="<?=  base_url('equipments/edit/').$equipment_id; ?>" method="POST">
+                    <input type="hidden" name="form_for" value="add_equipment_location_log">
                     <div class="row">
                         <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                            <label for="document_type">Document type<span class="star" style="color:red"> *</span></label>
-                            <select class="form-control" name="document_type" id="document_type" required>
-                                <option value="" selected>Document type</option>
+                            <label for="location">Location<span class="star" style="color:red"> *</span></label>
+                            <select class="form-control" name="location" id="location" required>
+                                <option value="" selected>Location</option>
                                 <?php
-                                    foreach($equipment_document_type as $r){ ?>
-                                    <option value="<?php echo $r->document_type_id;?>"    
-                                    <?php if($this->input->post('document_type') == $r->document_type_id) echo " selected "; ?>
-                                    ><?php echo $r->document_type;?></option>    
+                                    foreach($locations as $r){ ?>
+                                    <option value="<?php echo $r->location_id;?>"    
+                                    <?php if($this->input->post('location') == $r->location_id) echo " selected "; ?>
+                                    ><?php echo $r->location;?></option>    
                                     <?php }  ?>
                             </select>
                         </div>
                         <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                            <label for="document_date">Document date<span class="star" style="color:red"> *</span></label>
-                            <input class="form-control" name="document_date" type="date"  max="<?php echo date("Y-m-d") ?>" required>
+                            <label for="receiver_party_id">Receiver party<span class="star" style="color:red"> *</span></label>
+                            <select name="receiver_party_id" id="receiver_party_id" placeholder="Receiver party" required>
+                            </select>
                         </div>
                         <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                            <label for="upload_file">Upload Image<span class="star" style="color:red"> *</span></label>
-                            <input type="text" class="sr-only" hidden name="document_link"/>
-                            <input type="file" name="upload_file" id="upload_file" required>
+                            <label for="address">Address</label>
+                            <input class="form-control" name="address" type="text">
+                        </div>
+                        <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                            <label for="delivery_date">Delivery Date<span class="star" style="color:red"> *</span></label>
+                            <input class="form-control" name="delivery_date" type="date" max="<?php echo date("Y-m-d") ?>" required >
                         </div>
                         <div class="form-group col-md-6 col-lg-6 col-xs-12">
                             <label for="note">Note</label>
@@ -372,8 +293,89 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                 </form>
             </div>
-        <?php } ?>
-    </div>
+            <?php } ?>
+        </div>
+    <?php } if($view_equipment_document_access) {?>
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h4>Equipment Document Information </h4>
+            </div>
+            <div class="card-body">
+                <table id="table-sort" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center">#</th>
+                            <th style="text-align:center">Document type</th>
+                            <th style="text-align:center">Document date</th>
+                            <th style="text-align:center">Created by</th>
+                            <th style="text-align:center">updated by</th>
+                            <th style="text-align:center">Note</th>
+                            <th style="text-align:center">Document actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $i=1;
+                            foreach($equipment_documents as $r){ ?>
+                            <tr>
+                                <td><?php echo $i++; ?></td>
+                                <td><?php echo $r->document_type; ?></td>
+                                <td  style="text-align:center"><?php  echo date("d-M-Y", strtotime($r->document_date)); ?></td>
+                                <td><?php echo $r->created_user_first_name.' '.$r->created_user_last_name; ?></td>
+                                <td><?php echo $r->last_updated_user_first_name.' '.$r->last_updated_user_last_name; ?></td>
+                                <td><?php echo $r->equipment_document_note; ?></td>
+                                <td>
+                                    <button id="view-document" class="btn btn-info btn-sm round-button" onclick="view_document('<?=$r->document_link; ?>');"><i class='fa fa-external-link' aria-hidden='true'></i></button>
+                                    <?php if($edit_equipment_document_access) { ?>
+                                        <button id="edit-document" class="btn btn-info btn-sm round-button" onclick="edit_document('<?=$r->document_link; ?>');"><i class='fa fa-pencil' aria-hidden='true'></i></button>
+                                    <?php } if($delete_equipment_document_access) { ?>
+                                        <button id="delete-document" class="btn btn-danger btn-sm round-button" onclick="delete_document('<?=$r->id; ?>');"><i class='fa fa-trash' aria-hidden='true'></i></button>
+                                    <?php } ?>
+                                </td>
+                            </tr>
+                        <?php }  ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php if($add_equipment_document_access) { ?>
+                <div class="card-body">
+                    <form enctype="multipart/form-data" id="add_equipment_document" action="<?= base_url('equipments/edit/').$equipment_id; ?>" method="POST">
+                        <input type="hidden" name="form_for" value="upload_equipment_document">
+                        <div class="row">
+                            <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                                <label for="document_type">Document type<span class="star" style="color:red"> *</span></label>
+                                <select class="form-control" name="document_type" id="document_type" required>
+                                    <option value="" selected>Document type</option>
+                                    <?php
+                                        foreach($equipment_document_type as $r){ ?>
+                                        <option value="<?php echo $r->document_type_id;?>"    
+                                        <?php if($this->input->post('document_type') == $r->document_type_id) echo " selected "; ?>
+                                        ><?php echo $r->document_type;?></option>    
+                                        <?php }  ?>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                                <label for="document_date">Document date<span class="star" style="color:red"> *</span></label>
+                                <input class="form-control" name="document_date" type="date"  max="<?php echo date("Y-m-d") ?>" required>
+                            </div>
+                            <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                                <label for="upload_file">Upload Image<span class="star" style="color:red"> *</span></label>
+                                <input type="text" class="sr-only" hidden name="document_link"/>
+                                <input type="file" name="upload_file" id="upload_file" required>
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-12">
+                                <label for="note">Note</label>
+                                <textarea class="form-control" name="note" rows="1"></textarea>
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-12" style="margin-top:2rem;">
+                                <button type="submit" class='btn btn-info '>Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            <?php } ?>
+        </div>
+    <?php } ?>
 </div>
 
 <script>
