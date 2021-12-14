@@ -5,8 +5,8 @@ class Reports extends CI_Controller {
     
 	function __construct() {
         parent::__construct();
+		$this->load->model('master_model');
 		if($this->session->userdata('logged_in')){
-			$this->load->model('master_model');
 			$this->load->model('user_model');
 			$this->load->model('reports_model');
 			$userdata = $this->session->userdata('logged_in');
