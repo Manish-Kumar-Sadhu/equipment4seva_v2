@@ -71,9 +71,7 @@ class Equipments extends CI_Controller {
 			$equipment = $this->master_model->get_equipment_by_id($equipment_id);
 			$default_party_id = $this->session->userdata('logged_in')['default_party_id'];
 			$has_party_access =  in_array($equipment->procured_by_party_id, $this->data['user_party_ids']);
-			$view_equipment_access=0;
-			$edit_equipment_access=0;
-			$delete_equipment_access=0;
+			$view_equipment_access=$edit_equipment_access=$delete_equipment_access=0;
 			$view_equipment_location_access=0;
 			$view_equipment_document_access=0;
 			if($has_party_access){
