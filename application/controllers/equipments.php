@@ -69,6 +69,7 @@ class Equipments extends CI_Controller {
 	function view($equipment_id){
 		if($this->session->userdata('logged_in')){
 			$equipment = $this->master_model->get_equipment_by_id($equipment_id);
+			$default_party_id = $this->session->userdata('logged_in')['default_party_id'];
 			$has_party_access =  in_array($equipment->procured_by_party_id, $this->data['user_party_ids']);
 			$view_equipment_access=0;
 			$edit_equipment_access=0;
@@ -80,9 +81,9 @@ class Equipments extends CI_Controller {
 					if($f->user_function=="equipment"){ 
 						if($f->view)
 							$view_equipment_access=1;
-						if($f->edit)
+						if($f->edit && $equipment->procured_by_party_id == $default_party_id)
 							$edit_equipment_access=1;
-						if($f->remove)
+						if($f->remove && $equipment->procured_by_party_id == $default_party_id)
 							$delete_equipment_access=1;
 					}
 					if($f->user_function=="equipment_document"){ 
@@ -173,11 +174,12 @@ class Equipments extends CI_Controller {
 	function edit($equipment_id){
 		if($this->session->userdata('logged_in')){
 			$equipment = $this->master_model->get_equipment_by_id($equipment_id);
+			$default_party_id = $this->session->userdata('logged_in')['default_party_id'];
 			$edit_equipment_access=0;
 			$add_equipment_location_access=0;
 			$add_equipment_document_access=0;
 			$delete_equipment_document_access=0;
-			$has_party_access =  in_array($equipment->procured_by_party_id, $this->data['user_party_ids']);
+			$has_party_access =  $equipment->procured_by_party_id==$default_party_id;
 			foreach($this->data['functions'] as $f){
 				if($f->user_function=="equipment"){ 
 					if($f->edit && $has_party_access)

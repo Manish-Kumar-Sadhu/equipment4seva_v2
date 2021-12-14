@@ -113,6 +113,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php
     //  fetching default party_id of loggedIn user
     $logged_in=$this->session->userdata('logged_in');
+    $default_party_id = $logged_in['default_party_id'] ;
     $to_date = $this->input->post('to_date');
     $from_date = $this->input->post('from_date');
     $donor_party = $this->input->post('donor_party');
@@ -301,13 +302,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <th style="text-align:center">Equipment Type</th>
                     <th style="text-align:center">Equipment Name</th>
                     <th style="text-align:center">Serial Number</th>
-                    <?php if($logged_in) { ?>
-                        <th style="text-align:center">Current Location</th>
-                    <?php } ?>
+                    <th style="text-align:center">Current Location</th>
                     <th style="text-align:center">District, State</th>
-                    <?php if($logged_in) { ?>
-                        <th style="text-align:center">Cost</th>
-                    <?php } ?>
+                    <th style="text-align:center">Cost</th>
                     <th style="text-align:center">Invoice Date</th>
                     <th style="text-align:center">Details</th>
                 </tr>
@@ -321,17 +318,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td><?php echo $r->equipment_type; ?></td>
                         <td><?php echo $r->equipment_name; ?></td>
                         <td><?php echo $r->serial_number; ?></td>
-                        <?php if($logged_in) { ?>
-                            <td><?php echo $r->location; ?></td>
-                        <?php } ?>
+                        <td><?php echo $r->location; ?></td>
                         <td><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
-                        <?php if($logged_in) { ?>
                             <td style="text-align:right"><?php echo number_format($r->cost); ?></td>
-                        <?php } ?>
                         <td style="text-align:center"><?php echo  date("d-M-Y", strtotime($r->invoice_date)); ?></td>
                         <td>
                             <button id="view-equipment" class="btn btn-info btn-sm round-button" onclick="view_equipment(<?=$r->equipment_id; ?>);"><i class='fa fa-external-link' aria-hidden='true'></i></button>
-                            <?php if($edit_equipment_access && in_array($r->procured_by_party_id, $user_party_ids)){ ?>
+                            <?php if($edit_equipment_access && $r->procured_by_party_id==$default_party_id){ ?>
                                 <button id="edit-equipment" class="btn btn-info btn-sm round-button" onclick="update_equipment(<?=$r->equipment_id; ?>)"><i class='fa fa-pencil' aria-hidden='true'></i></button>
                             <?php } ?>
                         </td>
