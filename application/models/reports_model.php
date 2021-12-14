@@ -1,7 +1,16 @@
 <?php
 class Reports_model extends CI_Model {
+    private $user_party_ids =[];
+    private $user_id ='';
     function __construct() {
         parent::__construct();
+        $this->load->model('user_model');
+        $user_data = $this->session->userdata('logged_in');
+        $this->user_id = $user_data['user_id'];
+        $user_parties=$this->user_model->user_parties($this->user_id);
+        foreach ($user_parties as $key => $value) {
+            array_push($this->user_party_ids, $value->party_id);
+        }
     }
 
     function summary_report(){
@@ -37,6 +46,7 @@ class Reports_model extends CI_Model {
         $this->db->select("equipment_type, equipment_category, COUNT(equipment.equipment_id) as no_of_records, SUM(equipment.cost) as total_amount")
             ->join('equipment_type','equipment_type.equipment_type_id=equipment.equipment_type_id','left')
             ->join('equipment_category','equipment_category.id=equipment_type.equipment_category_id','left')
+            ->where_in('equipment.procured_by_party_id', $this->user_party_ids)
             ->from("equipment");
         $query=$this->db->get();
         return $query->result();

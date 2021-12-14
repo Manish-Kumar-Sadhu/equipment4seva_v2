@@ -42,136 +42,146 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <div class="container">
-    <form id="summary_report" action="<?= base_url('reports/summary_report'); ?>" method="POST">
-        <input type="hidden" id="1" name="postback" value="1">
+    <?php if($view_summary_report) { ?>
+        <form id="summary_report" action="<?= base_url('reports/summary_report'); ?>" method="POST">
+            <input type="hidden" id="1" name="postback" value="1">
+            <div class="row">
+                <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                    <label for="equipment_category">Equipment Category</label>
+                    <select class="form-control" name="equipment_category" id="equipment_category" onchange="filter_equipment_type('equipment_category','equipment_type')">
+                        <option value="0" selected>Equipment Category</option>
+                        <?php
+                            foreach($equipment_category as $r){ ?>
+                            <option value="<?php echo $r->id;?>"    
+                            <?php if($this->input->post('equipment_category') == $r->id) echo " selected "; ?>
+                            ><?php echo $r->equipment_category;?></option>    
+                            <?php }  ?>
+                    </select>
+                    <?php if(!$this->input->post('postback')) { ?>				  
+                        <input type="checkbox" name="group_by_equipment_category" id="group_by_equipment_category" value="1" checked onclick="handleClick();"  > <span>Group by equipment category</span>
+                    <?php } else { ?>
+                        <input type="checkbox" name="group_by_equipment_category" id="group_by_equipment_category" value="1" <?php if($group_by_equipment_category) echo "checked";?> onclick="handleClick();"  > <span>Group by equipment category</span>
+                    <?php } ?>
+                </div>
+                <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                    <label for="equipment_type">Equipment Type</label>
+                    <select class="form-control" name="equipment_type" id="equipment_type">
+                        <option value="" selected>Equipment Type</option>
+                        <?php
+                            foreach($equipment_type as $r){ ?>
+                            <option value="<?php echo $r->equipment_type_id;?>"    
+                            <?php if($this->input->post('equipment_type') == $r->equipment_type_id || $selected_equipment_type_id == $r->equipment_type_id) echo " selected "; ?>
+                            ><?php echo $r->equipment_type;?></option>    
+                            <?php }  ?>
+                    </select>
+                    <input type="checkbox" name="group_by_equipment_type" id="group_by_equipment_type" value="1" <?php if($group_by_equipment_type) echo "checked";?>  onclick="handleClick();" /> <span>Group by equipment type</span>
+                </div>
+                <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                    <label for="from_invoice_date">From Invoice date</label>
+                    <input class="form-control" type="date" name="from_date" id="from_date" value=<?= $from_date?> >
+                </div>
+                <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                    <label for="to_invoice_date">To Invoice date</label>
+                    <input class="form-control" type="date" name="to_date" id="to_date" value=<?= $to_date?>>
+                </div>
+                <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                    <label for="donor_party">Donor</label>
+                    <select name="donor_party" id="donor_party" placeholder="Donor">
+                    </select>
+                </div>
+                <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                    <label for="procured_by_party">Procured by</label>
+                    <select name="procured_by_party" id="procured_by_party" placeholder="Procured by">
+                    </select>
+                </div>
+                <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                    <label for="supplier_party">Supplier</label>
+                    <select  name="supplier_party" id="supplier_party" placeholder="Supplier">
+                    </select>
+                </div>
+                <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                    <label for="manufactured_party">Manufacturer</label>
+                    <select  name="manufactured_party" id="manufactured_party" placeholder="Manufacturer">
+                    </select>
+                </div>
+                <div class="form-group col-md-4 col-lg-3 col-xs-12">
+                    <label for="equipment_type">Location</label>
+                    <select class="form-control" name="location" id="location">
+                        <option value="0" selected>Location</option>
+                        <?php
+                            foreach($location as $r){ ?>
+                            <option value="<?php echo $r->location_id;?>"    
+                            <?php if($this->input->post('location') == $r->location_id) echo " selected "; ?>
+                            ><?php echo $r->location;?></option>    
+                            <?php }  ?>
+                    </select>
+                </div>
+                <div class="form-group col-md-2 col-lg-1 col-xs-12">
+                    <button type="submit" class='btn btn-info' style="margin-top:1.75rem;">Submit</button>                        
+                </div>
+            </div>
+        </form>
         <div class="row">
-            <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                <label for="equipment_category">Equipment Category</label>
-                <select class="form-control" name="equipment_category" id="equipment_category" onchange="filter_equipment_type('equipment_category','equipment_type')">
-                    <option value="0" selected>Equipment Category</option>
+            <table id="table-sort" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">#</th>
+                        <?php if($group_by_equipment_category)  { ?>
+                            <th style="text-align:center">Equipment Category</th>
+                        <?php } if($group_by_equipment_type) { ?>
+                            <th style="text-align:center">Equipment Type</th>
+                        <?php } ?>
+                        <th style="text-align:center">No. of records</th>
+                        <th style="text-align:center">Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
                     <?php
-                        foreach($equipment_category as $r){ ?>
-                        <option value="<?php echo $r->id;?>"    
-                        <?php if($this->input->post('equipment_category') == $r->id) echo " selected "; ?>
-                        ><?php echo $r->equipment_category;?></option>    
-                        <?php }  ?>
-                </select>
-                <?php if(!$this->input->post('postback')) { ?>				  
-                    <input type="checkbox" name="group_by_equipment_category" id="group_by_equipment_category" value="1" checked onclick="handleClick();"  > <span>Group by equipment category</span>
-                <?php } else { ?>
-                    <input type="checkbox" name="group_by_equipment_category" id="group_by_equipment_category" value="1" <?php if($group_by_equipment_category) echo "checked";?> onclick="handleClick();"  > <span>Group by equipment category</span>
-                <?php } ?>
-            </div>
-            <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                <label for="equipment_type">Equipment Type</label>
-                <select class="form-control" name="equipment_type" id="equipment_type">
-                    <option value="" selected>Equipment Type</option>
+                        $serial_number=1;
+                        $total_no_of_records=0;
+                        $grand_total_amount=0;
+                        $val_count='';
+                        foreach($summary_data as $r){
+                            $val_count=0;
+                        ?>
+                        <tr>
+                            <td><?php echo $serial_number++; ?></td>
+                            <?php if($group_by_equipment_category)  { ?>
+                                <td><?php echo $r->equipment_category; $val_count=$val_count +1; ?></td>
+                            <?php } if($group_by_equipment_type) { ?>
+                                <td><?php echo $r->equipment_type; $val_count=$val_count +1; ?></td>
+                            <?php } ?>
+                            <td style="text-align:right"><?php echo $r->no_of_records; ?></td>
+                            <td style="text-align:right"><?php echo number_format($r->total_amount); ?></td>
+                        </tr>
                     <?php
-                        foreach($equipment_type as $r){ ?>
-                        <option value="<?php echo $r->equipment_type_id;?>"    
-                        <?php if($this->input->post('equipment_type') == $r->equipment_type_id || $selected_equipment_type_id == $r->equipment_type_id) echo " selected "; ?>
-                        ><?php echo $r->equipment_type;?></option>    
-                        <?php }  ?>
-                </select>
-                <input type="checkbox" name="group_by_equipment_type" id="group_by_equipment_type" value="1" <?php if($group_by_equipment_type) echo "checked";?>  onclick="handleClick();" /> <span>Group by equipment type</span>
-            </div>
-            <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                <label for="from_invoice_date">From Invoice date</label>
-                <input class="form-control" type="date" name="from_date" id="from_date" value=<?= $from_date?> >
-            </div>
-            <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                <label for="to_invoice_date">To Invoice date</label>
-                <input class="form-control" type="date" name="to_date" id="to_date" value=<?= $to_date?>>
-            </div>
-            <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                <label for="donor_party">Donor</label>
-                <select name="donor_party" id="donor_party" placeholder="Donor">
-                </select>
-            </div>
-            <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                <label for="procured_by_party">Procured by</label>
-                <select name="procured_by_party" id="procured_by_party" placeholder="Procured by">
-                </select>
-            </div>
-            <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                <label for="supplier_party">Supplier</label>
-                <select  name="supplier_party" id="supplier_party" placeholder="Supplier">
-                </select>
-            </div>
-            <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                <label for="manufactured_party">Manufacturer</label>
-                <select  name="manufactured_party" id="manufactured_party" placeholder="Manufacturer">
-                </select>
-            </div>
-            <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                <label for="equipment_type">Location</label>
-                <select class="form-control" name="location" id="location">
-                    <option value="0" selected>Location</option>
-                    <?php
-                        foreach($location as $r){ ?>
-                        <option value="<?php echo $r->location_id;?>"    
-                        <?php if($this->input->post('location') == $r->location_id) echo " selected "; ?>
-                        ><?php echo $r->location;?></option>    
-                        <?php }  ?>
-                </select>
-            </div>
-            <div class="form-group col-md-2 col-lg-1 col-xs-12">
-                <button type="submit" class='btn btn-info' style="margin-top:1.75rem;">Submit</button>                        
+                        $total_no_of_records += $r->no_of_records;
+                        $grand_total_amount += $r->total_amount;
+                    }  ?>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th style="text-align:center">Total</th>
+                        <?php
+                            for ($i = 0; $i < $val_count; $i++) {
+                                echo "<th></th>";
+                            }
+                            ?>
+                        <th style="text-align:right"><?php echo $total_no_of_records;  ?> </th>
+                        <th style="text-align:right"><?php echo number_format($grand_total_amount);  ?> </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    <?php }  else {?>
+        <div class="row" style="margin-top:1rem;">
+            <div class="col-md-12">
+                <div class="alert alert-warning">
+                    <p>You don't have access to view summary report. Please contact administrator</p>
+                </div>
             </div>
         </div>
-    </form>
-    <div class="row">
-        <table id="table-sort" class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th style="text-align:center">#</th>
-                    <?php if($group_by_equipment_category)  { ?>
-                        <th style="text-align:center">Equipment Category</th>
-                    <?php } if($group_by_equipment_type) { ?>
-                        <th style="text-align:center">Equipment Type</th>
-                    <?php } ?>
-                    <th style="text-align:center">No. of records</th>
-                    <th style="text-align:center">Total Amount</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                    $serial_number=1;
-                    $total_no_of_records=0;
-                    $grand_total_amount=0;
-                    $val_count='';
-                    foreach($summary_data as $r){
-                        $val_count=0;
-                    ?>
-                    <tr>
-                        <td><?php echo $serial_number++; ?></td>
-                        <?php if($group_by_equipment_category)  { ?>
-                            <td><?php echo $r->equipment_category; $val_count=$val_count +1; ?></td>
-                        <?php } if($group_by_equipment_type) { ?>
-                            <td><?php echo $r->equipment_type; $val_count=$val_count +1; ?></td>
-                        <?php } ?>
-                        <td style="text-align:right"><?php echo $r->no_of_records; ?></td>
-                        <td style="text-align:right"><?php echo number_format($r->total_amount); ?></td>
-                    </tr>
-                <?php
-                    $total_no_of_records += $r->no_of_records;
-                    $grand_total_amount += $r->total_amount;
-                }  ?>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th style="text-align:center">Total</th>
-                    <?php
-                        for ($i = 0; $i < $val_count; $i++) {
-                            echo "<th></th>";
-                        }
-                        ?>
-                    <th style="text-align:right"><?php echo $total_no_of_records;  ?> </th>
-                    <th style="text-align:right"><?php echo number_format($grand_total_amount);  ?> </th>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
+    <?php } ?>
 </div>
 
 <script>

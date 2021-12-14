@@ -23,19 +23,31 @@ class Reports extends CI_Controller {
     }
 
     function summary_report(){
+		$this->data['title']='Summary report';
         if($this->session->userdata('logged_in')){
-            $this->data['title']='Summary report';
-            $this->load->view('templates/header' , $this->data);
-			$this->data['equipment_type'] = $this->master_model->get_data('equipment_type');
-			$this->data['equipment_category'] = $this->master_model->get_data('equipment_category');
-			$this->data['location'] = $this->master_model->get_data('location');
-			$this->data['donor_parties'] = $this->master_model->get_parties_by_party_type('donor_party');
-			$this->data['procured_by_parties'] = $this->master_model->get_parties_of_user();
-			$this->data['supplier_parties'] = $this->master_model->get_parties_by_party_type('supplier_party');
-			$this->data['manufactured_parties'] = $this->master_model->get_parties_by_party_type('manufactured_party');
-			$this->data['summary_data'] = $this->reports_model->summary_report();
-            $this->load->view('summary_report', $this->data);
-            $this->load->view('templates/footer' ,$this->data);
+			$view_summary_report=0;
+			foreach($this->data['functions'] as $f){
+				if($f->user_function=="summary_report"){ 
+					if($f->view)
+						$view_summary_report=1;  
+				}
+			}
+			$this->load->view('templates/header' , $this->data);
+			if($view_summary_report){
+				$this->data['equipment_type'] = $this->master_model->get_data('equipment_type');
+				$this->data['equipment_category'] = $this->master_model->get_data('equipment_category');
+				$this->data['location'] = $this->master_model->get_data('location');
+				$this->data['donor_parties'] = $this->master_model->get_parties_by_party_type('donor_party');
+				$this->data['procured_by_parties'] = $this->master_model->get_parties_of_user();
+				$this->data['supplier_parties'] = $this->master_model->get_parties_by_party_type('supplier_party');
+				$this->data['manufactured_parties'] = $this->master_model->get_parties_by_party_type('manufactured_party');
+				$this->data['summary_data'] = $this->reports_model->summary_report();
+				$this->data['view_summary_report'] = $view_summary_report;
+				$this->load->view('summary_report', $this->data);
+			} else {
+				$this->data['view_summary_report'] = $view_summary_report;
+			}
+			$this->load->view('summary_report', $this->data);
         } else {
             show_404();
         }
