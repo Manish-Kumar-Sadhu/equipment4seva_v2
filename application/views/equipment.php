@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
 ?>
 <div class="container">
-    <?php if($view_equipment) {?>
+    <?php if($view_equipment_access) {?>
         <div class="card">
             <div class="card-header bg-info text-white">
                 <div class="row">
@@ -40,9 +40,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <h4>  Equipment Details - ID : <?php echo $equipment->equipment_id; ?> </h4>
                     </div> 
                     <div class="col-md-2">
-                        <?php if($edit_equipment) { ?>
+                        <?php if($edit_equipment_access) { ?>
                             <button id="edit-equipment" class="btn btn-light round-button" onclick="update_equipment('<?= $equipment->equipment_id; ?>')" ><i class='fa fa-pencil' aria-hidden='true'></i></button> 
-                        <?php } if($delete_equipment) { ?>
+                        <?php } if($delete_equipment_access) { ?>
                             <button id="delete-equipment" class="btn btn-light round-button"><i class='fa fa-trash' aria-hidden='true'></i></button> 
                         <?php } ?>
                     </div>
