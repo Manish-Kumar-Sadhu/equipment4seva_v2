@@ -46,8 +46,9 @@ class Reports extends CI_Controller {
 				$this->load->view('summary_report', $this->data);
 			} else {
 				$this->data['view_summary_report'] = $view_summary_report;
+				$this->load->view('summary_report', $this->data);
 			}
-			$this->load->view('summary_report', $this->data);
+			$this->load->view('templates/footer' ,$this->data);
         } else {
             show_404();
         }
