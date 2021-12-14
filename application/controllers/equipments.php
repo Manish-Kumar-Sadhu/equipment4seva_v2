@@ -71,21 +71,27 @@ class Equipments extends CI_Controller {
 			$equipment = $this->master_model->get_equipment_by_id($equipment_id);
 			$has_party_access =  in_array($equipment->procured_by_party_id, $this->data['user_party_ids']);
 			$view_equipment=0;
+			$edit_equipment=0;
+			$delete_equipment=0;
 			$view_equipment_location_access=0;
 			$view_equipment_document_access=0;
 			if($has_party_access){
 				foreach($this->data['functions'] as $f){
 					if($f->user_function=="equipment"){ 
 						if($f->view)
-						$view_equipment=1;
+							$view_equipment=1;
+						if($f->edit)
+							$edit_equipment=1;
+						if($f->remove)
+							$delete_equipment=1;
 					}
 					if($f->user_function=="equipment_document"){ 
 						if($f->view)
-						$view_equipment_document_access=1;
+							$view_equipment_document_access=1;
 					}
 					if($f->user_function=="equipment_location"){ 
 						if($f->view)
-						$view_equipment_location_access=1;
+							$view_equipment_location_access=1;
 					}
 				}
 				$this->data['title']='Equipment';
@@ -104,6 +110,8 @@ class Equipments extends CI_Controller {
 				$this->data['equipment'] = $this->master_model->get_equipment_by_id($equipment_id);
 				$this->data['equipment_location_data'] = $this->master_model->get_equipment_current_location($equipment_id);
 				$this->data['view_equipment'] = $view_equipment;
+				$this->data['edit_equipment'] = $edit_equipment;
+				$this->data['delete_equipment'] = $delete_equipment;
 				$this->data['view_equipment_document_access'] = $view_equipment_document_access;
 				$this->data['view_equipment_location_access'] = $view_equipment_location_access;
 				$this->load->view('equipment', $this->data);
