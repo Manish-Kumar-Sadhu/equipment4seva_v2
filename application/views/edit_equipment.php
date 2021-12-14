@@ -543,7 +543,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     accepts: {
                         contentType: "application/json"
                     },
-                    url: "<?= base_url() ?>equipments/delete_document/"+id,
+                    url: "<?= base_url() ?>document/delete/"+id,
                     dataType: "text",
                     success: function (response) {
                         const res =  JSON.parse(response);
