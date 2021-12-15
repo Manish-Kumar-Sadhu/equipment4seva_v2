@@ -46,16 +46,16 @@ class Document_model extends CI_Model{
 	}
 
 	function get_documents_by_equipment_id($equipment_id){
-		$this->db->select('id, document_type, document_date, created_user.first_name as created_user_first_name, created_user.last_name  as created_user_last_name,
-		document_link, equipment_documents.note as equipment_document_note, updated_user.first_name as last_updated_user_first_name, 
-		updated_user.last_name as last_updated_user_last_name,')
+		$this->db->select('id, document_type, document_date, document_link, equipment_documents.note as equipment_document_note, 
+		created_user.first_name as created_user_first_name, created_user.last_name  as created_user_last_name, equipment_documents.created_datetime as doc_created_datetime,  
+		updated_user.first_name as last_updated_user_first_name, updated_user.last_name as last_updated_user_last_name, equipment_documents.updated_datetime as doc_last_updated_datetime')
 		->from('equipment_documents')
 		->join('equipment_document_type','equipment_document_type.document_type_id = equipment_documents.document_type_id','left')
 		->join('user as created_user','created_user.user_id=equipment_documents.created_by','left')
 		->join('user as updated_user','updated_user.user_id=equipment_documents.updated_by','left')
 		->where("equipment_id",$equipment_id)
 		->where('deleted_by', NULL, false)
-		->order_by('equipment_documents.create_datetime');
+		->order_by('equipment_documents.created_datetime');
 		$query = $this->db->get();
         $result =  $query->result();
 		return $result;

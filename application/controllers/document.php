@@ -33,4 +33,18 @@ class Document extends CI_Controller {
             die();
         }
     }
+
+    function delete($id){
+		$this->load->helper("file");
+		$document = $this->document_model->get_document_by_id($id);
+		if($document) {
+			$path_to_file = "./assets/equipment_documents/".$document->document_link;
+			// deleting file from assests folder
+			if(file_exists($path_to_file) && unlink($path_to_file)){
+				$deleted = $this->document_model->delete_document($id);
+				print json_encode($deleted);
+			}
+			// updated deleted info in equipment documents table
+		}
+	}
 }

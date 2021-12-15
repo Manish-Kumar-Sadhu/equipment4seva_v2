@@ -30,6 +30,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php 
     $logged_in=$this->session->userdata('logged_in');
     $default_party_id = $logged_in['default_party_id'];
+    $default_party_name='';
+    foreach($procured_by_parties as $r){
+        if($r->party_id == $default_party_id){
+            $default_party_name = $r->party_name;
+            break;
+        }
+    }
 ?>
 <div class="container">
     <div class="card">
@@ -89,8 +96,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="procured_by_party">Procured by <span class="star" style="color:red"> *</span></label>
-                        <select name="procured_by_party" id="procured_by_party" placeholder="Procured by">
-                        </select>
+                        <input class="form-control" type="hidden" name="procured_by_party" id="procured_by_party" value='<?php echo $default_party_id; ?>'>
+                        <input class="form-control" type="text" name="procured_by_party_value" id="procured_by_party_value" value='<?php echo $default_party_name; ?>' disabled>
                     </div>
                     <div class="form-group col-md-4 col-lg-3 col-xs-12">
                         <label for="procurement_status">Procurement status</label>
@@ -217,9 +224,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     $(function () {
         initDropdown('donor_party', '<?php echo json_encode($party); ?>');
-        initDropdown('procured_by_party', '<?php echo json_encode($procured_by_parties); ?>', '<?= $default_party_id ?>');
+        // initDropdown('procured_by_party', '<?php echo json_encode($procured_by_parties); ?>', '<?= $default_party_id ?>');
         initDropdown('supplier_party', '<?php echo json_encode($party); ?>');
         initDropdown('manufactured_party', '<?php echo json_encode($party); ?>');
+
     });
 
     function escapeSpecialChars(str) {
