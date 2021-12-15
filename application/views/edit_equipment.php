@@ -308,7 +308,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th style="text-align:center">Document type</th>
                             <th style="text-align:center">Document date</th>
                             <th style="text-align:center">Created by</th>
-                            <th style="text-align:center">updated by</th>
+                            <th style="text-align:center">Updated by</th>
                             <th style="text-align:center">Note</th>
                             <th style="text-align:center">Document actions</th>
                         </tr>
