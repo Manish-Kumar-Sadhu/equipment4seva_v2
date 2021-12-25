@@ -267,7 +267,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="card-header bg-info text-white">
                 <div class="row">
                     <div class="col-md-12">
-                        <h4>  Equipmet Location </h4>
+                        <h4>  Equipment Location </h4>
                     </div>
                 </div>
             </div>
@@ -280,9 +280,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th style="text-align:center">Location</th>
                             <th style="text-align:center">District, State</th>
                             <th style="text-align:center">Delivery date</th>
+                            <th style="text-align:center">Note</th>
                             <th style="text-align:center">Created by</th>
                             <th style="text-align:center">Updated by</th>
-                            <th style="text-align:center">Note</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -295,9 +295,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <td><?php echo $r->location;?> <?php echo $r->address ? '('.$r->address.')' : '' ?> </td>
                                 <td><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
                                 <td  style="text-align:center"><?php  echo date("d-M-Y", strtotime($r->delivery_date)); ?></td>
+                                <td><?php echo $r->note; ?></td>
                                 <td><?php echo $r->created_user_first_name.' '.$r->created_user_last_name; echo $r->location_created_datetime ? ', '.date("d-M-Y h:i A", strtotime($r->location_created_datetime)) : ''; ?></td>
                                 <td><?php echo $r->last_updated_user_first_name.' '.$r->last_updated_user_last_name; echo $r->last_updated_datetime ? ', '.date("d-M-Y h:i A", strtotime($r->last_updated_datetime)) : '';  ?></td>
-                                <td><?php echo $r->note; ?></td>
                             </tr>
                         <?php }  ?>
                     </tbody>
@@ -317,10 +317,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <th style="text-align:center">#</th>
                                 <th style="text-align:center">Document type</th>
                                 <th style="text-align:center">Document date</th>
-                                <th style="text-align:center">Created by</th>
-                                <th style="text-align:center">updated by</th>
                                 <th style="text-align:center">Note</th>
                                 <th style="text-align:center">View document</th>
+                                <th style="text-align:center">Created by</th>
+                                <th style="text-align:center">Updated by</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -331,12 +331,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <td><?php echo $i++; ?></td>
                                     <td><?php echo $r->document_type; ?></td>
                                     <td  style="text-align:center"><?php  echo date("d-M-Y", strtotime($r->document_date)); ?></td>
-                                    <td><?php echo $r->created_user_first_name.' '.$r->created_user_last_name; echo $r->doc_created_datetime ? ', '.date("d-M-Y h:i A", strtotime($r->doc_created_datetime)) : ''; ?></td>
-                                    <td><?php echo $r->last_updated_user_first_name.' '.$r->last_updated_user_last_name; echo $r->doc_last_updated_datetime ? ', '.date("d-M-Y h:i A", strtotime($r->doc_last_updated_datetime)) : '';  ?></td>
                                     <td><?php echo $r->equipment_document_note; ?></td>
                                     <td>
                                         <button id="view-document" class="btn btn-info btn-sm round-button" onclick="view_document('<?=$r->document_link; ?>');"><i class='fa fa-external-link' aria-hidden='true'></i></button>
                                     </td>
+                                    <td><?php echo $r->created_user_first_name.' '.$r->created_user_last_name; echo $r->doc_created_datetime ? ', '.date("d-M-Y h:i A", strtotime($r->doc_created_datetime)) : ''; ?></td>
+                                    <td><?php echo $r->last_updated_user_first_name.' '.$r->last_updated_user_last_name; echo $r->doc_last_updated_datetime ? ', '.date("d-M-Y h:i A", strtotime($r->doc_last_updated_datetime)) : '';  ?></td>
                                 </tr>
                             <?php }  ?>
                         </tbody>
