@@ -303,7 +303,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <table id="table-sort" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th style="text-align:center">#</th>
+                    <th class="row-number" style="text-align:center">#</th>
                     <th class="equipment-type" style="text-align:center">Equipment Type</th>
                     <th class="equipment-name" style="text-align:center">Equipment Name</th>
                     <th class="serial-number" style="text-align:center">Serial Number</th>
@@ -338,9 +338,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td class="current-location" ><?php echo $r->location; ?></td>
                         <td class="district-state" ><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
                         <td class="cost" style="text-align:right"><?php echo number_format($r->cost); ?></td>
-                        <td class="invoice-date"><?php echo $r->invoice_number; ?></td>
+                        <td class="invoice-number"><?php echo $r->invoice_number; ?></td>
                         <td class="functional-status"><?php echo $r->working_status; ?></td>
-                        <td style="text-align:center"><?php echo  date("d-M-Y", strtotime($r->invoice_date)); ?></td>
+                        <td class="invoice-date" style="text-align:center"><?php echo  date("d-M-Y", strtotime($r->invoice_date)); ?></td>
                         <td>
                             <button id="view-equipment" class="btn btn-info btn-sm round-button" onclick="view_equipment(<?=$r->equipment_id; ?>);"><i class='fa fa-external-link' aria-hidden='true'></i></button>
                             <?php if($edit_equipment_access && $r->procured_by_party_id==$default_party_id){ ?>
@@ -445,13 +445,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <script>
-    let equipmentsTableCols = [];
+
     $(function () {
-        const default_columns = '<?php echo $default_columns->value;?>'.split(",");
-        equipmentsTableCols = default_columns.map( ele => ({ col_name :  ele }));
-        console.log(equipmentsTableCols);
-        $(".equipment-name").hide();
-        initDisplayColumns('display-columns', JSON.stringify(equipmentsTableCols), default_columns);
+        let display_columns = '<?php echo $default_columns->value;?>'.split(",");
+        let all_columns = '<?php echo $all_columns->value;?>'.split(",");
+        const hide_columns = all_columns.filter(column => !display_columns.includes(column));
+        hide_columns.forEach(column => {
+            console.log(`.${column}`);
+            $(`.${column}`).remove();
+        });
+        all_columns = all_columns.map( ele => ({ col_name :  ele }));
+        initDisplayColumns('display-columns', JSON.stringify(all_columns), display_columns);
         initDropdown('donor_party', '<?php echo json_encode($donor_parties); ?>', <?php echo $donor_party; ?>);
         initDropdown('donor_party', '<?php echo json_encode($donor_parties); ?>', <?php echo $donor_party; ?>);
         initDropdown('procured_by_party', '<?php echo json_encode($procured_by_parties); ?>', <?php echo $procured_by_party ?>);
@@ -593,7 +597,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     function initDisplayColumns(id, list, val) {
         let data = JSON.parse(escapeSpecialChars(list));
-        console.log(data);
+        // console.log(data);
         var selectize = $(`#${id}`).selectize({
             valueField: 'col_name',
 	        labelField: 'col_name',
