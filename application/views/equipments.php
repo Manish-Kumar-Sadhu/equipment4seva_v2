@@ -643,8 +643,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
     	    },
             load: function(query, callback) {
-                // if (!query.length) return callback();
-                selectize[0].selectize.setValue(null);
+                if (!query.length) return callback();
+                // selectize[0].selectize.setValue(null);
             },
             onChange: function (val) {
                 toggleEquipmentTableColumns(val);
