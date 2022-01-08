@@ -445,29 +445,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <script>
-
+    let display_columns = [];
+    let all_columns = [];
     $(function () {
-        let display_columns = '<?php echo $default_columns->value;?>'.split(",");
-        let all_columns = '<?php echo $all_columns->value;?>'.split(",");
-        const hide_columns = all_columns.filter(column => !display_columns.includes(column));
-        hide_columns.forEach(column => {
-            console.log(`.${column}`);
-            $(`.${column}`).remove();
-        });
+        display_columns = '<?php echo $default_columns->value;?>'.split(",");
+        all_columns = '<?php echo $all_columns->value;?>'.split(",");
         all_columns = all_columns.map( ele => ({ col_name :  ele }));
+        toggleEquipmentTableColumns(display_columns);
         initDisplayColumns('display-columns', JSON.stringify(all_columns), display_columns);
         initDropdown('donor_party', '<?php echo json_encode($donor_parties); ?>', <?php echo $donor_party; ?>);
         initDropdown('donor_party', '<?php echo json_encode($donor_parties); ?>', <?php echo $donor_party; ?>);
         initDropdown('procured_by_party', '<?php echo json_encode($procured_by_parties); ?>', <?php echo $procured_by_party ?>);
         initDropdown('supplier_party', '<?php echo json_encode($supplier_parties); ?>', <?php echo $supplier_party ?>);
         initDropdown('manufactured_party', '<?php echo json_encode($manufactured_parties); ?>', <?php echo $manufactured_party ?>);
-        let logged_in = '<?php echo $logged_in ? true : false; ?>'
-        let reusableWidthValues = []
-        if(logged_in){
-            reusableWidthValues = [ '5%', '10%', '15%','15%', '10%', '18%', '7%', '10%', '15%']
-        } else {
-            reusableWidthValues = [ '5%', '15%', '20%','15%', '20%', '10%', '10%']
-        }
         var options = {
 			widthFixed : false,
 			showProcessing: true,
@@ -511,13 +501,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // use uitheme widget to apply defauly jquery ui (jui) class names
                 // see the uitheme demo for more details on how to change the class names
                 resizable:false,
-                resizable_widths: reusableWidthValues,
                 uitheme : 'jui'
             }
         };
         // $.tablesorter.fixColumnWidth("table-sort");
         $("table").tablesorter(options);
     });
+
+    function toggleEquipmentTableColumns(display_columns) {
+        // const hide_columns = all_columns.filter(column => !display_columns.includes(column.col_name));
+        // hide_columns.forEach(ele => {
+        //     $(`.${ele.col_name}`).remove();
+        // });
+        all_columns.forEach(column => {
+            if(display_columns.includes(column.col_name)){
+                $(`.${column.col_name}`).show();
+            } else{
+                $(`.${column.col_name}`).hide();
+            }
+        });
+    }
 
     function escapeSpecialChars(str) {
         return str.replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t");
@@ -619,6 +622,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // if (!query.length) return callback();
                 selectize[0].selectize.setValue(null);
             },
+            onChange: function (val) {
+                toggleEquipmentTableColumns(val);
+            }
 
         });
         if(val){
