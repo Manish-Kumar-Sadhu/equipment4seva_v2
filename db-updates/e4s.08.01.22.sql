@@ -20,3 +20,9 @@ WHERE `defaults`.`default_id` = 'equipments_default_columns';
 ---
 INSERT INTO `defaults` (`default_id`, `default_tilte`, `default_description`, `default_type`, `default_unit`, `lower_range`, `upper_range`, `value`) 
 VALUES ('equipments_table_all_columns', 'equipments_table_all_columns', 'list of all columns that can be displayed in the equipments table', '', NULL, NULL, NULL, 'equipment-type,equipment-name,serial-number,model,mac-address,procurement-status,procurement-type,purchase-order-data,current-location,district-state,cost,invoice-number,invoice-date,functional-status,');
+
+---
+--- Updated all columns default value
+---
+UPDATE `defaults` SET `value` = 'equipment-category,equipment-type,equipment-name,model,manufacturer,serial-number,mac-address,asset-number,supplier,procurrer,procurement-status,procurement-type,donor,purchase-order-data,current-location,district-state,cost,invoice-number,invoice-date,supply-date,installation-date,journal-type,journal-number,journal-date,warranty-start-date,warranty-end-date,functional-status,note' 
+WHERE `defaults`.`default_id` = 'equipments_table_all_columns';
