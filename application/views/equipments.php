@@ -304,14 +304,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <thead>
                 <tr>
                     <th style="text-align:center">#</th>
-                    <th id="equipment-type" style="text-align:center">Equipment Type</th>
-                    <th id="equipment-name" style="text-align:center">Equipment Name</th>
-                    <th id="serial-number" style="text-align:center">Serial Number</th>
-                    <th id="current-location" style="text-align:center">Current Location</th>
-                    <th id="district-state" style="text-align:center">District, State</th>
-                    <th id="cost" style="text-align:center">Cost</th>
-                    <th id="invoice-date" style="text-align:center">Invoice Date</th>
-                    <th id="details" style="text-align:center">Details</th>
+                    <th class="equipment-type" style="text-align:center">Equipment Type</th>
+                    <th class="equipment-name" style="text-align:center">Equipment Name</th>
+                    <th class="serial-number" style="text-align:center">Serial Number</th>
+                    <th class="model" style="text-align:center">Model</th>
+                    <th class="mac-address" style="text-align:center">MAC Address</th>
+                    <th class="procurement-status" style="text-align:center">Procurement Status</th>
+                    <th class="procurement-type" style="text-align:center">Procurement Type</th>
+                    <th class="purchase-order-data" style="text-align:center">Purchase Order Date</th>
+                    <th class="current-location" style="text-align:center">Current Location</th>
+                    <th class="district-state" style="text-align:center">District, State</th>
+                    <th class="cost" style="text-align:center">Cost</th>
+                    <th class="invoice-number" style="text-align:center">Invioice Number</th>
+                    <th class="invoice-date" style="text-align:center">Invoice Date</th>
+                    <th class="functional-status" style="text-align:center">Functional Status</th>
+                    <th class="details" style="text-align:center">Details</th>
                 </tr>
             </thead>
             <tbody>
@@ -320,12 +327,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     foreach($equipment_data as $r){ ?>
                     <tr>
                         <td><?php echo $i++; ?></td>
-                        <td><?php echo $r->equipment_type; ?></td>
-                        <td><?php echo $r->equipment_name; ?></td>
-                        <td><?php echo $r->serial_number; ?></td>
-                        <td><?php echo $r->location; ?></td>
-                        <td><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
-                            <td style="text-align:right"><?php echo number_format($r->cost); ?></td>
+                        <td class="equipment-type" ><?php echo $r->equipment_type; ?></td>
+                        <td class="equipment-name" ><?php echo $r->equipment_name; ?></td>
+                        <td class="serial-number" ><?php echo $r->serial_number; ?></td>
+                        <td class="model" ><?php echo $r->model; ?></td>
+                        <td class="mac-address" ><?php echo $r->mac_address; ?></td>
+                        <td class="procurement-status" ><?php echo $r->procurement_status; ?></td>
+                        <td class="procurement-type" ><?php echo $r->procurement_type; ?></td>
+                        <td class="purchase-order-data" ><?php echo date("d-M-Y", strtotime($r->purchase_order_date)); ?></td>
+                        <td class="current-location" ><?php echo $r->location; ?></td>
+                        <td class="district-state" ><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
+                        <td class="cost" style="text-align:right"><?php echo number_format($r->cost); ?></td>
+                        <td class="invoice-date"><?php echo $r->invoice_number; ?></td>
+                        <td class="functional-status"><?php echo $r->working_status; ?></td>
                         <td style="text-align:center"><?php echo  date("d-M-Y", strtotime($r->invoice_date)); ?></td>
                         <td>
                             <button id="view-equipment" class="btn btn-info btn-sm round-button" onclick="view_equipment(<?=$r->equipment_id; ?>);"><i class='fa fa-external-link' aria-hidden='true'></i></button>
@@ -436,6 +450,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         const default_columns = '<?php echo $default_columns->value;?>'.split(",");
         equipmentsTableCols = default_columns.map( ele => ({ col_name :  ele }));
         console.log(equipmentsTableCols);
+        $(".equipment-name").hide();
         initDisplayColumns('display-columns', JSON.stringify(equipmentsTableCols), default_columns);
         initDropdown('donor_party', '<?php echo json_encode($donor_parties); ?>', <?php echo $donor_party; ?>);
         initDropdown('donor_party', '<?php echo json_encode($donor_parties); ?>', <?php echo $donor_party; ?>);
