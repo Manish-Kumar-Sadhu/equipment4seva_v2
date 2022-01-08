@@ -294,19 +294,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <span>Page <?php echo $page_no." of ".$total_no_of_pages." (Total ".$total_records.")" ; ?></span>
         </div>
     </div>
+    <div class="row form-group col-md-12 col-lg-12">
+        <label for="display_columns">Display columns : </label>
+        <select style="width:100%" name="display-columns" id="display-columns" placeholder="display columns">
+        </select>
+    </div>
     <div class="row">
         <table id="table-sort" class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th style="text-align:center">#</th>
-                    <th style="text-align:center">Equipment Type</th>
-                    <th style="text-align:center">Equipment Name</th>
-                    <th style="text-align:center">Serial Number</th>
-                    <th style="text-align:center">Current Location</th>
-                    <th style="text-align:center">District, State</th>
-                    <th style="text-align:center">Cost</th>
-                    <th style="text-align:center">Invoice Date</th>
-                    <th style="text-align:center">Details</th>
+                    <th id="equipment-type" style="text-align:center">Equipment Type</th>
+                    <th id="equipment-name" style="text-align:center">Equipment Name</th>
+                    <th id="serial-number" style="text-align:center">Serial Number</th>
+                    <th id="current-location" style="text-align:center">Current Location</th>
+                    <th id="district-state" style="text-align:center">District, State</th>
+                    <th id="cost" style="text-align:center">Cost</th>
+                    <th id="invoice-date" style="text-align:center">Invoice Date</th>
+                    <th id="details" style="text-align:center">Details</th>
                 </tr>
             </thead>
             <tbody>
@@ -426,8 +431,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <script>
-    
+    let equipmentsTableCols = [];
     $(function () {
+        const default_columns = '<?php echo $default_columns->value;?>'.split(",");
+        equipmentsTableCols = default_columns.map( ele => ({ col_name :  ele }));
+        console.log(equipmentsTableCols);
+        initDisplayColumns('display-columns', JSON.stringify(equipmentsTableCols), default_columns);
+        initDropdown('donor_party', '<?php echo json_encode($donor_parties); ?>', <?php echo $donor_party; ?>);
         initDropdown('donor_party', '<?php echo json_encode($donor_parties); ?>', <?php echo $donor_party; ?>);
         initDropdown('procured_by_party', '<?php echo json_encode($procured_by_parties); ?>', <?php echo $procured_by_party ?>);
         initDropdown('supplier_party', '<?php echo json_encode($supplier_parties); ?>', <?php echo $supplier_party ?>);
@@ -550,7 +560,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         filtered_equipment_types = $.grep(equipment_types , function(v){
             return v.equipment_category_id == selected_category;
         }) ;
-        console.log(filtered_equipment_types);  
+        // console.log(filtered_equipment_types);  
         // iterating the filtered equipment types
         $.each(filtered_equipment_types, function (indexInArray, valueOfElement) { 
             const {equipment_type_id ,equipment_type} = valueOfElement;
@@ -565,5 +575,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     tippy("#edit-equipment", {
         content : 'edit equipment'
     });
+
+    function initDisplayColumns(id, list, val) {
+        let data = JSON.parse(escapeSpecialChars(list));
+        console.log(data);
+        var selectize = $(`#${id}`).selectize({
+            valueField: 'col_name',
+	        labelField: 'col_name',
+	        sortField: 'col_name',
+            searchField: 'col_name',
+            maxItems : 100,
+            options: data,
+            create: false,
+            render: {
+                option: function(item, escape) {
+                    return `<div>
+                                <span class="title">
+                                    <span class="option-name">${escape(item.col_name)}</span>
+                                </span>
+                            </div>`;
+                }
+    	    },
+            load: function(query, callback) {
+                // if (!query.length) return callback();
+                selectize[0].selectize.setValue(null);
+            },
+
+        });
+        if(val){
+            selectize[0].selectize.setValue(val);
+        }
+    }
+
 </script>
 

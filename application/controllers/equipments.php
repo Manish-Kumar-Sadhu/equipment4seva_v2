@@ -27,6 +27,7 @@ class Equipments extends CI_Controller {
 			$this->data['title']='Equipments';
 			$this->load->view('templates/header' , $this->data);
 			$this->data['pagination'] = $this->master_model->get_defaults('pagination');
+			$this->data['default_columns'] = $this->master_model->get_defaults('equipments_default_columns');
 			$this->data['equipment_type'] = $this->master_model->get_data('equipment_type');
 			$this->data['equipment_category'] = $this->master_model->get_data('equipment_category');
 			$this->data['location'] = $this->master_model->get_data('location');
