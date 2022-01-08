@@ -304,20 +304,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <thead>
                 <tr>
                     <th class="row-number" style="text-align:center">#</th>
+                    <th class="equipment-category" style="text-align:center">Equipment Category</th>
                     <th class="equipment-type" style="text-align:center">Equipment Type</th>
                     <th class="equipment-name" style="text-align:center">Equipment Name</th>
-                    <th class="serial-number" style="text-align:center">Serial Number</th>
                     <th class="model" style="text-align:center">Model</th>
+                    <th class="manufacturer" style="text-align:center">Manufacturer</th>
+                    <th class="serial-number" style="text-align:center">Serial Number</th>
                     <th class="mac-address" style="text-align:center">MAC Address</th>
+                    <th class="asset-number" style="text-align:center">Asset Number</th>
+                    <th class="supplier" style="text-align:center">Supplier</th>
+                    <th class="procurrer" style="text-align:center">Procurred By</th>
                     <th class="procurement-status" style="text-align:center">Procurement Status</th>
                     <th class="procurement-type" style="text-align:center">Procurement Type</th>
+                    <th class="donor" style="text-align:center">Donor</th>
                     <th class="purchase-order-data" style="text-align:center">Purchase Order Date</th>
                     <th class="current-location" style="text-align:center">Current Location</th>
                     <th class="district-state" style="text-align:center">District, State</th>
                     <th class="cost" style="text-align:center">Cost</th>
                     <th class="invoice-number" style="text-align:center">Invioice Number</th>
                     <th class="invoice-date" style="text-align:center">Invoice Date</th>
+                    <th class="supply-date" style="text-align:center">Supply Date</th>
+                    <th class="installation-date" style="text-align:center">Installation Date</th>
+                    <th class="journal-type" style="text-align:center">Journal Type</th>
+                    <th class="journal-number" style="text-align:center">Journal Number</th>
+                    <th class="journal-date" style="text-align:center">Journal Date</th>
+                    <th class="warranty-start-date" style="text-align:center">Warranty Start Date</th>
+                    <th class="warranty-end-date" style="text-align:center">Warranty End Date</th>
                     <th class="functional-status" style="text-align:center">Functional Status</th>
+                    <th class="note" style="text-align:center">Note</th>
                     <th class="details" style="text-align:center">Details</th>
                 </tr>
             </thead>
@@ -327,20 +341,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     foreach($equipment_data as $r){ ?>
                     <tr>
                         <td><?php echo $i++; ?></td>
+                        <td class="equipment-category" ><?php echo $r->equipment_category; ?></td>
                         <td class="equipment-type" ><?php echo $r->equipment_type; ?></td>
                         <td class="equipment-name" ><?php echo $r->equipment_name; ?></td>
-                        <td class="serial-number" ><?php echo $r->serial_number; ?></td>
                         <td class="model" ><?php echo $r->model; ?></td>
+                        <td class="manufacturer" ><?php echo $r->manufacturer_party_name; ?></td>
+                        <td class="serial-number" ><?php echo $r->serial_number; ?></td>
                         <td class="mac-address" ><?php echo $r->mac_address; ?></td>
+                        <td class="asset-number" ><?php echo $r->asset_number; ?></td>
+                        <td class="supplier" ><?php echo $r->supplier_party_name; ?></td>
+                        <td class="procurrer" ><?php echo $r->procured_by_party_name; ?></td>
                         <td class="procurement-status" ><?php echo $r->procurement_status; ?></td>
                         <td class="procurement-type" ><?php echo $r->procurement_type; ?></td>
+                        <td class="donor" ><?php echo $r->donor_party_name; ?></td>
                         <td class="purchase-order-data" ><?php echo date("d-M-Y", strtotime($r->purchase_order_date)); ?></td>
                         <td class="current-location" ><?php echo $r->location; ?></td>
                         <td class="district-state" ><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
                         <td class="cost" style="text-align:right"><?php echo number_format($r->cost); ?></td>
                         <td class="invoice-number"><?php echo $r->invoice_number; ?></td>
-                        <td class="functional-status"><?php echo $r->working_status; ?></td>
                         <td class="invoice-date" style="text-align:center"><?php echo  date("d-M-Y", strtotime($r->invoice_date)); ?></td>
+                        <td class="supply-date" style="text-align:center"><?php echo  date("d-M-Y", strtotime($r->supply_date)); ?></td>
+                        <td class="installation-date" style="text-align:center"><?php echo  date("d-M-Y", strtotime($r->installation_date)); ?></td>
+                        <td class="journal-type"><?php echo $r->journal_type; ?></td>
+                        <td class="journal-number"><?php echo $r->journal_number; ?></td>
+                        <td class="journal-date"><?php echo date("d-M-Y", strtotime($r->journal_date)); ?></td>
+                        <td class="warranty-start-date"><?php echo date("d-M-Y", strtotime($r->warranty_start_date)); ?></td>
+                        <td class="warranty-end-date"><?php echo $r->warranty_end_date ? date("d-M-Y", strtotime($r->warranty_end_date)) : ''; ?></td>
+                        <td class="functional-status"><?php echo $r->working_status; ?></td>
+                        <td class="note"><?php echo $r->note; ?></td>
                         <td>
                             <button id="view-equipment" class="btn btn-info btn-sm round-button" onclick="view_equipment(<?=$r->equipment_id; ?>);"><i class='fa fa-external-link' aria-hidden='true'></i></button>
                             <?php if($edit_equipment_access && $r->procured_by_party_id==$default_party_id){ ?>
@@ -463,7 +491,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			showProcessing: true,
 			headerTemplate : '{content} {icon}', // Add icon for jui theme; new in v2.7!
             cssInfoBlock : "tablesorter-no-sort",
-			widgets: [ 'default', 'zebra', 'print', 'columns', 'stickyHeaders','filter','resizable'],
+			widgets: [ 'default', 'zebra', 'print', 'columns', 'stickyHeaders','resizable'],
 			widgetOptions: {
                 print_title      : 'table',          // this option > caption > table id > "table"
                 print_dataAttrib : 'data-name', // header attrib containing modified header name
@@ -509,11 +537,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
 
     function toggleEquipmentTableColumns(display_columns) {
-        // const hide_columns = all_columns.filter(column => !display_columns.includes(column.col_name));
-        // hide_columns.forEach(ele => {
-        //     $(`.${ele.col_name}`).remove();
-        // });
-        all_columns.forEach(column => {
+        all_columns.forEach((column, index) => {
             if(display_columns.includes(column.col_name)){
                 $(`.${column.col_name}`).show();
             } else{

@@ -133,12 +133,20 @@ class Master_model extends CI_Model {
         } */
 
 
-        $this->db->select("*")
+        $this->db->select("*, supplier_party.party_name as supplier_party_name, procured_by_party.party_name as procured_by_party_name,
+        donor_party.party_name as donor_party_name,manufacturer_party.party_name as manufacturer_party_name")
             ->from("equipment")
             ->join('equipment_type','equipment_type.equipment_type_id=equipment.equipment_type_id','left')
+            ->join('equipment_category','equipment_category.id=equipment_type.equipment_category_id','left')
             ->join('equipment_procurement_status','equipment_procurement_status.equipment_procurement_status_id=equipment.procurement_status_id','left')
             ->join('equipment_procurement_type','equipment_procurement_type.equipment_procurement_type_id=equipment.equipment_procurement_type_id','left')
             ->join('equipment_functional_status','equipment_functional_status.functional_status_id=equipment.functional_status_id','left')
+            ->join('journal_type','journal_type.journal_type_id=equipment.journal_type_id','left')
+            ->join('party as supplier_party','supplier_party.party_id=equipment.supplier_party_id','left')
+            ->join('party as procured_by_party','procured_by_party.party_id=equipment.procured_by_party_id','left')
+            ->join('party as donor_party','donor_party.party_id=equipment.donor_party_id','left')
+            ->join('party as manufacturer_party','manufacturer_party.party_id=equipment.manufacturer_party_id','left')
+
             ->where_in('equipment.procured_by_party_id', $this->user_party_ids)
             // ->join('equipment_location_log','equipment_location_log.equipment_id=equipment.equipment_id','inner')
             // ->join('location','location.location_id=equipment_location_log.location_id','left')
