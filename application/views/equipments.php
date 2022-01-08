@@ -121,9 +121,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $procured_by_party = $this->input->post('procured_by_party');
     $supplier_party = $this->input->post('supplier_party');
     $manufactured_party = $this->input->post('manufactured_party');
+    $selected_display_columns = $this->input->post('selected_display_columns');
 ?>
 <div class="container">
     <form id="equipment_data" action="<?= base_url('equipments'); ?>" method="POST">
+        <input id="selected_display_columns" type="hidden" name="selected_display_columns">
         <div class="row">
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="equipment_category">Equipment Category</label>
@@ -479,6 +481,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         display_columns = '<?php echo $default_columns->value;?>'.split(",");
         all_columns = '<?php echo $all_columns->value;?>'.split(",");
         all_columns = all_columns.map( ele => ({ col_name :  ele }));
+        const selected_columns = '<?php echo $selected_display_columns;?>';
+        if(selected_columns){
+            display_columns = selected_columns.split(",");
+        }
         toggleEquipmentTableColumns(display_columns);
         initDisplayColumns('display-columns', JSON.stringify(all_columns), display_columns);
         initDropdown('donor_party', '<?php echo json_encode($donor_parties); ?>', <?php echo $donor_party; ?>);
@@ -648,6 +654,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
             onChange: function (val) {
                 toggleEquipmentTableColumns(val);
+                $("#selected_display_columns").val(val);
             }
 
         });
