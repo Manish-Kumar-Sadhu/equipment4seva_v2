@@ -121,9 +121,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $procured_by_party = $this->input->post('procured_by_party');
     $supplier_party = $this->input->post('supplier_party');
     $manufactured_party = $this->input->post('manufactured_party');
+    $selected_display_columns = $this->input->post('selected_display_columns');
 ?>
 <div class="container">
     <form id="equipment_data" action="<?= base_url('equipments'); ?>" method="POST">
+        <input id="selected_display_columns" type="hidden" name="selected_display_columns">
         <div class="row">
             <div class="form-group col-md-4 col-lg-3 col-xs-12">
                 <label for="equipment_category">Equipment Category</label>
@@ -294,19 +296,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <span>Page <?php echo $page_no." of ".$total_no_of_pages." (Total ".$total_records.")" ; ?></span>
         </div>
     </div>
+    <div class="row form-group col-md-12 col-lg-12">
+        <label for="display_columns">Display columns : </label>
+        <select style="width:100%" name="display-columns" id="display-columns" placeholder="display columns">
+        </select>
+    </div>
     <div class="row">
         <table id="table-sort" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th style="text-align:center">#</th>
-                    <th style="text-align:center">Equipment Type</th>
-                    <th style="text-align:center">Equipment Name</th>
-                    <th style="text-align:center">Serial Number</th>
-                    <th style="text-align:center">Current Location</th>
-                    <th style="text-align:center">District, State</th>
-                    <th style="text-align:center">Cost</th>
-                    <th style="text-align:center">Invoice Date</th>
-                    <th style="text-align:center">Details</th>
+                    <th class="row-number" style="text-align:center">#</th>
+                    <th class="equipment-category" style="text-align:center">Equipment Category</th>
+                    <th class="equipment-type" style="text-align:center">Equipment Type</th>
+                    <th class="equipment-name" style="text-align:center">Equipment Name</th>
+                    <th class="model" style="text-align:center">Model</th>
+                    <th class="manufacturer" style="text-align:center">Manufacturer</th>
+                    <th class="serial-number" style="text-align:center">Serial Number</th>
+                    <th class="mac-address" style="text-align:center">MAC Address</th>
+                    <th class="asset-number" style="text-align:center">Asset Number</th>
+                    <th class="supplier" style="text-align:center">Supplier</th>
+                    <th class="procurrer" style="text-align:center">Procurred By</th>
+                    <th class="procurement-status" style="text-align:center">Procurement Status</th>
+                    <th class="procurement-type" style="text-align:center">Procurement Type</th>
+                    <th class="donor" style="text-align:center">Donor</th>
+                    <th class="purchase-order-data" style="text-align:center">Purchase Order Date</th>
+                    <th class="current-location" style="text-align:center">Current Location</th>
+                    <th class="district-state" style="text-align:center">District, State</th>
+                    <th class="cost" style="text-align:center">Cost</th>
+                    <th class="invoice-number" style="text-align:center">Invioice Number</th>
+                    <th class="invoice-date" style="text-align:center">Invoice Date</th>
+                    <th class="supply-date" style="text-align:center">Supply Date</th>
+                    <th class="installation-date" style="text-align:center">Installation Date</th>
+                    <th class="journal-type" style="text-align:center">Journal Type</th>
+                    <th class="journal-number" style="text-align:center">Journal Number</th>
+                    <th class="journal-date" style="text-align:center">Journal Date</th>
+                    <th class="warranty-start-date" style="text-align:center">Warranty Start Date</th>
+                    <th class="warranty-end-date" style="text-align:center">Warranty End Date</th>
+                    <th class="functional-status" style="text-align:center">Functional Status</th>
+                    <th class="note" style="text-align:center">Note</th>
+                    <th class="details" style="text-align:center">Details</th>
                 </tr>
             </thead>
             <tbody>
@@ -315,13 +343,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     foreach($equipment_data as $r){ ?>
                     <tr>
                         <td><?php echo $i++; ?></td>
-                        <td><?php echo $r->equipment_type; ?></td>
-                        <td><?php echo $r->equipment_name; ?></td>
-                        <td><?php echo $r->serial_number; ?></td>
-                        <td><?php echo $r->location; ?></td>
-                        <td><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
-                            <td style="text-align:right"><?php echo number_format($r->cost); ?></td>
-                        <td style="text-align:center"><?php echo  date("d-M-Y", strtotime($r->invoice_date)); ?></td>
+                        <td class="equipment-category" ><?php echo $r->equipment_category; ?></td>
+                        <td class="equipment-type" ><?php echo $r->equipment_type; ?></td>
+                        <td class="equipment-name" ><?php echo $r->equipment_name; ?></td>
+                        <td class="model" ><?php echo $r->model; ?></td>
+                        <td class="manufacturer" ><?php echo $r->manufacturer_party_name; ?></td>
+                        <td class="serial-number" ><?php echo $r->serial_number; ?></td>
+                        <td class="mac-address" ><?php echo $r->mac_address; ?></td>
+                        <td class="asset-number" ><?php echo $r->asset_number; ?></td>
+                        <td class="supplier" ><?php echo $r->supplier_party_name; ?></td>
+                        <td class="procurrer" ><?php echo $r->procured_by_party_name; ?></td>
+                        <td class="procurement-status" ><?php echo $r->procurement_status; ?></td>
+                        <td class="procurement-type" ><?php echo $r->procurement_type; ?></td>
+                        <td class="donor" ><?php echo $r->donor_party_name; ?></td>
+                        <td class="purchase-order-data" ><?php echo date("d-M-Y", strtotime($r->purchase_order_date)); ?></td>
+                        <td class="current-location" ><?php echo $r->location; ?></td>
+                        <td class="district-state" ><?php echo $r->district;", ".$r->state;  ?><?php  echo ", ".$r->state; ?> </td>
+                        <td class="cost" style="text-align:right"><?php echo number_format($r->cost); ?></td>
+                        <td class="invoice-number"><?php echo $r->invoice_number; ?></td>
+                        <td class="invoice-date" style="text-align:center"><?php echo  date("d-M-Y", strtotime($r->invoice_date)); ?></td>
+                        <td class="supply-date" style="text-align:center"><?php echo  date("d-M-Y", strtotime($r->supply_date)); ?></td>
+                        <td class="installation-date" style="text-align:center"><?php echo  date("d-M-Y", strtotime($r->installation_date)); ?></td>
+                        <td class="journal-type"><?php echo $r->journal_type; ?></td>
+                        <td class="journal-number"><?php echo $r->journal_number; ?></td>
+                        <td class="journal-date"><?php echo date("d-M-Y", strtotime($r->journal_date)); ?></td>
+                        <td class="warranty-start-date"><?php echo date("d-M-Y", strtotime($r->warranty_start_date)); ?></td>
+                        <td class="warranty-end-date"><?php echo $r->warranty_end_date ? date("d-M-Y", strtotime($r->warranty_end_date)) : ''; ?></td>
+                        <td class="functional-status"><?php echo $r->working_status; ?></td>
+                        <td class="note"><?php echo $r->note; ?></td>
                         <td>
                             <button id="view-equipment" class="btn btn-info btn-sm round-button" onclick="view_equipment(<?=$r->equipment_id; ?>);"><i class='fa fa-external-link' aria-hidden='true'></i></button>
                             <?php if($edit_equipment_access && $r->procured_by_party_id==$default_party_id){ ?>
@@ -426,25 +475,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <script>
-    
+    let display_columns = [];
+    let all_columns = [];
     $(function () {
+        display_columns = '<?php echo $default_columns->value;?>'.split(",");
+        all_columns = '<?php echo $all_columns->value;?>'.split(",");
+        all_columns = all_columns.map( ele => ({ col_name :  ele }));
+        const selected_columns = '<?php echo $selected_display_columns;?>';
+        if(selected_columns){
+            display_columns = selected_columns.split(",");
+        }
+        toggleEquipmentTableColumns(display_columns);
+        initDisplayColumns('display-columns', JSON.stringify(all_columns), display_columns);
+        initDropdown('donor_party', '<?php echo json_encode($donor_parties); ?>', <?php echo $donor_party; ?>);
         initDropdown('donor_party', '<?php echo json_encode($donor_parties); ?>', <?php echo $donor_party; ?>);
         initDropdown('procured_by_party', '<?php echo json_encode($procured_by_parties); ?>', <?php echo $procured_by_party ?>);
         initDropdown('supplier_party', '<?php echo json_encode($supplier_parties); ?>', <?php echo $supplier_party ?>);
         initDropdown('manufactured_party', '<?php echo json_encode($manufactured_parties); ?>', <?php echo $manufactured_party ?>);
-        let logged_in = '<?php echo $logged_in ? true : false; ?>'
-        let reusableWidthValues = []
-        if(logged_in){
-            reusableWidthValues = [ '5%', '10%', '15%','15%', '10%', '18%', '7%', '10%', '15%']
-        } else {
-            reusableWidthValues = [ '5%', '15%', '20%','15%', '20%', '10%', '10%']
-        }
         var options = {
 			widthFixed : false,
 			showProcessing: true,
 			headerTemplate : '{content} {icon}', // Add icon for jui theme; new in v2.7!
             cssInfoBlock : "tablesorter-no-sort",
-			widgets: [ 'default', 'zebra', 'print', 'columns', 'stickyHeaders','filter','resizable'],
+			widgets: [ 'default', 'zebra', 'print', 'columns', 'stickyHeaders','resizable'],
 			widgetOptions: {
                 print_title      : 'table',          // this option > caption > table id > "table"
                 print_dataAttrib : 'data-name', // header attrib containing modified header name
@@ -482,13 +535,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // use uitheme widget to apply defauly jquery ui (jui) class names
                 // see the uitheme demo for more details on how to change the class names
                 resizable:false,
-                resizable_widths: reusableWidthValues,
                 uitheme : 'jui'
             }
         };
         // $.tablesorter.fixColumnWidth("table-sort");
         $("table").tablesorter(options);
     });
+
+    function toggleEquipmentTableColumns(display_columns) {
+        all_columns.forEach((column, index) => {
+            if(display_columns.includes(column.col_name)){
+                $(`.${column.col_name}`).show();
+            } else{
+                $(`.${column.col_name}`).hide();
+            }
+        });
+    }
 
     function escapeSpecialChars(str) {
         return str.replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t");
@@ -550,7 +612,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         filtered_equipment_types = $.grep(equipment_types , function(v){
             return v.equipment_category_id == selected_category;
         }) ;
-        console.log(filtered_equipment_types);  
+        // console.log(filtered_equipment_types);  
         // iterating the filtered equipment types
         $.each(filtered_equipment_types, function (indexInArray, valueOfElement) { 
             const {equipment_type_id ,equipment_type} = valueOfElement;
@@ -565,5 +627,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     tippy("#edit-equipment", {
         content : 'edit equipment'
     });
+
+    function initDisplayColumns(id, list, val) {
+        let data = JSON.parse(escapeSpecialChars(list));
+        // console.log(data);
+        var selectize = $(`#${id}`).selectize({
+            valueField: 'col_name',
+	        labelField: 'col_name',
+	        sortField: 'col_name',
+            searchField: 'col_name',
+            maxItems : 100,
+            options: data,
+            create: false,
+            render: {
+                option: function(item, escape) {
+                    return `<div>
+                                <span class="title">
+                                    <span class="option-name">${escape(item.col_name)}</span>
+                                </span>
+                            </div>`;
+                }
+    	    },
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                // selectize[0].selectize.setValue(null);
+            },
+            onChange: function (val) {
+                toggleEquipmentTableColumns(val);
+                $("#selected_display_columns").val(val);
+            }
+
+        });
+        if(val){
+            selectize[0].selectize.setValue(val);
+        }
+    }
+
 </script>
 
