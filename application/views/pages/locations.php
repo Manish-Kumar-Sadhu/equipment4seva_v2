@@ -68,7 +68,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 ><?php echo $r->district;?></option>    
                                 <?php }  ?>
                         </select>
-                        <input type="hidden" name="selected_district" id="selected_district" value="<?php echo $this->input->post('district'); ?>">
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <button type="submit" class='btn btn-primary'>Submit</button>
