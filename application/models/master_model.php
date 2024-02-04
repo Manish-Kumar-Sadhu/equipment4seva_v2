@@ -479,4 +479,14 @@ class Master_model extends CI_Model {
         $this->db->trans_complete(); //Transaction Ends
 		if($this->db->trans_status()===TRUE) return true; else return false; //if transaction completed successfully return true, else false.
     }
+
+    function get_locations() {
+        $this->db->select('*')->from("location")
+            ->join('district','district.district_id=location.district_id','left')
+            ->join('state','state.state_id=district.state_id','left')
+            ->order_by('location', 'desc');
+            $query = $this->db->get();
+            $result =  $query->result();
+            return $result;
+    }
 }

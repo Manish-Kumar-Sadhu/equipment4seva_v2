@@ -56,9 +56,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             foreach($locations as $location){ ?>
                             <tr>
                                 <td><?php echo $i++; ?></td>
+                                <td><?php echo $location->state; ?></td>
+                                <td><?php echo $location->district; ?></td>
                                 <td><?php echo $location->location; ?></td>
-
-                               
                             </tr>
                         <?php } ?>
                     </tbody>
@@ -113,7 +113,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // use uitheme widget to apply defauly jquery ui (jui) class names
                 // see the uitheme demo for more details on how to change the class names
                 resizable:false,
-                resizable_widths: ['5%', '40%', '30%', '25%'],
+                resizable_widths: ['5%', '30%', '20%', '45%'],
                 uitheme : 'jui'
             }
         };
