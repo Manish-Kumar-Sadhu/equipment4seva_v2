@@ -25,6 +25,8 @@ class Location extends CI_Controller
 			$this->load->library('form_validation');
 			$this->data['title'] = 'Locations';
 			$this->load->view('templates/header', $this->data);
+			$this->data['districts'] = $this->master_model->get_data('district');
+			$this->data['states'] = $this->master_model->get_data('state');
 			$this->data['locations'] = $this->master_model->get_locations();
 			$this->load->view('pages/locations', $this->data);
 			$this->load->view('templates/footer', $this->data);
