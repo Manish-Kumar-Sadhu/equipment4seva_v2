@@ -512,7 +512,9 @@ class Master_model extends CI_Model
         $this->db->select('*')->from("location")
             ->join('district', 'district.district_id=location.district_id', 'left')
             ->join('state', 'state.state_id=district.state_id', 'left')
-            ->order_by('location', 'desc');
+            ->order_by('state.state', 'asc')
+            ->order_by('district.district', 'asc')
+            ->order_by('location', 'asc');
         $query = $this->db->get();
 
         $result = $query->result();
