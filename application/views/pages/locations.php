@@ -46,7 +46,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <form id="index" action="<?= base_url('location/'); ?>" method="POST">
             <div class="row">
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                    <select class="form-control" name="state" id="state" onchange="filter_districts('state','district')"
+                    <select class="form-control" name="state" id="state" onchange="filter_districts()"
                         required>
                         <option value="0" selected>State</option>
                         <?php
@@ -85,7 +85,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
+                    <?php if (empty($locations)) {
+                            echo '<tr><td colspan="4" style="text-align:center;"> <h3> No matching records found for the selected filters </h3></td></tr>';
+                        } else {
                         $i = 1;
                         foreach ($locations as $location) { ?>
                             <tr>
@@ -102,7 +104,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     <?php echo $location->location; ?>
                                 </td>
                             </tr>
-                        <?php } ?>
+                        <?php } }?>
                     </tbody>
                 </table>
             </div>
@@ -114,6 +116,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <script>
     $(function () {
+
+        let currentState = $('#state').val();
+        if (currentState !== '0') {
+            // If state is selected, trigger filter_districts function
+            filter_districts();
+        }
         var options = {
             widthFixed: false,
             showProcessing: true,
@@ -158,18 +166,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 // see the uitheme demo for more details on how to change the class names
                 resizable: false,
                 resizable_widths: ['5%', '30%', '20%', '45%'],
-                uitheme: 'jui'
+                uitheme: 'jui',
             }
         };
         // $.tablesorter.fixColumnWidth("table-sort");
         $("table").tablesorter(options);
     });
 
-    function filter_districts(state, id){
+    function filter_districts(){
         let districts = <?php echo json_encode($districts); ?>;
-        let selected_state = $(`#${state}`).val();
+        let selected_state = $(`#state`).val();
         let filtered_ditricts;
-        $(`#${id}`).empty().append(`<option value="0" selected>----------Select----------</option>`);
+        $(`#district`).empty().append(`<option value="0" selected>----------Select----------</option>`);
         filtered_ditricts = $.grep(districts , function(v){
             return v.state_id == selected_state;
         }) ;
@@ -177,7 +185,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         // iterating the filtered equipment types
         $.each(filtered_ditricts, function (indexInArray, valueOfElement) { 
             const {district_id ,district} = valueOfElement;
-            $(`#${id}`).append($('<option></option>').val(district_id).html(district));
+            $(`#district`).append($('<option></option>').val(district_id).html(district));
         });
     }
 
