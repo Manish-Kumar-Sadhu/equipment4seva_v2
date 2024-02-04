@@ -85,7 +85,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
+                    <?php if (empty($locations)) {
+                            echo '<tr><td colspan="4" style="text-align:center;"> <h3> No matching records found for the selected filters </h3></td></tr>';
+                        } else {
                         $i = 1;
                         foreach ($locations as $location) { ?>
                             <tr>
@@ -102,7 +104,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     <?php echo $location->location; ?>
                                 </td>
                             </tr>
-                        <?php } ?>
+                        <?php } }?>
                     </tbody>
                 </table>
             </div>
@@ -164,7 +166,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 // see the uitheme demo for more details on how to change the class names
                 resizable: false,
                 resizable_widths: ['5%', '30%', '20%', '45%'],
-                uitheme: 'jui'
+                uitheme: 'jui',
             }
         };
         // $.tablesorter.fixColumnWidth("table-sort");
