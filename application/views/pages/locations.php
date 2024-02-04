@@ -46,7 +46,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <form id="index" action="<?= base_url('location/'); ?>" method="POST">
             <div class="row">
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
-                    <select class="form-control" name="state" id="state" onchange="filter_districts('state','district')"
+                    <select class="form-control" name="state" id="state" onchange="filter_districts()"
                         required>
                         <option value="0" selected>State</option>
                         <?php
@@ -118,7 +118,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         let currentState = $('#state').val();
         if (currentState !== '0') {
             // If state is selected, trigger filter_districts function
-            filter_districts('state', 'district');
+            filter_districts();
         }
         var options = {
             widthFixed: false,
@@ -171,11 +171,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
         $("table").tablesorter(options);
     });
 
-    function filter_districts(state, id){
+    function filter_districts(){
         let districts = <?php echo json_encode($districts); ?>;
-        let selected_state = $(`#${state}`).val();
+        let selected_state = $(`#state`).val();
         let filtered_ditricts;
-        $(`#${id}`).empty().append(`<option value="0" selected>----------Select----------</option>`);
+        $(`#district`).empty().append(`<option value="0" selected>----------Select----------</option>`);
         filtered_ditricts = $.grep(districts , function(v){
             return v.state_id == selected_state;
         }) ;
@@ -183,7 +183,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         // iterating the filtered equipment types
         $.each(filtered_ditricts, function (indexInArray, valueOfElement) { 
             const {district_id ,district} = valueOfElement;
-            $(`#${id}`).append($('<option></option>').val(district_id).html(district));
+            $(`#district`).append($('<option></option>').val(district_id).html(district));
         });
     }
 
