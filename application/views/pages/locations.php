@@ -68,6 +68,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 ><?php echo $r->district;?></option>    
                                 <?php }  ?>
                         </select>
+                        <input type="hidden" name="selected_district" id="selected_district" value="<?php echo $this->input->post('district'); ?>">
                 </div>
                 <div class="form-group col-md-4 col-lg-3 col-xs-12">
                     <button type="submit" class='btn btn-primary'>Submit</button>
@@ -114,6 +115,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <script>
     $(function () {
+
+        let currentState = $('#state').val();
+        if (currentState !== '0') {
+            // If state is selected, trigger filter_districts function
+            filter_districts('state', 'district');
+        }
         var options = {
             widthFixed: false,
             showProcessing: true,
