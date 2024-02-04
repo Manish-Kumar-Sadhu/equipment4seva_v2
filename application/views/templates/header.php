@@ -104,7 +104,9 @@
                       <ul class="dropdown-menu"> <?php
                         if($f->add){ ?>
                           <a class="dropdown-item" href="<?php echo base_url()."location/add";?>"><i class="fa fa-edit"></i> Add Location</a>
-                        <?php } ?>
+                        <?php }  if($f->view) { ?>
+                          <a class="dropdown-item" href="<?php echo base_url()."location/";?>"><i class="fa fa-search" aria-hidden="true"></i> View locations</a>
+                       <?php } ?>
                       </ul>   
                   <?php }
                 }
